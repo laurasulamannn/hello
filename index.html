@@ -719,8 +719,8 @@ input:checked + .switch-slider:before {
     </div>
   </div>
 
-  <!-- Deposit Page -->
-  <div id="deposit-page" class="page">
+<!-- Deposit Page -->
+<div id="deposit-page" class="page">
     <div class="text-center mb-8">
       <h2 class="text-3xl font-bold text-white mb-2">شحن الرصيد</h2>
       <p class="text-blue-100">اختر طريقة الإيداع المناسبة لك</p>
@@ -731,88 +731,164 @@ input:checked + .switch-slider:before {
         <div class="mb-8">
           <h3 class="text-white font-bold text-xl mb-4">طرق الإيداع</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="deposit-method bg-white/5 p-4 rounded-lg cursor-pointer hover:bg-white/10 transition" data-method="syriatel">
+            <!-- سيرياتيل كاش -->
+            <div class="deposit-method bg-white/5 p-4 rounded-lg cursor-pointer hover:bg-white/10 transition border-2 border-transparent" data-method="syriatel">
               <div class="flex items-center">
                 <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
                   <i class="ri-phone-fill ri-lg text-white"></i>
                 </div>
                 <div>
                   <h4 class="text-white font-bold">سيرياتيل كاش</h4>
-                  <p class="text-blue-200 text-sm">إيداع فوري</p>
+                  <p class="text-blue-200 text-sm">إيداع فوري خلال 10 دقائق</p>
                 </div>
               </div>
             </div>
             
-            <div class="deposit-method bg-white/5 p-4 rounded-lg cursor-pointer hover:bg-white/10 transition" data-method="mtn">
+            <!-- MTN كاش -->
+            <div class="deposit-method bg-white/5 p-4 rounded-lg cursor-pointer hover:bg-white/10 transition border-2 border-transparent" data-method="mtn">
               <div class="flex items-center">
                 <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center mr-4">
                   <i class="ri-phone-fill ri-lg text-white"></i>
                 </div>
                 <div>
                   <h4 class="text-white font-bold">MTN كاش</h4>
-                  <p class="text-blue-200 text-sm">إيداع فوري</p>
+                  <p class="text-blue-200 text-sm">إيداع فوري خلال 15 دقيقة</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
         
+        <!-- تفاصيل الإيداع -->
         <div class="mb-6 hidden" id="deposit-details">
           <h3 class="text-white font-bold text-xl mb-4">تفاصيل الإيداع</h3>
+          
+          <!-- سيرياتيل كاش -->
           <div id="syriatel-details" class="deposit-details hidden">
             <div class="mb-4">
-              <p class="text-blue-200 mb-2">قم بتحويل المبلغ إلى أحد الأرقام التالية:</p>
-              <div class="bg-white/10 p-3 rounded-lg mb-3">
-                <div class="flex justify-between items-center">
-                  <span class="text-white font-bold">0933 123 4567</span>
-                  <button class="text-blue-200 hover:text-white copy-btn" data-text="09331234567">
-                    <i class="ri-file-copy-line"></i>
-                  </button>
+              <p class="text-blue-200 mb-2">قم بتحويل المبلغ إلى الرقم التالي:</p>
+              <div class="bg-white/10 p-3 rounded-lg mb-3 flex justify-between items-center">
+                <div>
+                  <span class="text-white font-bold block">0933 123 4567</span>
+                  <span class="text-blue-300 text-sm">اسم المستلم: MKDAD SHOP</span>
                 </div>
+                <button class="text-blue-200 hover:text-white copy-btn flex items-center gap-1" data-text="09331234567">
+                  <i class="ri-file-copy-line"></i>
+                  <span class="text-sm">نسخ</span>
+                </button>
               </div>
             </div>
+            
             <div class="mb-4">
-              <label for="deposit-amount" class="block text-white mb-2 font-medium">المبلغ (ليرة سورية)</label>
-              <input type="number" id="deposit-amount" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="أدخل المبلغ المحول">
+              <label for="syriatel-amount" class="block text-white mb-2 font-medium">المبلغ (ليرة سورية)</label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="syriatel-amount" 
+                  min="5000"
+                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200 dir-ltr"
+                  placeholder="أدخل المبلغ"
+                  required
+                >
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200">ل.س</span>
+              </div>
+              <p class="text-xs text-blue-300 mt-1">الحد الأدنى للإيداع: 5,000 ليرة سورية</p>
             </div>
+            
             <div class="mb-4">
-              <label for="transaction-id" class="block text-white mb-2 font-medium">رقم عملية التحويل</label>
-              <input type="text" id="transaction-id" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="أدخل رقم العملية">
+              <label for="syriatel-transaction-id" class="block text-white mb-2 font-medium">رقم عملية التحويل</label>
+              <input 
+                type="text" 
+                id="syriatel-transaction-id" 
+                class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200"
+                placeholder="أدخل رقم العملية من رسالة التحويل"
+                required
+              >
             </div>
+            
             <div class="mb-4">
-              <label for="deposit-phone" class="block text-white mb-2 font-medium">رقم هاتفك (اختياري)</label>
-              <input type="text" id="deposit-phone" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="لتواصل معك في حالة وجود أي مشكلة">
+              <label for="syriatel-phone" class="block text-white mb-2 font-medium">رقم هاتفك</label>
+              <div class="relative">
+                <input 
+                  type="tel" 
+                  id="syriatel-phone" 
+                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200 dir-ltr"
+                  placeholder="0933123456"
+                  pattern="09[0-9]{8}"
+                  required
+                >
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200">+963</span>
+              </div>
+              <p class="text-xs text-blue-300 mt-1">لإرسال تأكيد الإيداع إليك</p>
             </div>
-            <button id="confirm-deposit" class="w-full bg-primary hover:bg-blue-800 text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
+            
+            <button id="confirm-syriatel-deposit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+              <i class="ri-check-line"></i>
               تأكيد الإيداع
             </button>
           </div>
           
+          <!-- MTN كاش -->
           <div id="mtn-details" class="deposit-details hidden">
             <div class="mb-4">
-              <p class="text-blue-200 mb-2">قم بتحويل المبلغ إلى أحد الأرقام التالية:</p>
-              <div class="bg-white/10 p-3 rounded-lg mb-3">
-                <div class="flex justify-between items-center">
-                  <span class="text-white font-bold">0944 123 4567</span>
-                  <button class="text-blue-200 hover:text-white copy-btn" data-text="09441234567">
-                    <i class="ri-file-copy-line"></i>
-                  </button>
+              <p class="text-blue-200 mb-2">قم بتحويل المبلغ إلى الرقم التالي:</p>
+              <div class="bg-white/10 p-3 rounded-lg mb-3 flex justify-between items-center">
+                <div>
+                  <span class="text-white font-bold block">0944 123 4567</span>
+                  <span class="text-yellow-300 text-sm">اسم المستلم: MKDAD SHOP</span>
                 </div>
+                <button class="text-yellow-200 hover:text-white copy-btn flex items-center gap-1" data-text="09441234567">
+                  <i class="ri-file-copy-line"></i>
+                  <span class="text-sm">نسخ</span>
+                </button>
               </div>
             </div>
+            
             <div class="mb-4">
-              <label for="mtn-deposit-amount" class="block text-white mb-2 font-medium">المبلغ (ليرة سورية)</label>
-              <input type="number" id="mtn-deposit-amount" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="أدخل المبلغ المحول">
+              <label for="mtn-amount" class="block text-white mb-2 font-medium">المبلغ (ليرة سورية)</label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="mtn-amount" 
+                  min="5000"
+                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-blue-200 dir-ltr"
+                  placeholder="أدخل المبلغ"
+                  required
+                >
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200">ل.س</span>
+              </div>
+              <p class="text-xs text-yellow-300 mt-1">الحد الأدنى للإيداع: 5,000 ليرة سورية</p>
             </div>
+            
             <div class="mb-4">
               <label for="mtn-transaction-id" class="block text-white mb-2 font-medium">رقم عملية التحويل</label>
-              <input type="text" id="mtn-transaction-id" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="أدخل رقم العملية">
+              <input 
+                type="text" 
+                id="mtn-transaction-id" 
+                class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-blue-200"
+                placeholder="أدخل رقم العملية من رسالة التحويل"
+                required
+              >
             </div>
+            
             <div class="mb-4">
-              <label for="mtn-deposit-phone" class="block text-white mb-2 font-medium">رقم هاتفك (اختياري)</label>
-              <input type="text" id="mtn-deposit-phone" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="لتواصل معك في حالة وجود أي مشكلة">
+              <label for="mtn-phone" class="block text-white mb-2 font-medium">رقم هاتفك</label>
+              <div class="relative">
+                <input 
+                  type="tel" 
+                  id="mtn-phone" 
+                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-blue-200 dir-ltr"
+                  placeholder="0944123456"
+                  pattern="09[0-9]{8}"
+                  required
+                >
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200">+963</span>
+              </div>
+              <p class="text-xs text-yellow-300 mt-1">لإرسال تأكيد الإيداع إليك</p>
             </div>
-            <button id="confirm-mtn-deposit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
+            
+            <button id="confirm-mtn-deposit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-6 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+              <i class="ri-check-line"></i>
               تأكيد الإيداع
             </button>
           </div>
@@ -820,7 +896,6 @@ input:checked + .switch-slider:before {
       </div>
     </div>
   </div>
-
   <!-- Orders Page -->
   <div id="orders-page" class="page">
     <div class="text-center mb-8">
@@ -1254,12 +1329,15 @@ shippingMethods.forEach(method => {
   });
 });
 
-// Package Selection
 packageButtons.forEach(button => {
   button.addEventListener('click', () => {
     currentOrder.package = button.dataset.name;
     currentOrder.price = parseInt(button.dataset.price);
     currentOrder.item = button.dataset.item;
+    
+    // احفظ طريقة الشحن الحالية
+    const activeMethod = document.querySelector('.shipping-method.active').dataset.method;
+    currentOrder.method = activeMethod;
     
     // Show player ID page
     pages.forEach(p => p.classList.remove('active'));
@@ -1332,9 +1410,9 @@ depositMethods.forEach(method => {
 
 // Confirm Deposit
 confirmDeposit.addEventListener('click', () => {
-  const amount = parseInt(document.getElementById('deposit-amount').value);
-  const transactionId = document.getElementById('transaction-id').value.trim();
-  const phone = document.getElementById('deposit-phone').value.trim();
+  const amount = parseInt(document.getElementById('syriatel-amount').value);
+  const transactionId = document.getElementById('syriatel-transaction-id').value.trim();
+  const phone = document.getElementById('syriatel-phone').value.trim();
   
   if (!amount || amount <= 0) {
     alert('الرجاء إدخال مبلغ صحيح');
@@ -1381,9 +1459,9 @@ confirmDeposit.addEventListener('click', () => {
 
 // Confirm MTN Deposit
 confirmMtnDeposit.addEventListener('click', () => {
-  const amount = parseInt(document.getElementById('mtn-deposit-amount').value);
+  const amount = parseInt(document.getElementById('mtn-amount').value);
   const transactionId = document.getElementById('mtn-transaction-id').value.trim();
-  const phone = document.getElementById('mtn-deposit-phone').value.trim();
+  const phone = document.getElementById('mtn-phone').value.trim();
   
   if (!amount || amount <= 0) {
     alert('الرجاء إدخال مبلغ صحيح');
