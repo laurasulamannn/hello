@@ -1097,35 +1097,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // التحقق من معاملة سيرياتيل كاش
     async function verifySyriatelTransaction(amount, code) {
-        try {
-            // تنظيف المدخلات وإزالة أي فراغات أو أحرف غير مرغوب فيها
-            const cleanAmount = amount.toString().trim().replace(/\s+/g, '');
-            const cleanCode = code.toString().trim().replace(/\s+/g, '');
-        
-            console.log("Sending verification request:", { 
-                amount: cleanAmount, 
-                txid: cleanCode 
-            });
-        
-            const response = await fetch('https://script.google.com/macros/s/AKfycbySnVz7Msnsoj13njnQzat8RIzwAngS_6IoAmnUFy1rB7X77RuuPilLX5VTyIsds0hY/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    amount: cleanAmount,
-                    txid: cleanCode
-                })
-            });
-        
-            const result = await response.json();
-            console.log('Verification response:', result);
-        
-            return result.success;
-        } catch (error) {
-            console.error('Error verifying transaction:', error);
-            return false;
-        }
+      try {
+        const cleanAmount = amount.toString().replace(/\D/g, '');
+        const cleanCode = code.toString().replace(/\s+/g, '');
+
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyjbiTSv29VnnIDdzveU9mutkGD1zaqFlWbxXYvzagdEAapnI3sBj4lzMTL8gmihxmx/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: cleanAmount,
+            txid: cleanCode
+          })
+        });
+
+        const result = await response.json();
+        return result.success;
+      } catch (error) {
+        console.error('Error:', error);
+        return false;
+      }
     }
 
     // إرسال رسالة إلى التليجرام
