@@ -1098,12 +1098,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // التحقق من معاملة سيرياتيل كاش
     async function verifySyriatelTransaction(amount, code) {
         try {
-            console.log("Verifying transaction - Amount:", amount, "Code:", code);
+            // تنظيف المدخلات وإزالة أي فراغات أو أحرف غير مرغوب فيها
+            const cleanAmount = amount.toString().trim().replace(/\s+/g, '');
+            const cleanCode = code.toString().trim().replace(/\s+/g, '');
         
-            // تنظيف المدخلات
-            const cleanAmount = amount.toString().trim();
-            const cleanCode = code.toString().trim();
-            
+            console.log("Sending verification request:", { 
+                amount: cleanAmount, 
+                txid: cleanCode 
+            });
+        
             const response = await fetch('https://script.google.com/macros/s/AKfycbySnVz7Msnsoj13njnQzat8RIzwAngS_6IoAmnUFy1rB7X77RuuPilLX5VTyIsds0hY/exec', {
                 method: 'POST',
                 headers: {
@@ -1116,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         
             const result = await response.json();
-            console.log('Verification result:', result);
+            console.log('Verification response:', result);
         
             return result.success;
         } catch (error) {
