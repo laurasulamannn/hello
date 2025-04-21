@@ -642,7 +642,7 @@ input:checked + .switch-slider:before {
             </div>
           </div>
         </div>
-        
+      
         <button id="verify-button" class="w-full bg-primary hover:bg-blue-800 text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
           <span class="flex items-center justify-center">
             <i class="ri-search-line mr-2"></i>
@@ -689,7 +689,7 @@ input:checked + .switch-slider:before {
             <span class="text-white" id="order-total">10,000 ل.س</span>
           </div>
         </div>
-        
+      
         <div class="mb-6">
           <h3 class="text-white font-bold mb-3">طرق الدفع</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -708,7 +708,7 @@ input:checked + .switch-slider:before {
             </div>
           </div>
         </div>
-        
+      
         <button id="complete-order" class="w-full bg-gradient-to-r from-primary to-blue-700 hover:from-blue-800 hover:to-primary text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
           <span class="flex items-center justify-center">
             <i class="ri-secure-payment-line mr-2"></i>
@@ -718,6 +718,7 @@ input:checked + .switch-slider:before {
       </div>
     </div>
   </div>
+
 
 <!-- Deposit Page -->
 <div id="deposit-page" class="page">
@@ -1076,7 +1077,7 @@ input:checked + .switch-slider:before {
           <span class="text-blue-200">الحالة:</span>
           <span class="text-yellow-400 font-bold" id="order-status">قيد المعالجة</span>
         </div>
-      </div>
+        </div>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#" class="nav-link bg-white text-primary hover:bg-blue-50 px-6 py-3 rounded-button font-bold text-center transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button" data-page="games">طلبات أخرى</a>
         <a href="#" class="nav-link bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 py-3 rounded-button font-bold text-center transition-all whitespace-nowrap !rounded-button" data-page="orders">تتبع الطلب</a>
@@ -1243,6 +1244,166 @@ const navLinks = document.querySelectorAll('.nav-link');
 const pages = document.querySelectorAll('.page');
 const headerBalance = document.getElementById('header-balance');
 const mobileBalance = document.getElementById('mobile-balance');
+// Verify Player ID
+verifyButton.addEventListener('click', () => {
+  const playerId = playerIdInput.value.trim();
+  
+  if (!playerId) {
+    alert('الرجاء إدخال معرف اللاعب');
+    return;
+  }
+  
+  currentOrder.playerId = playerId;
+  
+  // Get server if PUBG
+  if (currentOrder.game === 'pubg') {
+    currentOrder.server = serverSelect.value;
+  }
+  
+  // Show payment page
+  showPage('payment-page');
+  
+  // Update order summary
+  updateOrderSummary();
+});
+
+// Update Order Summary
+function updateOrderSummary() {
+  document.getElementById('order-game').textContent = currentOrder.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile';
+  document.getElementById('order-method').textContent = currentOrder.method === 'auto' ? 'أوتوماتيكي' : 'يدوي';
+  document.getElementById('order-package').textContent = currentOrder.package;
+  document.getElementById('order-player-id').textContent = currentOrder.playerId;
+  document.getElementById('order-total').textContent = currentOrder.price.toLocaleString() + ' ل.س';
+  
+  if (currentOrder.game === 'pubg') {
+    document.getElementById('order-server-row').classList.remove('hidden');
+    document.getElementById('order-server').textContent = 
+      currentOrder.server === 'asia' ? 'آسيا' :
+      currentOrder.server === 'europe' ? 'أوروبا' :
+      currentOrder.server === 'na' ? 'أمريكا الشمالية' : 'الشرق الأوسط';
+  } else {
+    document.getElementById('order-server-row').classList.add('hidden');
+  }
+  
+  // Update available balance
+  document.getElementById('available-balance').textContent = `(${userData.balance.toLocaleString()} ل.س)`;
+}
+
+// Complete Order
+completeOrder.addEventListener('click', async () => {
+  const selectedMethod = document.querySelector('.payment-method.active').dataset.method;
+  
+  if (selectedMethod === 'balance' && userData.balance < currentOrder.price) {
+    alert('رصيدك غير كافي، الرجاء شحن الرصيد أولاً');
+    showPage('deposit-page');
+    return;
+  }
+  
+  // Generate order ID
+  const orderId = (currentOrder.game === 'freefire' ? 'FF-' : 'PUBG-') + Math.floor(100000 + Math.random() * 900000);
+  
+  // Deduct balance if paying with balance
+  if (selectedMethod === 'balance') {
+    userData.balance -= currentOrder.price;
+    updateBalance();
+  }
+  
+  // Create order object
+  const order = {
+    id: orderId,
+    date: new Date().toLocaleString(),
+    game: currentOrder.game,
+    package: currentOrder.package,
+    price: currentOrder.price,
+    method: currentOrder.method,
+    playerId: currentOrder.playerId,
+    server: currentOrder.server,
+    status: 'pending'
+  };
+  
+  // Add to user orders
+  userData.orders.push(order);
+  
+  // Show confirmation page
+  showPage('confirmation-page');
+  
+  // Update confirmation details
+  document.getElementById('order-number').textContent = '#' + orderId;
+  document.getElementById('order-date').textContent = order.date;
+  
+  // Send Telegram notification
+  await sendTelegramNotification(order);
+});
+
+// Function to show a specific page
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// Send Telegram Notification
+async function sendTelegramNotification(order) {
+  try {
+    const gameName = order.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile';
+    const methodName = order.method === 'auto' ? 'أوتوماتيكي' : 'يدوي';
+    const serverInfo = order.server ? `\nالخادم: ${order.server}` : '';
+    
+    const message = `
+🎮 طلب جديد في متجر MKDAD 🎮
+----------------------------
+📌 رقم الطلب: ${order.id}
+📅 التاريخ: ${order.date}
+🎮 اللعبة: ${gameName}
+📦 الباقة: ${order.package}
+💰 السعر: ${order.price.toLocaleString()} ل.س
+🔄 طريقة الشحن: ${methodName}
+🆔 معرف اللاعب: ${order.playerId}${serverInfo}
+----------------------------
+🚀 حالة الطلب: قيد المعالجة
+    `;
+    
+    const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+    const params = {
+      chat_id: telegramChatId,
+      text: message,
+      parse_mode: 'HTML'
+    };
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    });
+    
+    const result = await response.json();
+    console.log('Telegram API response:', result);
+    
+    if (!result.ok) {
+      console.error('Failed to send Telegram notification:', result);
+    }
+  } catch (error) {
+    console.error('Error sending Telegram notification:', error);
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  // Set initial balance
+  userData.balance = 50000;
+  updateBalance();
+  
+  // Load orders
+  loadOrders();
+  
+  // Set default shipping method
+  currentOrder.method = 'auto';
+  
+  // Set default payment method
+  document.querySelector('.payment-method[data-method="balance"]').classList.add('active');
+});
 
 // Mobile Menu Toggle
 mobileMenuButton.addEventListener('click', () => {
