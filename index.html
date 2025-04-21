@@ -737,441 +737,537 @@ transform: translateX(26px);
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-// Initialize user balance and orders
-let userBalance = 0;
-const TELEGRAM_BOT_TOKEN = '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY';
-const TELEGRAM_CHAT_ID = '7420327643';
-let orders = {
-    deposits: [],
-    purchases: []
-};
-// Function to send message to Telegram
-async function sendToTelegram(message, orderId) {
-    try {
-        const keyboard = {
-            inline_keyboard: [
-                [
-                    { text: "قبول ✅", callback_data: `accept_${orderId}` },
-                    { text: "رفض ❌", callback_data: `reject_${orderId}` }
-                ]
-            ]
-        };
-        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: message,
-                reply_markup: keyboard
-            })
-        });
-        const data = await response.json();
-        return data.ok;
-    } catch (error) {
-        console.error('Error sending to Telegram:', error);
-        return false;
+    // متغيرات التطبيق
+    const app = {
+        userBalance: 0,
+        TELEGRAM_BOT_TOKEN: '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY',
+        TELEGRAM_CHAT_ID: '7420327643',
+        orders: {
+            deposits: [],
+            purchases: []
+        },
+        currentPackage: null,
+        currentGame: null,
+        exchangeRate: 15000 // سعر الصرف: 1 دولار = 15000 ليرة سورية
+    };
+
+    // تهيئة الواجهة
+    function initUI() {
+        // تحديث رصيد المستخدم
+        updateBalanceDisplay();
+        
+        // إعداد قائمة التنقل
+        setupNavigation();
+        
+        // إعداد نموذج الاتصال
+        setupContactForm();
+        
+        // إعداد إعدادات المشرف
+        setupAdminSettings();
+        
+        // إعداد أزرار الشراء
+        setupPurchaseButtons();
+        
+        // إعداد شحن الرصيد
+        setupTopUpFunctions();
     }
-}
-// Function to update orders display
-function updateOrdersDisplay() {
-    const depositOrdersContainer = document.getElementById('depositOrders');
-    const purchaseOrdersContainer = document.getElementById('purchaseOrders');
-    
-    // Clear current orders
-    depositOrdersContainer.innerHTML = '';
-    purchaseOrdersContainer.innerHTML = '';
-    
-    // Add purchase orders
-    orders.purchases.forEach(order => {
+
+    // تحديث عرض الرصيد
+    function updateBalanceDisplay() {
+        document.getElementById('userBalance').textContent = app.userBalance;
+    }
+
+    // إعداد التنقل بين الصفحات
+    function setupNavigation() {
+        const navMenuBtn = document.getElementById('navMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        
+        navMenuBtn.addEventListener('click', function() {
+            mainNav.classList.toggle('hidden');
+        });
+
+        // التنقل بين الصفحات
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage(this.getAttribute('data-page') + 'Page');
+            });
+        });
+
+        // التنقل بين الألعاب
+        document.querySelectorAll('[data-game]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage(this.getAttribute('data-game') + 'Page');
+            });
+        });
+
+        // أزرار العودة
+        document.querySelectorAll('.back-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                showPage('homePage');
+            });
+        });
+
+        // تبويبات طلباتي
+        document.getElementById('depositOrdersTab').addEventListener('click', function() {
+            toggleOrdersTab('deposit');
+        });
+        
+        document.getElementById('purchaseOrdersTab').addEventListener('click', function() {
+            toggleOrdersTab('purchase');
+        });
+    }
+
+    // تبديل عرض طلبات الإيداع/الشراء
+    function toggleOrdersTab(tab) {
+        const isDeposit = tab === 'deposit';
+        
+        document.getElementById('depositOrdersTab').classList.toggle('text-primary', isDeposit);
+        document.getElementById('depositOrdersTab').classList.toggle('text-gray-500', !isDeposit);
+        document.getElementById('depositOrdersTab').classList.toggle('border-b-2', isDeposit);
+        document.getElementById('depositOrdersTab').classList.toggle('border-primary', isDeposit);
+        
+        document.getElementById('purchaseOrdersTab').classList.toggle('text-primary', !isDeposit);
+        document.getElementById('purchaseOrdersTab').classList.toggle('text-gray-500', isDeposit);
+        document.getElementById('purchaseOrdersTab').classList.toggle('border-b-2', !isDeposit);
+        document.getElementById('purchaseOrdersTab').classList.toggle('border-primary', !isDeposit);
+        
+        document.getElementById('depositOrders').classList.toggle('hidden', !isDeposit);
+        document.getElementById('purchaseOrders').classList.toggle('hidden', isDeposit);
+    }
+
+    // عرض صفحة محددة
+    function showPage(pageId) {
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.classList.add('hidden');
+        });
+        
+        document.getElementById(pageId).classList.remove('hidden');
+        document.getElementById('mainNav').classList.add('hidden');
+        window.scrollTo(0, 0);
+    }
+
+    // إعداد نموذج الاتصال
+    function setupContactForm() {
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            if (!name || !email || !subject || !message) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                return;
+            }
+            
+            // إرسال البيانات (يمكن استبدالها بإرسال حقيقي)
+            console.log('تم إرسال رسالة الدعم:', { name, email, subject, message });
+            showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
+            this.reset();
+        });
+    }
+
+    // إعداد إعدادات المشرف
+    function setupAdminSettings() {
+        const notificationsToggle = document.getElementById('notificationsToggle');
+        const notificationsStatus = document.getElementById('notificationsStatus');
+        
+        notificationsToggle.addEventListener('change', function() {
+            if (this.checked) {
+                notificationsStatus.textContent = 'مفعل';
+                notificationsStatus.className = 'text-green-600';
+            } else {
+                notificationsStatus.textContent = 'معطل';
+                notificationsStatus.className = 'text-red-600';
+            }
+        });
+        
+        document.getElementById('saveSettings').addEventListener('click', function() {
+            const token = document.getElementById('telegramToken').value;
+            const chatId = document.getElementById('telegramChatId').value;
+            
+            if (!token || !chatId) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                return;
+            }
+            
+            // حفظ الإعدادات (يمكن استبدالها بحفظ حقيقي)
+            console.log('تم حفظ الإعدادات:', { token, chatId });
+            showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+        });
+    }
+
+    // إعداد أزرار الشراء
+    function setupPurchaseButtons() {
+        const purchaseModal = document.getElementById('purchaseModal');
+        
+        document.querySelectorAll('.buy-package').forEach(button => {
+            button.addEventListener('click', function() {
+                const packageCard = this.closest('.package-card');
+                const packageId = packageCard.getAttribute('data-package');
+                const packagePrice = parseFloat(packageCard.getAttribute('data-price'));
+                
+                let playerId = '';
+                let gameType = '';
+                
+                if (packageId.startsWith('pubg')) {
+                    playerId = document.getElementById('pubgId').value;
+                    gameType = 'ببجي موبايل';
+                    app.currentGame = 'pubg';
+                } else if (packageId.startsWith('ff')) {
+                    playerId = document.getElementById('freeFireId').value;
+                    gameType = 'فري فاير';
+                    app.currentGame = 'freeFire';
+                }
+                
+                if (!playerId) {
+                    showNotification('يرجى إدخال معرف اللاعب أولاً', 'error');
+                    return;
+                }
+                
+                // تعبئة بيانات النافذة المنبثقة
+                const packageNameText = packageCard.querySelector('h3').textContent;
+                document.getElementById('packageName').textContent = packageNameText;
+                document.getElementById('packagePrice').textContent = packagePrice;
+                document.getElementById('playerIdConfirm').textContent = playerId;
+                document.getElementById('productConfirm').textContent = `${packageNameText} - ${gameType}`;
+                document.getElementById('priceConfirm').textContent = `${packagePrice} $`;
+                
+                // التحقق من الرصيد
+                const insufficientBalance = document.getElementById('insufficientBalance');
+                const confirmPurchase = document.getElementById('confirmPurchase');
+                
+                if (app.userBalance < packagePrice) {
+                    insufficientBalance.classList.remove('hidden');
+                    confirmPurchase.disabled = true;
+                    confirmPurchase.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    insufficientBalance.classList.add('hidden');
+                    confirmPurchase.disabled = false;
+                    confirmPurchase.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+                
+                app.currentPackage = {
+                    id: packageId,
+                    price: packagePrice,
+                    name: packageNameText,
+                    playerId: playerId,
+                    game: gameType
+                };
+                
+                // عرض النافذة المنبثقة
+                purchaseModal.classList.remove('hidden');
+            });
+        });
+        
+        // إغلاق النافذة المنبثقة
+        document.getElementById('closeModal').addEventListener('click', () => purchaseModal.classList.add('hidden'));
+        document.getElementById('cancelPurchase').addEventListener('click', () => purchaseModal.classList.add('hidden'));
+        
+        // تأكيد الشراء
+        document.getElementById('confirmPurchase').addEventListener('click', async function() {
+            if (app.userBalance >= app.currentPackage.price) {
+                // معالجة عملية الشراء
+                app.userBalance -= app.currentPackage.price;
+                updateBalanceDisplay();
+                
+                const orderId = Date.now();
+                const order = {
+                    id: orderId,
+                    product: `${app.currentPackage.name} - ${app.currentPackage.game}`,
+                    price: app.currentPackage.price,
+                    playerId: app.currentPackage.playerId,
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                };
+                
+                app.orders.purchases.push(order);
+                
+                // إرسال إشعار للتليجرام
+                const message = `🎮 طلب شحن جديد #${orderId}\n\n` +
+                    `المنتج: ${app.currentPackage.name}\n` +
+                    `اللعبة: ${app.currentPackage.game}\n` +
+                    `معرف اللاعب: ${app.currentPackage.playerId}\n` +
+                    `السعر: ${app.currentPackage.price}$\n` +
+                    `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                    
+                await sendToTelegram(message, orderId);
+                
+                purchaseModal.classList.add('hidden');
+                showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
+                updateOrdersDisplay();
+            } else {
+                showNotification('رصيدك غير كافي لإتمام عملية الشراء.', 'error');
+            }
+        });
+    }
+
+    // إعداد وظائف شحن الرصيد
+    function setupTopUpFunctions() {
+        // شحن عبر USDT
+        document.getElementById('submitUsdt').addEventListener('click', async function() {
+            const amount = document.getElementById('usdtAmount').value;
+            const txid = document.getElementById('usdtTxid').value;
+            
+            if (!amount || !txid) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                return;
+            }
+            
+            const orderId = Date.now();
+            const order = {
+                id: orderId,
+                amount: parseFloat(amount),
+                method: 'USDT',
+                txid: txid,
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            app.orders.deposits.push(order);
+            
+            // إرسال إشعار للتليجرام
+            const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
+                `الطريقة: USDT\n` +
+                `المبلغ: ${amount}$\n` +
+                `رقم العملية: ${txid}\n` +
+                `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                
+            await sendToTelegram(message, orderId);
+            
+            showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
+            document.getElementById('usdtAmount').value = '';
+            document.getElementById('usdtTxid').value = '';
+            updateOrdersDisplay();
+        });
+        
+        // شحن عبر سيرياتيل كاش
+        document.getElementById('submitSyriatel').addEventListener('click', async function() {
+            const amount = document.getElementById('syriatelAmount').value;
+            const code = document.getElementById('syriatelCode').value;
+            
+            if (!amount || !code) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                return;
+            }
+            
+            // التحقق من العملية
+            const isValid = await verifySyriatelTransaction(amount, code);
+            
+            if (!isValid) {
+                showNotification('لم يتم العثور على العملية أو المبلغ غير صحيح.', 'error');
+                return;
+            }
+            
+            // إذا كانت العملية صحيحة
+            const orderId = Date.now();
+            const usdAmount = (parseInt(amount) / app.exchangeRate).toFixed(2);
+            
+            const order = {
+                id: orderId,
+                amount: parseFloat(usdAmount),
+                method: 'سيرياتيل كاش',
+                code: code,
+                date: new Date().toISOString(),
+                status: 'completed'
+            };
+            
+            app.orders.deposits.push(order);
+            app.userBalance += order.amount;
+            updateBalanceDisplay();
+            
+            // إرسال إشعار للتليجرام
+            const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
+                `الطريقة: سيرياتيل كاش\n` +
+                `المبلغ: ${amount} ل.س (${usdAmount}$)\n` +
+                `رمز العملية: ${code}\n` +
+                `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                
+            await sendToTelegram(message, orderId);
+            
+            showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
+            document.getElementById('syriatelAmount').value = '';
+            document.getElementById('syriatelCode').value = '';
+            updateOrdersDisplay();
+        });
+    }
+
+    // التحقق من معاملة سيرياتيل كاش
+    async function verifySyriatelTransaction(amount, code) {
+        try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbyMRAhbQUdNNMBQXQhsy1iodbTO3Oh7GrEvS-jTQB6dIw5kF9Y5tbcfLQttw__6Kog_/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount.toString().trim(),
+                    txid: code.toString().trim()
+                })
+            });
+        
+            const result = await response.json();
+            console.log('Verification result:', result); // لأغراض debugging
+            return result.success;
+        } catch (error) {
+            console.error('Error verifying transaction:', error);
+            return false;
+        }
+    }
+
+    // إرسال رسالة إلى التليجرام
+    async function sendToTelegram(message, orderId) {
+        try {
+            const keyboard = {
+                inline_keyboard: [
+                    [
+                        { text: "قبول ✅", callback_data: `accept_${orderId}` },
+                        { text: "رفض ❌", callback_data: `reject_${orderId}` }
+                    ]
+                ]
+            };
+            
+            const response = await fetch(`https://api.telegram.org/bot${app.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: app.TELEGRAM_CHAT_ID,
+                    text: message,
+                    reply_markup: keyboard
+                })
+            });
+            
+            const data = await response.json();
+            return data.ok;
+        } catch (error) {
+            console.error('Error sending to Telegram:', error);
+            return false;
+        }
+    }
+
+    // تحديث عرض الطلبات
+    function updateOrdersDisplay() {
+        const depositOrdersContainer = document.getElementById('depositOrders');
+        const purchaseOrdersContainer = document.getElementById('purchaseOrders');
+        
+        depositOrdersContainer.innerHTML = '';
+        purchaseOrdersContainer.innerHTML = '';
+        
+        // عرض طلبات الإيداع
+        app.orders.deposits.forEach(order => {
+            const orderElement = createOrderElement(order, 'إيداع');
+            depositOrdersContainer.appendChild(orderElement);
+        });
+        
+        // عرض طلبات الشراء
+        app.orders.purchases.forEach(order => {
+            const orderElement = createOrderElement(order, 'شحن');
+            purchaseOrdersContainer.appendChild(orderElement);
+        });
+    }
+
+    // إنشاء عنصر طلب
+    function createOrderElement(order, type) {
         const orderElement = document.createElement('div');
         orderElement.className = 'bg-gray-50 rounded-lg p-4';
+        
+        const statusClass = {
+            pending: 'bg-yellow-100 text-yellow-800',
+            completed: 'bg-green-100 text-green-800',
+            accepted: 'bg-green-100 text-green-800',
+            rejected: 'bg-red-100 text-red-800'
+        };
+        
+        const statusText = {
+            pending: 'قيد المعالجة',
+            completed: 'مكتمل',
+            accepted: 'مقبول',
+            rejected: 'مرفوض'
+        };
+        
         orderElement.innerHTML = `
             <div class="flex justify-between items-start">
                 <div>
-                    <p class="font-bold text-gray-800">طلب شحن #${order.id}</p>
-                    <p class="text-gray-600">المنتج: ${order.product}</p>
-                    <p class="text-gray-600">السعر: ${order.price} $</p>
+                    <p class="font-bold text-gray-800">طلب ${type} #${order.id}</p>
+                    ${order.product ? `<p class="text-gray-600">المنتج: ${order.product}</p>` : ''}
+                    <p class="text-gray-600">المبلغ: ${order.amount} ${type === 'إيداع' ? '$' : '$'}</p>
                     <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
-                    <p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>
+                    ${order.playerId ? `<p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>` : ''}
+                    ${order.method ? `<p class="text-gray-600">الطريقة: ${order.method}</p>` : ''}
+                    ${order.txid ? `<p class="text-gray-600">رقم العملية: ${order.txid}</p>` : ''}
+                    ${order.code ? `<p class="text-gray-600">رمز التحويل: ${order.code}</p>` : ''}
                 </div>
-                <span class="px-3 py-1 rounded-full text-sm font-bold ${
-                    order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                    order.status === 'completed' ? 'bg-green-100 text-green-800' :
-                    'bg-red-100 text-red-800'
-                }">
-                    ${
-                        order.status === 'pending' ? 'قيد المعالجة' :
-                        order.status === 'completed' ? 'مكتمل' :
-                        'مرفوض'
-                    }
+                <span class="px-3 py-1 rounded-full text-sm font-bold ${statusClass[order.status] || 'bg-gray-100 text-gray-800'}">
+                    ${statusText[order.status] || order.status}
                 </span>
             </div>
         `;
-        purchaseOrdersContainer.appendChild(orderElement);
-    });
-}
-// Handle orders tab switching
-document.getElementById('depositOrdersTab').addEventListener('click', function() {
-    this.classList.add('text-primary', 'border-b-2', 'border-primary');
-    this.classList.remove('text-gray-500');
-    document.getElementById('purchaseOrdersTab').classList.remove('text-primary', 'border-b-2', 'border-primary');
-    document.getElementById('purchaseOrdersTab').classList.add('text-gray-500');
-    document.getElementById('depositOrders').classList.remove('hidden');
-    document.getElementById('purchaseOrders').classList.add('hidden');
-});
-document.getElementById('purchaseOrdersTab').addEventListener('click', function() {
-    this.classList.add('text-primary', 'border-b-2', 'border-primary');
-    this.classList.remove('text-gray-500');
-    document.getElementById('depositOrdersTab').classList.remove('text-primary', 'border-b-2', 'border-primary');
-    document.getElementById('depositOrdersTab').classList.add('text-gray-500');
-    document.getElementById('purchaseOrders').classList.remove('hidden');
-    document.getElementById('depositOrders').classList.add('hidden');
-});
-// Navigation
-const navMenuBtn = document.getElementById('navMenuBtn');
-const mainNav = document.getElementById('mainNav');
-navMenuBtn.addEventListener('click', function() {
-mainNav.classList.toggle('hidden');
-});
-// Page navigation
-const pages = document.querySelectorAll('.page-content');
-const pageLinks = document.querySelectorAll('[data-page]');
-const gameLinks = document.querySelectorAll('[data-game]');
-const backButtons = document.querySelectorAll('.back-btn');
-function showPage(pageId) {
-pages.forEach(page => {
-page.classList.add('hidden');
-});
-document.getElementById(pageId).classList.remove('hidden');
-mainNav.classList.add('hidden');
-window.scrollTo(0, 0);
-}
-pageLinks.forEach(link => {
-link.addEventListener('click', function(e) {
-e.preventDefault();
-const pageId = this.getAttribute('data-page') + 'Page';
-showPage(pageId);
-});
-});
-gameLinks.forEach(link => {
-link.addEventListener('click', function(e) {
-e.preventDefault();
-const gameId = this.getAttribute('data-game') + 'Page';
-showPage(gameId);
-});
-});
-backButtons.forEach(button => {
-button.addEventListener('click', function() {
-showPage('homePage');
-});
-});
-// Purchase modal
-const purchaseModal = document.getElementById('purchaseModal');
-const closeModal = document.getElementById('closeModal');
-const cancelPurchase = document.getElementById('cancelPurchase');
-const confirmPurchase = document.getElementById('confirmPurchase');
-const packageName = document.getElementById('packageName');
-const packagePrice = document.getElementById('packagePrice');
-const playerIdConfirm = document.getElementById('playerIdConfirm');
-const productConfirm = document.getElementById('productConfirm');
-const priceConfirm = document.getElementById('priceConfirm');
-const insufficientBalance = document.getElementById('insufficientBalance');
-let currentPackage = null;
-let currentGame = null;
-const buyButtons = document.querySelectorAll('.buy-package');
-buyButtons.forEach(button => {
-button.addEventListener('click', function() {
-const packageCard = this.closest('.package-card');
-const packageId = packageCard.getAttribute('data-package');
-const packagePrice = packageCard.getAttribute('data-price');
-let playerId = '';
-let gameType = '';
-if (packageId.startsWith('pubg')) {
-playerId = document.getElementById('pubgId').value;
-gameType = 'ببجي موبايل';
-currentGame = 'pubg';
-} else if (packageId.startsWith('ff')) {
-playerId = document.getElementById('freeFireId').value;
-gameType = 'فري فاير';
-currentGame = 'freeFire';
-}
-if (!playerId) {
-showNotification('يرجى إدخال معرف اللاعب أولاً', 'error');
-return;
-}
-// Set modal content
-const packageNameText = packageCard.querySelector('h3').textContent;
-packageName.textContent = packageNameText;
-packagePrice.textContent = packagePrice;
-playerIdConfirm.textContent = playerId;
-productConfirm.textContent = packageNameText + ' - ' + gameType;
-priceConfirm.textContent = packagePrice + ' $';
-// Check balance
-if (userBalance < packagePrice) {
-insufficientBalance.classList.remove('hidden');
-confirmPurchase.disabled = true;
-confirmPurchase.classList.add('opacity-50', 'cursor-not-allowed');
-} else {
-insufficientBalance.classList.add('hidden');
-confirmPurchase.disabled = false;
-confirmPurchase.classList.remove('opacity-50', 'cursor-not-allowed');
-}
-currentPackage = {
-id: packageId,
-price: packagePrice,
-name: packageNameText,
-playerId: playerId,
-game: gameType
-};
-// Show modal
-purchaseModal.classList.remove('hidden');
-});
-});
-closeModal.addEventListener('click', function() {
-purchaseModal.classList.add('hidden');
-});
-cancelPurchase.addEventListener('click', function() {
-purchaseModal.classList.add('hidden');
-});
-confirmPurchase.addEventListener('click', async function() {
-    if (userBalance >= currentPackage.price) {
-        // Process purchase
-        userBalance -= currentPackage.price;
-        document.getElementById('userBalance').textContent = userBalance;
         
-        const orderId = Date.now();
-        const order = {
-            id: orderId,
-            product: `${currentPackage.name} - ${currentPackage.game}`,
-            price: currentPackage.price,
-            playerId: currentPackage.playerId,
-            date: new Date().toISOString(),
-            status: 'pending'
-        };
-        
-        orders.purchases.push(order);
-        
-        // Send to Telegram
-        const message = `🎮 طلب شحن جديد #${orderId}\n\n` +
-            `المنتج: ${currentPackage.name}\n` +
-            `اللعبة: ${currentPackage.game}\n` +
-            `معرف اللاعب: ${currentPackage.playerId}\n` +
-            `السعر: ${currentPackage.price}$\n` +
-            `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-            
-        await sendToTelegram(message, orderId);
-        
-        purchaseModal.classList.add('hidden');
-        showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
-        updateOrdersDisplay();
-    } else {
-        showNotification('رصيدك غير كافي لإتمام عملية الشراء.', 'error');
+        return orderElement;
     }
-});
-// Top-up functionality
-const submitUsdt = document.getElementById('submitUsdt');
-const submitSyriatel = document.getElementById('submitSyriatel');
-submitUsdt.addEventListener('click', async function() {
-    const amount = document.getElementById('usdtAmount').value;
-    const txid = document.getElementById('usdtTxid').value;
-    
-    if (!amount || !txid) {
-        showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-        return;
-    }
-    
-    const orderId = Date.now();
-    const order = {
-        id: orderId,
-        amount: amount,
-        method: 'USDT',
-        txid: txid,
-        date: new Date().toISOString(),
-        status: 'pending'
-    };
-    
-    orders.deposits.push(order);
-    
-    // Send to Telegram
-    const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
-        `الطريقة: USDT\n` +
-        `المبلغ: ${amount}$\n` +
-        `رقم العملية: ${txid}\n` +
-        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-        
-    await sendToTelegram(message, orderId);
-    
-    showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
-    document.getElementById('usdtAmount').value = '';
-    document.getElementById('usdtTxid').value = '';
-    updateOrdersDisplay();
-});
-async function verifyTransaction(amount, txid) {
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyMRAhbQUdNNMBQXQhsy1iodbTO3Oh7GrEvS-jTQB6dIw5kF9Y5tbcfLQttw__6Kog_/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: amount,
-        txid: txid
-      })
-    });
-    
-    const result = await response.json();
-    return result.success;
-  } catch (error) {
-    console.error('Error verifying transaction:', error);
-    return false;
-  }
-}
 
-// تعديل دالة submitSyriatel
-submitSyriatel.addEventListener('click', async function() {
-    const amount = document.getElementById('syriatelAmount').value;
-    const code = document.getElementById('syriatelCode').value;
-    
-    if (!amount || !code) {
-        showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-        return;
-    }
-    
-    // التحقق من العملية
-    const isValid = await verifyTransaction(amount, code);
-    
-    if (!isValid) {
-        showNotification('لم يتم العثور على العملية أو المبلغ غير صحيح.', 'error');
-        return;
-    }
-    
-    // إذا كانت العملية صحيحة، تابع كما كان
-    const orderId = Date.now();
-    const order = {
-        id: orderId,
-        amount: (amount / 15000).toFixed(2),
-        method: 'سيرياتيل كاش',
-        code: code,
-        date: new Date().toISOString(),
-        status: 'accepted' // مباشرة مقبولة لأننا تحققنا منها
-    };
-    
-    orders.deposits.push(order);
-    userBalance += parseFloat(order.amount);
-    document.getElementById('userBalance').textContent = userBalance;
-    
-    // إرسال إشعار للتليجرام
-    const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
-        `الطريقة: سيرياتيل كاش\n` +
-        `المبلغ: ${amount} ل.س (${order.amount}$)\n` +
-        `رمز العملية: ${code}\n` +
-        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+    // عرض الإشعارات
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('successNotification');
+        const notificationText = document.getElementById('notificationText');
         
-    await sendToTelegram(message, orderId);
-    
-    showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
-    document.getElementById('syriatelAmount').value = '';
-    document.getElementById('syriatelCode').value = '';
-    updateOrdersDisplay();
-});
-// Contact form
-const contactForm = document.getElementById('contactForm');
-contactForm.addEventListener('submit', function(e) {
-e.preventDefault();
-const name = document.getElementById('contactName').value;
-const email = document.getElementById('contactEmail').value;
-const subject = document.getElementById('contactSubject').value;
-const message = document.getElementById('contactMessage').value;
-if (!name || !email || !subject || !message) {
-showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-return;
-}
-// Send to Telegram (simulation)
-console.log('Sending to Telegram:', {
-message: `New contact form submission`,
-name: name,
-email: email,
-subject: subject,
-message: message,
-date: new Date().toISOString()
-});
-showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
-contactForm.reset();
-});
-// Admin settings
-const saveSettings = document.getElementById('saveSettings');
-const notificationsToggle = document.getElementById('notificationsToggle');
-const notificationsStatus = document.getElementById('notificationsStatus');
-notificationsToggle.addEventListener('change', function() {
-if (this.checked) {
-notificationsStatus.textContent = 'مفعل';
-notificationsStatus.className = 'text-green-600';
-} else {
-notificationsStatus.textContent = 'معطل';
-notificationsStatus.className = 'text-red-600';
-}
-});
-saveSettings.addEventListener('click', function() {
-const token = document.getElementById('telegramToken').value;
-const chatId = document.getElementById('telegramChatId').value;
-if (!token || !chatId) {
-showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-return;
-}
-// Save settings (simulation)
-console.log('Saving settings:', {
-token: token,
-chatId: chatId,
-notifications: notificationsToggle.checked
-});
-showNotification('تم حفظ الإعدادات بنجاح!', 'success');
-});
-// Utility functions
-function showNotification(message, type = 'success') {
-const notification = document.getElementById('successNotification');
-const notificationText = document.getElementById('notificationText');
-notificationText.textContent = message;
-if (type === 'error') {
-notification.classList.remove('bg-green-500');
-notification.classList.add('bg-red-500');
-} else {
-notification.classList.remove('bg-red-500');
-notification.classList.add('bg-green-500');
-}
-notification.classList.remove('translate-y-20', 'opacity-0');
-notification.classList.add('translate-y-0', 'opacity-100');
-setTimeout(() => {
-notification.classList.remove('translate-y-0', 'opacity-100');
-notification.classList.add('translate-y-20', 'opacity-0');
-}, 3000);
-}
-function copyToClipboard(elementId) {
-const element = document.getElementById(elementId);
-element.select();
-document.execCommand('copy');
-showNotification('تم نسخ النص بنجاح!', 'success');
-}
-// FAQ toggle
-window.toggleFaq = function(element) {
-const answer = element.nextElementSibling;
-const icon = element.querySelector('i');
-answer.classList.toggle('hidden');
-if (answer.classList.contains('hidden')) {
-icon.classList.remove('ri-arrow-up-s-line');
-icon.classList.add('ri-arrow-down-s-line');
-} else {
-icon.classList.remove('ri-arrow-down-s-line');
-icon.classList.add('ri-arrow-up-s-line');
-}
-};
-// Add some balance for testing
-document.getElementById('userBalance').addEventListener('click', function() {
-userBalance += 10;
-document.getElementById('userBalance').textContent = userBalance;
-showNotification('تم إضافة 10$ لرصيدك للاختبار!', 'success');
-});
+        notificationText.textContent = message;
+        
+        if (type === 'error') {
+            notification.classList.remove('bg-green-500');
+            notification.classList.add('bg-red-500');
+        } else {
+            notification.classList.remove('bg-red-500');
+            notification.classList.add('bg-green-500');
+        }
+        
+        notification.classList.remove('translate-y-20', 'opacity-0');
+        notification.classList.add('translate-y-0', 'opacity-100');
+        
+        setTimeout(() => {
+            notification.classList.remove('translate-y-0', 'opacity-100');
+            notification.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
+    }
+
+    // نسخ النص إلى الحافظة
+    window.copyToClipboard = function(elementId) {
+        const element = document.getElementById(elementId);
+        element.select();
+        document.execCommand('copy');
+        showNotification('تم نسخ النص بنجاح!', 'success');
+    };
+
+    // تبديل عرض الأسئلة الشائعة
+    window.toggleFaq = function(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('i');
+        
+        answer.classList.toggle('hidden');
+        
+        if (answer.classList.contains('hidden')) {
+            icon.classList.remove('ri-arrow-up-s-line');
+            icon.classList.add('ri-arrow-down-s-line');
+        } else {
+            icon.classList.remove('ri-arrow-down-s-line');
+            icon.classList.add('ri-arrow-up-s-line');
+        }
+    };
+
+    // إضافة رصيد للاختبار (لأغراض التطوير فقط)
+    document.getElementById('userBalance').addEventListener('click', function() {
+        app.userBalance += 10;
+        updateBalanceDisplay();
+        showNotification('تم إضافة 10$ لرصيدك للاختبار!', 'success');
+    });
+
+    // بدء التطبيق
+    initUI();
 });
 </script>
 </body>
