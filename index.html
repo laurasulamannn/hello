@@ -737,77 +737,6 @@ transform: translateX(26px);
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-
-
-async function verifyTransaction(amount, txid) {
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyMRAhbQUdNNMBQXQhsy1iodbTO3Oh7GrEvS-jTQB6dIw5kF9Y5tbcfLQttw__6Kog_/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: amount,
-        txid: txid
-      })
-    });
-    
-    const result = await response.json();
-    return result.success;
-  } catch (error) {
-    console.error('Error verifying transaction:', error);
-    return false;
-  }
-}
-
-// تعديل دالة submitSyriatel
-submitSyriatel.addEventListener('click', async function() {
-    const amount = document.getElementById('syriatelAmount').value;
-    const code = document.getElementById('syriatelCode').value;
-    
-    if (!amount || !code) {
-        showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-        return;
-    }
-    
-    // التحقق من العملية
-    const isValid = await verifyTransaction(amount, code);
-    
-    if (!isValid) {
-        showNotification('لم يتم العثور على العملية أو المبلغ غير صحيح.', 'error');
-        return;
-    }
-    
-    // إذا كانت العملية صحيحة، تابع كما كان
-    const orderId = Date.now();
-    const order = {
-        id: orderId,
-        amount: (amount / 15000).toFixed(2),
-        method: 'سيرياتيل كاش',
-        code: code,
-        date: new Date().toISOString(),
-        status: 'accepted' // مباشرة مقبولة لأننا تحققنا منها
-    };
-    
-    orders.deposits.push(order);
-    userBalance += parseFloat(order.amount);
-    document.getElementById('userBalance').textContent = userBalance;
-    
-    // إرسال إشعار للتليجرام
-    const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
-        `الطريقة: سيرياتيل كاش\n` +
-        `المبلغ: ${amount} ل.س (${order.amount}$)\n` +
-        `رمز العملية: ${code}\n` +
-        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-        
-    await sendToTelegram(message, orderId);
-    
-    showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
-    document.getElementById('syriatelAmount').value = '';
-    document.getElementById('syriatelCode').value = '';
-    updateOrdersDisplay();
-});
-
 // Initialize user balance and orders
 let userBalance = 0;
 const TELEGRAM_BOT_TOKEN = '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY';
@@ -1079,6 +1008,28 @@ submitUsdt.addEventListener('click', async function() {
     document.getElementById('usdtTxid').value = '';
     updateOrdersDisplay();
 });
+async function verifyTransaction(amount, txid) {
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyMRAhbQUdNNMBQXQhsy1iodbTO3Oh7GrEvS-jTQB6dIw5kF9Y5tbcfLQttw__6Kog_/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: amount,
+        txid: txid
+      })
+    });
+    
+    const result = await response.json();
+    return result.success;
+  } catch (error) {
+    console.error('Error verifying transaction:', error);
+    return false;
+  }
+}
+
+// تعديل دالة submitSyriatel
 submitSyriatel.addEventListener('click', async function() {
     const amount = document.getElementById('syriatelAmount').value;
     const code = document.getElementById('syriatelCode').value;
@@ -1088,20 +1039,31 @@ submitSyriatel.addEventListener('click', async function() {
         return;
     }
     
+    // التحقق من العملية
+    const isValid = await verifyTransaction(amount, code);
+    
+    if (!isValid) {
+        showNotification('لم يتم العثور على العملية أو المبلغ غير صحيح.', 'error');
+        return;
+    }
+    
+    // إذا كانت العملية صحيحة، تابع كما كان
     const orderId = Date.now();
     const order = {
         id: orderId,
-        amount: (amount / 15000).toFixed(2), // Convert to USD
+        amount: (amount / 15000).toFixed(2),
         method: 'سيرياتيل كاش',
         code: code,
         date: new Date().toISOString(),
-        status: 'pending'
+        status: 'accepted' // مباشرة مقبولة لأننا تحققنا منها
     };
     
     orders.deposits.push(order);
+    userBalance += parseFloat(order.amount);
+    document.getElementById('userBalance').textContent = userBalance;
     
-    // Send to Telegram
-    const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
+    // إرسال إشعار للتليجرام
+    const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
         `الطريقة: سيرياتيل كاش\n` +
         `المبلغ: ${amount} ل.س (${order.amount}$)\n` +
         `رمز العملية: ${code}\n` +
@@ -1109,7 +1071,7 @@ submitSyriatel.addEventListener('click', async function() {
         
     await sendToTelegram(message, orderId);
     
-    showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
+    showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
     document.getElementById('syriatelAmount').value = '';
     document.getElementById('syriatelCode').value = '';
     updateOrdersDisplay();
