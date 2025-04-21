@@ -3,1897 +3,1171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MKDAD SHOP</title>
+<title>MKDAD SHOP - متجر شحن جواهر وشدات الألعاب</title>
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#1a237e',
-        secondary: '#3949ab',
-        pubg: '#f77f00',
-        freefire: '#00b4d8'
-      },
-      borderRadius: {
-        'none': '0px',
-        'sm': '4px',
-        DEFAULT: '8px',
-        'md': '12px',
-        'lg': '16px',
-        'xl': '20px',
-        '2xl': '24px',
-        '3xl': '32px',
-        'full': '9999px',
-        'button': '8px'
-      }
-    }
-  }
-}
-</script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#1a237e',secondary:'#303f9f'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
 <style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
 body {
-  font-family: 'Tajawal', sans-serif;
-  background: linear-gradient(135deg, #1a237e, #3949ab);
-  min-height: 100vh;
+font-family: 'Cairo', sans-serif;
+background-color: #f9fafc;
 }
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+-webkit-appearance: none;
+margin: 0;
+}
+input[type="number"] {
+-moz-appearance: textfield;
+}
+.game-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.game-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 15px 30px rgba(26, 35, 126, 0.2);
+}
+.hero-gradient {
+background: linear-gradient(135deg, rgba(26, 35, 126, 0.9) 0%, rgba(48, 63, 159, 0.8) 100%);
 }
 .package-card {
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .package-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-.custom-checkbox {
-  display: none;
-}
-.custom-checkbox-label {
-  position: relative;
-  padding-right: 30px;
-  cursor: pointer;
-}
-.custom-checkbox-label:before {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #fff;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.custom-checkbox:checked + .custom-checkbox-label:before {
-  background-color: #3949ab;
-  border-color: #3949ab;
-}
-.custom-checkbox:checked + .custom-checkbox-label:after {
-  content: '';
-  position: absolute;
-  right: 7px;
-  top: 4px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+transform: translateY(-3px);
+box-shadow: 0 10px 20px rgba(26, 35, 126, 0.15);
 }
 .custom-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
 }
 .custom-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+opacity: 0;
+width: 0;
+height: 0;
 }
-.switch-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.3);
-  transition: .4s;
-  border-radius: 34px;
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .4s;
+border-radius: 34px;
 }
-.switch-slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  right: 4px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
+.slider:before {
+position: absolute;
+content: "";
+height: 16px;
+width: 16px;
+left: 4px;
+bottom: 4px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
 }
-input:checked + .switch-slider {
-  background-color: #3949ab;
+input:checked + .slider {
+background-color: #1a237e;
 }
-input:checked + .switch-slider:before {
-  transform: translateX(-24px);
-}
-.diamond-bg {
-  background-image: url('https://readdy.ai/api/search-image?query=Free%20Fire%20diamonds%20and%20gems%20on%20a%20blue%20gradient%20background%2C%20high%20quality%20digital%20art%2C%20gaming%20currency%2C%20professional%20game%20asset%20visualization%2C%20clean%20background%2C%20modern%20design%2C%20blue%20theme&width=800&height=600&seq=1&orientation=landscape');
-  background-size: cover;
-  background-position: center;
-}
-.game-tab {
-  transition: all 0.3s ease;
-}
-.game-tab.active {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-bottom: 3px solid white;
-}
-.shipping-method {
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-}
-.shipping-method:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-.shipping-method.active {
-  background: rgba(255, 255, 255, 0.3);
-  border: 2px solid white;
-}
-.order-card {
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-.order-card:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-.status-pending {
-  color: #fbbf24;
-}
-.status-completed {
-  color: #10b981;
-}
-.status-rejected {
-  color: #ef4444;
-}
-.page {
-  display: none;
-}
-.page.active {
-  display: block;
+input:checked + .slider:before {
+transform: translateX(26px);
 }
 </style>
 </head>
 <body>
-<header class="bg-primary/90 backdrop-blur-md shadow-lg sticky top-0 z-50">
-  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-    <div class="flex items-center">
-      <div class="w-10 h-10 flex items-center justify-center text-white mr-2">
-        <i class="ri-fire-fill ri-2x"></i>
-      </div>
-      <h1 class="text-white text-xl font-bold">MKDAD SHOP</h1>
-    </div>
-    <div class="hidden md:flex items-center space-x-4 space-x-reverse">
-      <div class="bg-white/10 px-3 py-1 rounded-full">
-        <span class="text-white font-medium"><i class="ri-wallet-3-line mr-1"></i> <span id="header-balance">0</span> ل.س</span>
-      </div>
-      <nav class="flex space-x-1 space-x-reverse">
-        <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="home">الرئيسية</a>
-        <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="games">الألعاب</a>
-        <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="deposit">شحن الرصيد</a>
-        <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="orders">طلباتي</a>
-        <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="support">الدعم</a>
-      </nav>
-    </div>
-    <div class="flex items-center md:hidden">
-      <div class="bg-white/10 px-3 py-1 rounded-full mr-2">
-        <span class="text-white font-medium"><i class="ri-wallet-3-line mr-1"></i> <span id="mobile-balance">0</span> ل.س</span>
-      </div>
-      <button class="text-white w-10 h-10 flex items-center justify-center" id="mobile-menu-button">
-        <i class="ri-menu-line ri-2x"></i>
-      </button>
-    </div>
-  </div>
-  <!-- Mobile menu -->
-  <div class="md:hidden hidden bg-primary/95 backdrop-blur-md" id="mobile-menu">
-    <div class="container mx-auto px-4 py-3 flex flex-col space-y-2">
-      <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="home">الرئيسية</a>
-      <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="games">الألعاب</a>
-      <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="deposit">شحن الرصيد</a>
-      <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="orders">طلباتي</a>
-      <a href="#" class="nav-link text-white hover:text-blue-200 px-4 py-2 rounded-button transition" data-page="support">الدعم</a>
-    </div>
-  </div>
+<header class="bg-primary shadow-md fixed w-full top-0 z-50">
+<div class="container mx-auto px-4 py-3 flex justify-between items-center">
+<div class="flex items-center">
+<h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
+</div>
+<div class="flex items-center space-x-4 space-x-reverse">
+<div class="bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-wallet-3-line text-white"></i>
+</div>
+<span>رصيدك: <span id="userBalance" class="font-bold">0</span> $</span>
+</div>
+<button id="navMenuBtn" class="text-white w-8 h-8 flex items-center justify-center">
+<i class="ri-menu-line text-xl"></i>
+</button>
+</div>
+</div>
+<nav id="mainNav" class="hidden bg-secondary">
+<div class="container mx-auto px-4 py-3">
+<ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="admin">إعدادات المشرف</a></li>
+</ul>
+</div>
+</nav>
 </header>
-
-<main class="container mx-auto px-4 py-8">
-  <!-- Home Page -->
-  <div id="home-page" class="page active">
-    <!-- Hero Section -->
-    <section class="mb-12 diamond-bg rounded-lg overflow-hidden shadow-xl">
-      <div class="bg-gradient-to-l from-primary/90 to-primary/70 backdrop-blur-sm p-8 md:p-12">
-        <div class="max-w-2xl">
-          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">متجر MKDAD للشحن الآمن</h2>
-          <p class="text-blue-100 text-lg mb-6">شحن سريع وآمن لحسابك مباشرة. استمتع باللعب مع أفضل العروض الحصرية.</p>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="#" class="nav-link bg-white text-primary hover:bg-blue-50 px-6 py-3 rounded-button font-bold text-center transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button" data-page="games">تصفح الألعاب</a>
-            <a href="#" class="nav-link bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 py-3 rounded-button font-bold text-center transition-all whitespace-nowrap !rounded-button" data-page="deposit">شحن الرصيد</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Games -->
-    <section class="mb-12">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-white mb-2">الألعاب المتاحة</h2>
-        <p class="text-blue-100">اختر لعبتك المفضلة وابدأ الشحن الآن</p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="package-card rounded-lg overflow-hidden relative">
-          <div class="p-6 flex items-center">
-            <div class="w-20 h-20 bg-freefire rounded-full flex items-center justify-center mr-4">
-              <i class="ri-fire-fill ri-3x text-white"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-white mb-1">Free Fire</h3>
-              <p class="text-blue-100 mb-3">شحن الجواهر بسرعة وأمان</p>
-              <a href="#" class="nav-link text-white bg-freefire hover:bg-blue-600 py-1 px-4 rounded-button text-sm font-bold transition-all inline-block" data-page="games" data-game="freefire">
-                شحن الآن <i class="ri-arrow-left-line"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="package-card rounded-lg overflow-hidden relative">
-          <div class="p-6 flex items-center">
-            <div class="w-20 h-20 bg-pubg rounded-full flex items-center justify-center mr-4">
-              <i class="ri-sword-fill ri-3x text-white"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-white mb-1">PUBG Mobile</h3>
-              <p class="text-blue-100 mb-3">شحن UC بسرعة وأمان</p>
-              <a href="#" class="nav-link text-white bg-pubg hover:bg-orange-700 py-1 px-4 rounded-button text-sm font-bold transition-all inline-block" data-page="games" data-game="pubg">
-                شحن الآن <i class="ri-arrow-left-line"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="mb-12 bg-white/5 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold text-white mb-2">كيفية الشراء</h2>
-        <p class="text-blue-100">3 خطوات بسيطة للحصول على مشترياتك</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="text-center p-4">
-          <div class="w-16 h-16 mx-auto mb-4 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold">1</div>
-          <h3 class="text-white font-bold mb-2">اختر الباقة</h3>
-          <p class="text-blue-100">اختر اللعبة والباقة التي تريدها من متجرنا</p>
-        </div>
-        <div class="text-center p-4">
-          <div class="w-16 h-16 mx-auto mb-4 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold">2</div>
-          <h3 class="text-white font-bold mb-2">أدخل بياناتك</h3>
-          <p class="text-blue-100">أدخل معرف اللاعب وطريقة الدفع المناسبة</p>
-        </div>
-        <div class="text-center p-4">
-          <div class="w-16 h-16 mx-auto mb-4 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold">3</div>
-          <h3 class="text-white font-bold mb-2">استلم مشترياتك</h3>
-          <p class="text-blue-100">استلم مشترياتك في حسابك خلال دقائق</p>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Games Page -->
-  <div id="games-page" class="page">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-white mb-2">اختر اللعبة</h2>
-      <p class="text-blue-100">مجموعة متنوعة من الألعاب المتاحة للشحن</p>
-    </div>
-    
-    <!-- Game Tabs -->
-    <div class="flex overflow-x-auto pb-2 mb-6">
-      <div class="flex space-x-2 space-x-reverse">
-        <button class="game-tab active px-6 py-2 rounded-button text-white font-medium" data-game="freefire">
-          <i class="ri-fire-fill mr-2"></i> Free Fire
+<main class="container mx-auto px-4 pt-24 pb-10 min-h-screen">
+<!-- Home Page -->
+<section id="homePage" class="page-content">
+<div class="hero-gradient rounded-xl p-6 mb-10 text-white">
+<h2 class="text-3xl font-bold mb-4">أهلاً بك في متجر MKDAD للشحن</h2>
+<p class="text-xl mb-6">المتجر الأفضل لشحن جواهر فري فاير وشدات ببجي</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-white text-primary px-6 py-3 rounded-button font-bold hover:bg-blue-100 transition whitespace-nowrap" data-page="topup">شحن رصيدك الآن</button>
+<button class="bg-primary/20 border-2 border-white text-white px-6 py-3 rounded-button font-bold hover:bg-primary/30 transition whitespace-nowrap" data-page="help">طلب المساعدة</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=PUBG%20Mobile%20game%20artwork%20with%20weapons%20and%20characters%20in%20action%2C%20dramatic%20lighting%2C%20blue%20color%20scheme%2C%20professional%20game%20promotional%20art%20style%2C%20high%20quality&width=600&height=300&seq=1&orientation=landscape')"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-3">ببجي موبايل</h3>
+<p class="text-gray-600 mb-4">اشحن شدات ببجي موبايل بأفضل الأسعار وبطريقة آمنة وسريعة</p>
+<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="pubg">شحن شدات ببجي</button>
+</div>
+</div>
+<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Free%20Fire%20game%20artwork%20with%20characters%20and%20diamonds%2C%20blue%20color%20scheme%2C%20professional%20game%20promotional%20art%20style%2C%20high%20quality&width=600&height=300&seq=2&orientation=landscape')"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-3">فري فاير</h3>
+<p class="text-gray-600 mb-4">اشحن جواهر فري فاير بأفضل الأسعار وبطريقة آمنة وسريعة</p>
+<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="freeFire">شحن جواهر فري فاير</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-lg p-6 mb-10">
+<h3 class="text-2xl font-bold text-gray-800 mb-4">مميزات متجرنا</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex items-start">
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-primary mr-4">
+<i class="ri-shield-check-line text-2xl"></i>
+</div>
+<div>
+<h4 class="text-lg font-bold text-gray-800 mb-2">آمن وموثوق</h4>
+<p class="text-gray-600">نضمن لك عمليات شحن آمنة وموثوقة 100%</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-primary mr-4">
+<i class="ri-flashlight-line text-2xl"></i>
+</div>
+<div>
+<h4 class="text-lg font-bold text-gray-800 mb-2">شحن فوري</h4>
+<p class="text-gray-600">يتم شحن حسابك فورياً بعد إتمام عملية الدفع</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full text-primary mr-4">
+<i class="ri-customer-service-2-line text-2xl"></i>
+</div>
+<div>
+<h4 class="text-lg font-bold text-gray-800 mb-2">دعم على مدار الساعة</h4>
+<p class="text-gray-600">فريق دعم متواجد دائماً لمساعدتك في أي وقت</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PUBG Mobile Page -->
+<section id="pubgPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">شحن شدات ببجي موبايل</h2>
+</div>
+<div class="mb-6">
+<label for="pubgId" class="block text-gray-700 font-bold mb-2">أدخل معرف اللاعب:</label>
+<input type="text" id="pubgId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="مثال: 5287458796">
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg60" data-price="1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">60 شدة</h3>
+<p class="text-primary font-bold">1 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-gamepad-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg180" data-price="3">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">180 شدة</h3>
+<p class="text-primary font-bold">3 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-gamepad-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg360" data-price="5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">360 شدة</h3>
+<p class="text-primary font-bold">5 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-gamepad-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg600" data-price="10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">600 شدة</h3>
+<p class="text-primary font-bold">10 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-gamepad-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg1200" data-price="20">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">1200 شدة</h3>
+<p class="text-primary font-bold">20 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-gamepad-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg3000" data-price="50">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">3000 شدة</h3>
+<p class="text-primary font-bold">50 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-gamepad-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Free Fire Page -->
+<section id="freeFirePage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">شحن جواهر فري فاير</h2>
+</div>
+<div class="mb-6">
+<label for="freeFireId" class="block text-gray-700 font-bold mb-2">أدخل معرف اللاعب:</label>
+<input type="text" id="freeFireId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="مثال: 257846952">
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff100" data-price="1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">100 جوهرة</h3>
+<p class="text-primary font-bold">1 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff310" data-price="3">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">310 جوهرة</h3>
+<p class="text-primary font-bold">3 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff520" data-price="5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">520 جوهرة</h3>
+<p class="text-primary font-bold">5 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff1060" data-price="10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">1060 جوهرة</h3>
+<p class="text-primary font-bold">10 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff2180" data-price="20">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">2180 جوهرة</h3>
+<p class="text-primary font-bold">20 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff5600" data-price="50">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">5600 جوهرة</h3>
+<p class="text-primary font-bold">50 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Up Page -->
+<section id="topupPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">شحن رصيدك</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="border border-gray-200 rounded-xl p-6">
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary mr-3">
+<i class="ri-coin-line text-xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-800">شحن عبر USDT</h3>
+</div>
+<div class="mb-4">
+<label for="usdtAmount" class="block text-gray-700 font-bold mb-2">المبلغ بالدولار:</label>
+<input type="number" id="usdtAmount" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="مثال: 10">
+</div>
+<div class="mb-4">
+<label for="usdtWallet" class="block text-gray-700 font-bold mb-2">عنوان محفظة USDT (TRC20):</label>
+<div class="flex items-center">
+<input type="text" id="usdtWallet" class="w-full border border-gray-300 rounded-r px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" value="TYour8WalletAddressHere123456789" readonly>
+<button class="bg-gray-200 text-gray-700 px-3 py-2 rounded-l border-l-0 border border-gray-300 hover:bg-gray-300 whitespace-nowrap" onclick="copyToClipboard('usdtWallet')">
+<i class="ri-file-copy-line"></i>
+</button>
+</div>
+</div>
+<div class="mb-4">
+<label for="usdtTxid" class="block text-gray-700 font-bold mb-2">رقم العملية (TXID):</label>
+<input type="text" id="usdtTxid" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل رقم العملية بعد التحويل">
+</div>
+<button id="submitUsdt" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">تأكيد الشحن</button>
+</div>
+<div class="border border-gray-200 rounded-xl p-6">
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary mr-3">
+<i class="ri-smartphone-line text-xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-800">شحن عبر سيرياتيل كاش</h3>
+</div>
+<div class="mb-4">
+<label for="syriatelAmount" class="block text-gray-700 font-bold mb-2">المبلغ بالليرة السورية:</label>
+<input type="number" id="syriatelAmount" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="مثال: 50000">
+</div>
+<div class="mb-4">
+<label for="syriatelPhone" class="block text-gray-700 font-bold mb-2">رقم الهاتف للتحويل:</label>
+<div class="flex items-center">
+<input type="text" id="syriatelPhone" class="w-full border border-gray-300 rounded-r px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" value="0991234567" readonly>
+<button class="bg-gray-200 text-gray-700 px-3 py-2 rounded-l border-l-0 border border-gray-300 hover:bg-gray-300 whitespace-nowrap" onclick="copyToClipboard('syriatelPhone')">
+<i class="ri-file-copy-line"></i>
+</button>
+</div>
+</div>
+<div class="mb-4">
+<label for="syriatelCode" class="block text-gray-700 font-bold mb-2">رمز عملية التحويل:</label>
+<input type="text" id="syriatelCode" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل رمز عملية التحويل">
+</div>
+<button id="submitSyriatel" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">تأكيد الشحن</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Help Page -->
+<section id="helpPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">المساعدة والدعم</h2>
+</div>
+<div class="mb-8">
+<h3 class="text-xl font-bold text-gray-800 mb-4">الأسئلة الشائعة</h3>
+<div class="space-y-4">
+<div class="border border-gray-200 rounded-lg p-4">
+<button class="flex justify-between items-center w-full text-right" onclick="toggleFaq(this)">
+<i class="ri-arrow-down-s-line text-primary"></i>
+<span class="font-bold text-gray-800">كيف يمكنني شحن رصيدي؟</span>
+</button>
+<div class="faq-answer hidden mt-3 text-gray-600">
+يمكنك شحن رصيدك عبر USDT أو سيرياتيل كاش. انتقل إلى صفحة "شحن الرصيد" واتبع الخطوات المذكورة. بعد تأكيد عملية الدفع، سيتم إضافة الرصيد إلى حسابك تلقائياً.
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4">
+<button class="flex justify-between items-center w-full text-right" onclick="toggleFaq(this)">
+<i class="ri-arrow-down-s-line text-primary"></i>
+<span class="font-bold text-gray-800">كم من الوقت تستغرق عملية الشحن؟</span>
+</button>
+<div class="faq-answer hidden mt-3 text-gray-600">
+عادةً ما تتم عملية الشحن بشكل فوري بعد تأكيد الدفع. في بعض الحالات النادرة، قد تستغرق العملية حتى 30 دقيقة. إذا لم يتم الشحن خلال هذه المدة، يرجى التواصل مع فريق الدعم.
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4">
+<button class="flex justify-between items-center w-full text-right" onclick="toggleFaq(this)">
+<i class="ri-arrow-down-s-line text-primary"></i>
+<span class="font-bold text-gray-800">هل يمكنني استرداد الأموال بعد الشحن؟</span>
+</button>
+<div class="faq-answer hidden mt-3 text-gray-600">
+لا يمكن استرداد الأموال بعد إتمام عملية الشحن. لذلك يرجى التأكد من المعلومات التي تدخلها قبل تأكيد العملية.
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4">
+<button class="flex justify-between items-center w-full text-right" onclick="toggleFaq(this)">
+<i class="ri-arrow-down-s-line text-primary"></i>
+<span class="font-bold text-gray-800">ماذا أفعل إذا واجهت مشكلة في الشحن؟</span>
+</button>
+<div class="faq-answer hidden mt-3 text-gray-600">
+في حال واجهت أي مشكلة، يمكنك التواصل معنا عبر نموذج الاتصال أدناه أو عبر قنوات التواصل الاجتماعي. سيقوم فريق الدعم بالرد عليك في أقرب وقت ممكن.
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-xl font-bold text-gray-800 mb-4">تواصل معنا</h3>
+<form id="contactForm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div>
+<label for="contactName" class="block text-gray-700 font-bold mb-2">الاسم:</label>
+<input type="text" id="contactName" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل اسمك">
+</div>
+<div>
+<label for="contactEmail" class="block text-gray-700 font-bold mb-2">البريد الإلكتروني:</label>
+<input type="email" id="contactEmail" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل بريدك الإلكتروني">
+</div>
+</div>
+<div class="mb-4">
+<label for="contactSubject" class="block text-gray-700 font-bold mb-2">الموضوع:</label>
+<input type="text" id="contactSubject" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل موضوع الرسالة">
+</div>
+<div class="mb-4">
+<label for="contactMessage" class="block text-gray-700 font-bold mb-2">الرسالة:</label>
+<textarea id="contactMessage" rows="4" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="اكتب رسالتك هنا..."></textarea>
+</div>
+<button type="submit" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition whitespace-nowrap">إرسال الرسالة</button>
+</form>
+</div>
+</div>
+</section>
+<!-- Orders Page -->
+<section id="ordersPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+    <div class="flex items-center mb-6">
+        <button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+            <i class="ri-arrow-right-line text-xl"></i>
         </button>
-        <button class="game-tab px-6 py-2 rounded-button text-white font-medium" data-game="pubg">
-          <i class="ri-sword-fill mr-2"></i> PUBG Mobile
-        </button>
-      </div>
+        <h2 class="text-2xl font-bold text-gray-800">طلباتي</h2>
     </div>
-    
-    <!-- Shipping Methods -->
     <div class="mb-6">
-      <h3 class="text-white font-medium mb-3">طريقة الشحن:</h3>
-      <div class="grid grid-cols-2 gap-3">
-        <button class="shipping-method active p-3 rounded-lg text-white" data-method="auto">
-          <i class="ri-robot-fill mr-2"></i> أوتوماتيكي
-        </button>
-        <button class="shipping-method p-3 rounded-lg text-white" data-method="manual">
-          <i class="ri-user-fill mr-2"></i> يدوي
-        </button>
-      </div>
+        <div class="flex border-b border-gray-200">
+            <button class="px-6 py-2 text-primary font-bold border-b-2 border-primary" id="depositOrdersTab">طلبات الإيداع</button>
+            <button class="px-6 py-2 text-gray-500 font-bold" id="purchaseOrdersTab">طلبات الشحن</button>
+        </div>
     </div>
-    
-    <!-- Packages Container -->
-    <div id="packages-container">
-      <!-- Free Fire Packages (Auto) - Default View -->
-      <div class="game-packages active" data-game="freefire" data-method="auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="package-card rounded-lg overflow-hidden relative">
-            <div class="absolute top-2 left-2 bg-yellow-500 text-xs text-white px-2 py-1 rounded-full">الأكثر مبيعاً</div>
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">110 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة المبتدئين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">10,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_110" data-price="10000" data-name="110 جوهرة">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">220 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متوسطة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">20,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_220" data-price="20000" data-name="220 جوهرة">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">550 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متقدمة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">45,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_550" data-price="45000" data-name="550 جوهرة">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">1100 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة محترفين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">85,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_1100" data-price="85000" data-name="1100 جوهرة">
-                اختيار
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Free Fire Packages (Manual) -->
-      <div class="game-packages hidden" data-game="freefire" data-method="manual">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">110 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة المبتدئين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">10,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_110_manual" data-price="10000" data-name="110 جوهرة (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">220 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متوسطة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">20,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_220_manual" data-price="20000" data-name="220 جوهرة (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">550 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متقدمة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">45,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_550_manual" data-price="45000" data-name="550 جوهرة (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                <i class="ri-diamonds-line ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">1100 جوهرة</h3>
-              <p class="text-blue-100 text-center mb-4">باقة محترفين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">85,000 ل.س</div>
-              <button class="w-full bg-white text-primary hover:bg-blue-50 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="freefire_1100_manual" data-price="85000" data-name="1100 جوهرة (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- PUBG Packages (Auto) -->
-      <div class="game-packages hidden" data-game="pubg" data-method="auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">60 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة المبتدئين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">12,900 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_60" data-price="12900" data-name="60 UC">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">325 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متوسطة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">65,000 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_325" data-price="65000" data-name="325 UC">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">660 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متقدمة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">120,000 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_660" data-price="120000" data-name="660 UC">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">1800 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة محترفين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">300,000 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_1800" data-price="300000" data-name="1800 UC">
-                اختيار
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- PUBG Packages (Manual) -->
-      <div class="game-packages hidden" data-game="pubg" data-method="manual">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">60 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة المبتدئين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">12,900 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_60_manual" data-price="12900" data-name="60 UC (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">325 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متوسطة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">65,000 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_325_manual" data-price="65000" data-name="325 UC (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">660 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة متقدمة</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">120,000 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_660_manual" data-price="120000" data-name="660 UC (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-          
-          <div class="package-card rounded-lg overflow-hidden">
-            <div class="p-6">
-              <div class="w-16 h-16 mx-auto mb-4 bg-pubg rounded-full flex items-center justify-center">
-                <i class="ri-sword-fill ri-2x text-white"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white text-center mb-2">1800 UC</h3>
-              <p class="text-blue-100 text-center mb-4">باقة محترفين</p>
-              <div class="text-2xl font-bold text-white text-center mb-6">300,000 ل.س</div>
-              <button class="w-full bg-pubg text-white hover:bg-orange-700 py-2 px-4 rounded-button font-bold transition-all whitespace-nowrap !rounded-button select-package" 
-                data-item="pubg_1800_manual" data-price="300000" data-name="1800 UC (يدوي)">
-                اختيار
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div id="depositOrders" class="space-y-4">
+        <!-- Deposit orders will be dynamically added here -->
     </div>
-  </div>
-
-  <!-- Player ID Section -->
-  <div id="player-id-page" class="page">
-    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-white mb-2">أدخل معرف اللاعب</h2>
-        <p class="text-blue-100">تأكد من إدخال المعرف الصحيح لحسابك في اللعبة</p>
-      </div>
-      <div class="max-w-xl mx-auto">
-        <div class="mb-6">
-          <label for="player-id-input" class="block text-white mb-2 font-medium">معرف اللاعب</label>
-          <div class="relative">
-            <input
-              type="number"
-              id="player-id-input"
-              class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200"
-              placeholder="أدخل معرف اللاعب الخاص بك"
-            >
-            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center text-white">
-              <i class="ri-user-search-line"></i>
-            </div>
-          </div>
-          <p class="text-sm text-blue-200 mt-2" id="player-id-hint">يمكنك العثور على معرف اللاعب في ملف تعريف حسابك داخل اللعبة</p>
-        </div>
-        
-        <!-- Server selection (shown for some games) -->
-        <div class="mb-6 hidden" id="server-selection">
-          <label for="server-select" class="block text-white mb-2 font-medium">اختر الخادم</label>
-          <div class="relative">
-            <select id="server-select" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none pr-8">
-              <option value="asia">آسيا</option>
-              <option value="europe">أوروبا</option>
-              <option value="na">أمريكا الشمالية</option>
-              <option value="me" selected>الشرق الأوسط</option>
-            </select>
-            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center text-white pointer-events-none">
-              <i class="ri-arrow-down-s-line"></i>
-            </div>
-          </div>
-        </div>
-      
-        <button id="verify-button" class="w-full bg-primary hover:bg-blue-800 text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
-          <span class="flex items-center justify-center">
-            <i class="ri-search-line mr-2"></i>
-            التحقق من المعرف
-          </span>
-        </button>
-      </div>
+    <div id="purchaseOrders" class="space-y-4 hidden">
+        <!-- Purchase orders will be dynamically added here -->
     </div>
-  </div>
-
-  <!-- Payment Section (for orders) -->
-  <div id="payment-page" class="page">
-    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-white mb-2">إتمام عملية الشراء</h2>
-        <p class="text-blue-100">اختر طريقة الدفع المناسبة لك</p>
-      </div>
-      <div class="max-w-xl mx-auto">
-        <div class="mb-6 bg-white/5 p-4 rounded-lg">
-          <h3 class="text-white font-bold mb-3">ملخص الطلب</h3>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-100">اللعبة</span>
-            <span class="text-white" id="order-game">Free Fire</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-100">طريقة الشحن</span>
-            <span class="text-white" id="order-method">أوتوماتيكي</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-100">الباقة</span>
-            <span class="text-white" id="order-package">110 جوهرة</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-100">معرف اللاعب</span>
-            <span class="text-white" id="order-player-id">123456789</span>
-          </div>
-          <div class="flex justify-between mb-2 hidden" id="order-server-row">
-            <span class="text-blue-100">الخادم</span>
-            <span class="text-white" id="order-server">الشرق الأوسط</span>
-          </div>
-          <div class="border-t border-white/10 my-3"></div>
-          <div class="flex justify-between font-bold">
-            <span class="text-blue-100">المجموع</span>
-            <span class="text-white" id="order-total">10,000 ل.س</span>
-          </div>
-        </div>
-      
-        <div class="mb-6">
-          <h3 class="text-white font-bold mb-3">طرق الدفع</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="bg-white/5 p-3 rounded-lg flex items-center cursor-pointer hover:bg-white/10 transition payment-method active" data-method="balance">
-              <div class="w-8 h-8 flex items-center justify-center mr-3">
-                <i class="ri-wallet-3-fill ri-lg text-white"></i>
-              </div>
-              <span class="text-white">الرصيد المتاح</span>
-              <span class="text-blue-200 text-sm mr-auto" id="available-balance">(10,000 ل.س)</span>
-            </div>
-            <div class="bg-white/5 p-3 rounded-lg flex items-center cursor-pointer hover:bg-white/10 transition payment-method" data-method="syriatel">
-              <div class="w-8 h-8 flex items-center justify-center mr-3">
-                <i class="ri-phone-fill ri-lg text-white"></i>
-              </div>
-              <span class="text-white">سيرياتيل كاش</span>
-            </div>
-          </div>
-        </div>
-      
-        <button id="complete-order" class="w-full bg-gradient-to-r from-primary to-blue-700 hover:from-blue-800 hover:to-primary text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
-          <span class="flex items-center justify-center">
-            <i class="ri-secure-payment-line mr-2"></i>
-            إتمام الشراء
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-
-<!-- Deposit Page -->
-<div id="deposit-page" class="page">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-white mb-2">شحن الرصيد</h2>
-      <p class="text-blue-100">اختر طريقة الإيداع المناسبة لك</p>
-    </div>
-    
-    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="max-w-2xl mx-auto">
-        <div class="mb-8">
-          <h3 class="text-white font-bold text-xl mb-4">طرق الإيداع</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- سيرياتيل كاش -->
-            <div class="deposit-method bg-white/5 p-4 rounded-lg cursor-pointer hover:bg-white/10 transition border-2 border-transparent" data-method="syriatel">
-              <div class="flex items-center">
-                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
-                  <i class="ri-phone-fill ri-lg text-white"></i>
-                </div>
-                <div>
-                  <h4 class="text-white font-bold">سيرياتيل كاش</h4>
-                  <p class="text-blue-200 text-sm">إيداع فوري خلال 10 دقائق</p>
-                </div>
-              </div>
-            </div>
-            
-            <!-- MTN كاش -->
-            <div class="deposit-method bg-white/5 p-4 rounded-lg cursor-pointer hover:bg-white/10 transition border-2 border-transparent" data-method="mtn">
-              <div class="flex items-center">
-                <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center mr-4">
-                  <i class="ri-phone-fill ri-lg text-white"></i>
-                </div>
-                <div>
-                  <h4 class="text-white font-bold">MTN كاش</h4>
-                  <p class="text-blue-200 text-sm">إيداع فوري خلال 15 دقيقة</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- تفاصيل الإيداع -->
-        <div class="mb-6 hidden" id="deposit-details">
-          <h3 class="text-white font-bold text-xl mb-4">تفاصيل الإيداع</h3>
-          
-          <!-- سيرياتيل كاش -->
-          <div id="syriatel-details" class="deposit-details hidden">
-            <div class="mb-4">
-              <p class="text-blue-200 mb-2">قم بتحويل المبلغ إلى الرقم التالي:</p>
-              <div class="bg-white/10 p-3 rounded-lg mb-3 flex justify-between items-center">
-                <div>
-                  <span class="text-white font-bold block">0933 123 4567</span>
-                  <span class="text-blue-300 text-sm">اسم المستلم: MKDAD SHOP</span>
-                </div>
-                <button class="text-blue-200 hover:text-white copy-btn flex items-center gap-1" data-text="09331234567">
-                  <i class="ri-file-copy-line"></i>
-                  <span class="text-sm">نسخ</span>
-                </button>
-              </div>
-            </div>
-            
-            <div class="mb-4">
-              <label for="syriatel-amount" class="block text-white mb-2 font-medium">المبلغ (ليرة سورية)</label>
-              <div class="relative">
-                <input 
-                  type="number" 
-                  id="syriatel-amount" 
-                  min="5000"
-                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200 dir-ltr"
-                  placeholder="أدخل المبلغ"
-                  required
-                >
-                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200">ل.س</span>
-              </div>
-              <p class="text-xs text-blue-300 mt-1">الحد الأدنى للإيداع: 5,000 ليرة سورية</p>
-            </div>
-            
-            <div class="mb-4">
-              <label for="syriatel-transaction-id" class="block text-white mb-2 font-medium">رقم عملية التحويل</label>
-              <input 
-                type="text" 
-                id="syriatel-transaction-id" 
-                class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200"
-                placeholder="أدخل رقم العملية من رسالة التحويل"
-                required
-              >
-            </div>
-            
-            <div class="mb-4">
-              <label for="syriatel-phone" class="block text-white mb-2 font-medium">رقم هاتفك</label>
-              <div class="relative">
-                <input 
-                  type="tel" 
-                  id="syriatel-phone" 
-                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200 dir-ltr"
-                  placeholder="0933123456"
-                  pattern="09[0-9]{8}"
-                  required
-                >
-                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200">+963</span>
-              </div>
-              <p class="text-xs text-blue-300 mt-1">لإرسال تأكيد الإيداع إليك</p>
-            </div>
-            
-            <button id="confirm-syriatel-deposit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-              <i class="ri-check-line"></i>
-              تأكيد الإيداع
-            </button>
-          </div>
-          
-          <!-- MTN كاش -->
-          <div id="mtn-details" class="deposit-details hidden">
-            <div class="mb-4">
-              <p class="text-blue-200 mb-2">قم بتحويل المبلغ إلى الرقم التالي:</p>
-              <div class="bg-white/10 p-3 rounded-lg mb-3 flex justify-between items-center">
-                <div>
-                  <span class="text-white font-bold block">0944 123 4567</span>
-                  <span class="text-yellow-300 text-sm">اسم المستلم: MKDAD SHOP</span>
-                </div>
-                <button class="text-yellow-200 hover:text-white copy-btn flex items-center gap-1" data-text="09441234567">
-                  <i class="ri-file-copy-line"></i>
-                  <span class="text-sm">نسخ</span>
-                </button>
-              </div>
-            </div>
-            
-            <div class="mb-4">
-              <label for="mtn-amount" class="block text-white mb-2 font-medium">المبلغ (ليرة سورية)</label>
-              <div class="relative">
-                <input 
-                  type="number" 
-                  id="mtn-amount" 
-                  min="5000"
-                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-blue-200 dir-ltr"
-                  placeholder="أدخل المبلغ"
-                  required
-                >
-                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200">ل.س</span>
-              </div>
-              <p class="text-xs text-yellow-300 mt-1">الحد الأدنى للإيداع: 5,000 ليرة سورية</p>
-            </div>
-            
-            <div class="mb-4">
-              <label for="mtn-transaction-id" class="block text-white mb-2 font-medium">رقم عملية التحويل</label>
-              <input 
-                type="text" 
-                id="mtn-transaction-id" 
-                class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-blue-200"
-                placeholder="أدخل رقم العملية من رسالة التحويل"
-                required
-              >
-            </div>
-            
-            <div class="mb-4">
-              <label for="mtn-phone" class="block text-white mb-2 font-medium">رقم هاتفك</label>
-              <div class="relative">
-                <input 
-                  type="tel" 
-                  id="mtn-phone" 
-                  class="w-full bg-white/20 border-none text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-blue-200 dir-ltr"
-                  placeholder="0944123456"
-                  pattern="09[0-9]{8}"
-                  required
-                >
-                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200">+963</span>
-              </div>
-              <p class="text-xs text-yellow-300 mt-1">لإرسال تأكيد الإيداع إليك</p>
-            </div>
-            
-            <button id="confirm-mtn-deposit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-6 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-              <i class="ri-check-line"></i>
-              تأكيد الإيداع
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Orders Page -->
-  <div id="orders-page" class="page">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-white mb-2">طلباتي</h2>
-      <p class="text-blue-100">تتبع حالة طلباتك السابقة</p>
-    </div>
-    
-    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="text-white border-b border-white/10">
-              <th class="pb-3 text-right">رقم الطلب</th>
-              <th class="pb-3 text-right">التاريخ</th>
-              <th class="pb-3 text-right">اللعبة</th>
-              <th class="pb-3 text-right">الباقة</th>
-              <th class="pb-3 text-right">المبلغ</th>
-              <th class="pb-3 text-right">الحالة</th>
-            </tr>
-          </thead>
-          <tbody id="orders-list">
-            <!-- Orders will be loaded here dynamically -->
-          </tbody>
-        </table>
-        
-        <div class="text-center py-8" id="no-orders">
-          <i class="ri-shopping-bag-line ri-3x text-white/30 mb-4"></i>
-          <p class="text-white/50">لا توجد طلبات سابقة</p>
-          <a href="#" class="nav-link mt-4 inline-block bg-primary hover:bg-blue-800 text-white py-2 px-6 rounded-button font-bold transition-all" data-page="games">تصفح الألعاب</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Details Page -->
-  <div id="order-details-page" class="page">
-    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="max-w-xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-white">تفاصيل الطلب</h2>
-          <a href="#" class="nav-link text-blue-200 hover:text-white flex items-center" data-page="orders">
-            <i class="ri-arrow-right-line ml-1"></i> رجوع
-          </a>
-        </div>
-        
-        <div class="bg-white/5 p-4 rounded-lg mb-6">
-          <div class="flex justify-between mb-3">
-            <span class="text-blue-200">رقم الطلب:</span>
-            <span class="text-white font-bold" id="order-details-number">#FF-123456</span>
-          </div>
-          <div class="flex justify-between mb-3">
-            <span class="text-blue-200">التاريخ:</span>
-            <span class="text-white" id="order-details-date">2023-10-15 14:30</span>
-          </div>
-          <div class="flex justify-between mb-3">
-            <span class="text-blue-200">الحالة:</span>
-            <span class="font-bold" id="order-details-status">قيد المعالجة</span>
-          </div>
-        </div>
-        
-        <div class="bg-white/5 p-4 rounded-lg mb-6">
-          <h3 class="text-white font-bold mb-3">تفاصيل الطلب</h3>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-200">اللعبة:</span>
-            <span class="text-white" id="order-details-game">Free Fire</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-200">الباقة:</span>
-            <span class="text-white" id="order-details-package">110 جوهرة</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-200">طريقة الشحن:</span>
-            <span class="text-white" id="order-details-method">أوتوماتيكي</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-blue-200">معرف اللاعب:</span>
-            <span class="text-white" id="order-details-player-id">123456789</span>
-          </div>
-          <div class="flex justify-between mb-2 hidden" id="order-details-server-row">
-            <span class="text-blue-200">الخادم:</span>
-            <span class="text-white" id="order-details-server">الشرق الأوسط</span>
-          </div>
-          <div class="border-t border-white/10 my-3"></div>
-          <div class="flex justify-between font-bold">
-            <span class="text-blue-200">المجموع:</span>
-            <span class="text-white" id="order-details-total">10,000 ل.س</span>
-          </div>
-        </div>
-        
-        <div class="bg-white/5 p-4 rounded-lg hidden" id="order-actions">
-          <h3 class="text-white font-bold mb-3">إجراءات الطلب</h3>
-          <div class="grid grid-cols-2 gap-3">
-            <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-button font-bold transition-all complete-order">
-              تم التنفيذ
-            </button>
-            <button class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-button font-bold transition-all reject-order">
-              رفض الطلب
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Support Page -->
-  <div id="support-page" class="page">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-white mb-2">الدعم الفني</h2>
-      <p class="text-blue-100">تواصل معنا لأي استفسار أو مشكلة</p>
-    </div>
-    
-    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 md:p-8">
-      <div class="max-w-2xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div class="bg-white/5 p-4 rounded-lg">
-            <div class="flex items-center mb-3">
-              <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-whatsapp-line text-white"></i>
-              </div>
-              <h3 class="text-white font-bold">واتساب</h3>
-            </div>
-            <p class="text-blue-200 mb-2">للحصول على دعم فوري عبر واتساب:</p>
-            <a href="https://wa.me/963987654321" class="text-white hover:text-blue-200 font-medium">+963 987 654 321</a>
-          </div>
-          
-          <div class="bg-white/5 p-4 rounded-lg">
-            <div class="flex items-center mb-3">
-              <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-telegram-line text-white"></i>
-              </div>
-              <h3 class="text-white font-bold">تيليجرام</h3>
-            </div>
-            <p class="text-blue-200 mb-2">للتواصل عبر بوت التيليجرام:</p>
-            <a href="https://t.me/mkdadsupportbot" class="text-white hover:text-blue-200 font-medium">@mkdadsupportbot</a>
-          </div>
-        </div>
-        
-        <div class="bg-white/5 p-4 rounded-lg">
-          <h3 class="text-white font-bold mb-3">إرسال رسالة</h3>
-          <div class="mb-4">
-            <label for="support-name" class="block text-white mb-2 font-medium">اسمك</label>
-            <input type="text" id="support-name" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="اسمك الكريم">
-          </div>
-          <div class="mb-4">
-            <label for="support-email" class="block text-white mb-2 font-medium">البريد الإلكتروني</label>
-            <input type="email" id="support-email" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="example@email.com">
-          </div>
-          <div class="mb-4">
-            <label for="support-message" class="block text-white mb-2 font-medium">الرسالة</label>
-            <textarea id="support-message" rows="4" class="w-full bg-white/20 border-none text-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-200" placeholder="أدخل رسالتك هنا..."></textarea>
-          </div>
-          <button id="send-message" class="w-full bg-primary hover:bg-blue-800 text-white py-3 px-6 rounded-button font-bold transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button">
-            إرسال الرسالة
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Confirmation Section -->
-  <div id="confirmation-page" class="page">
-    <div class="max-w-md mx-auto text-center">
-      <div class="w-20 h-20 mx-auto mb-6 bg-green-500 rounded-full flex items-center justify-center">
-        <i class="ri-check-line ri-3x text-white"></i>
-      </div>
-      <h2 class="text-2xl font-bold text-white mb-4">تم تقديم طلبك بنجاح!</h2>
-      <p class="text-blue-200 mb-6">سيتم معالجة طلبك في أقرب وقت ممكن. يمكنك تتبع حالة الطلب من خلال صفحة الطلبات.</p>
-      <div class="bg-white/5 p-4 rounded-lg mb-6 text-left">
-        <div class="flex justify-between mb-2">
-          <span class="text-blue-200">رقم الطلب:</span>
-          <span class="text-white font-bold" id="order-number">#FF-123456</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span class="text-blue-200">التاريخ:</span>
-          <span class="text-white" id="order-date">2023-10-15 14:30</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-blue-200">الحالة:</span>
-          <span class="text-yellow-400 font-bold" id="order-status">قيد المعالجة</span>
-        </div>
-        </div>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#" class="nav-link bg-white text-primary hover:bg-blue-50 px-6 py-3 rounded-button font-bold text-center transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button" data-page="games">طلبات أخرى</a>
-        <a href="#" class="nav-link bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 py-3 rounded-button font-bold text-center transition-all whitespace-nowrap !rounded-button" data-page="orders">تتبع الطلب</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Deposit Confirmation Section -->
-  <div id="deposit-confirmation-page" class="page">
-    <div class="max-w-md mx-auto text-center">
-      <div class="w-20 h-20 mx-auto mb-6 bg-green-500 rounded-full flex items-center justify-center">
-        <i class="ri-check-line ri-3x text-white"></i>
-      </div>
-      <h2 class="text-2xl font-bold text-white mb-4">تم استلام طلب الإيداع بنجاح!</h2>
-      <p class="text-blue-200 mb-6">سيتم مراجعة طلب الإيداع وإضافته إلى رصيدك خلال 10 دقائق.</p>
-      <div class="bg-white/5 p-4 rounded-lg mb-6 text-left">
-        <div class="flex justify-between mb-2">
-          <span class="text-blue-200">رقم العملية:</span>
-          <span class="text-white font-bold" id="deposit-number">#DEP-789012</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span class="text-blue-200">التاريخ:</span>
-          <span class="text-white" id="deposit-date">2023-10-15 15:45</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span class="text-blue-200">المبلغ:</span>
-          <span class="text-white" id="deposit-amount-confirm">50,000 ل.س</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-blue-200">الحالة:</span>
-          <span class="text-yellow-400 font-bold" id="deposit-status">قيد المراجعة</span>
-        </div>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#" class="nav-link bg-white text-primary hover:bg-blue-50 px-6 py-3 rounded-button font-bold text-center transition-all shadow-lg hover:shadow-xl whitespace-nowrap !rounded-button" data-page="deposit">إيداع آخر</a>
-        <a href="#" class="nav-link bg-transparent border-2 border-white text-white hover:bg-white/10 px-6 py-3 rounded-button font-bold text-center transition-all whitespace-nowrap !rounded-button" data-page="games">تصفح الألعاب</a>
-      </div>
-    </div>
-  </div>
+</div>
+</section>
+<!-- Admin Page -->
+<section id="adminPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">إعدادات المشرف</h2>
+</div>
+<div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center text-yellow-500 mr-3">
+<i class="ri-information-line text-xl"></i>
+</div>
+<p class="text-yellow-700">هذه الصفحة مخصصة للمشرفين فقط. يرجى عدم تغيير الإعدادات إلا إذا كنت تملك الصلاحيات اللازمة.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="border border-gray-200 rounded-xl p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات بوت التليجرام</h3>
+<div class="mb-4">
+<label for="telegramToken" class="block text-gray-700 font-bold mb-2">توكن البوت:</label>
+<input type="text" id="telegramToken" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل توكن البوت">
+</div>
+<div class="mb-4">
+<label for="telegramChatId" class="block text-gray-700 font-bold mb-2">معرف المحادثة:</label>
+<input type="text" id="telegramChatId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف المحادثة">
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 font-bold mb-2">تفعيل الإشعارات:</label>
+<div class="flex items-center">
+<label class="custom-switch mr-3">
+<input type="checkbox" id="notificationsToggle" checked>
+<span class="slider"></span>
+</label>
+<span id="notificationsStatus" class="text-green-600">مفعل</span>
+</div>
+</div>
+<button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
+</div>
+<div class="border border-gray-200 rounded-xl p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-4">إحصائيات الموقع</h3>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-blue-50 rounded-lg p-4">
+<h4 class="text-gray-700 mb-1">عمليات الشحن</h4>
+<p class="text-2xl font-bold text-primary">247</p>
+</div>
+<div class="bg-blue-50 rounded-lg p-4">
+<h4 class="text-gray-700 mb-1">المستخدمين</h4>
+<p class="text-2xl font-bold text-primary">128</p>
+</div>
+<div class="bg-blue-50 rounded-lg p-4">
+<h4 class="text-gray-700 mb-1">الإيرادات ($)</h4>
+<p class="text-2xl font-bold text-primary">1,850</p>
+</div>
+<div class="bg-blue-50 rounded-lg p-4">
+<h4 class="text-gray-700 mb-1">طلبات الدعم</h4>
+<p class="text-2xl font-bold text-primary">12</p>
+</div>
+</div>
+<div>
+<h4 class="text-gray-800 font-bold mb-3">آخر العمليات</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+<div>
+<p class="font-bold text-gray-800">محمد أحمد</p>
+<p class="text-gray-600 text-sm">شحن 600 شدة ببجي</p>
+</div>
+<span class="text-green-600 font-bold">10 $</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+<div>
+<p class="font-bold text-gray-800">عمر خالد</p>
+<p class="text-gray-600 text-sm">شحن 1060 جوهرة فري فاير</p>
+</div>
+<span class="text-green-600 font-bold">10 $</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+<div>
+<p class="font-bold text-gray-800">سارة محمود</p>
+<p class="text-gray-600 text-sm">شحن رصيد (USDT)</p>
+</div>
+<span class="text-green-600 font-bold">20 $</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 </main>
-
-<footer class="bg-primary/90 backdrop-blur-md py-8">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div>
-        <h3 class="text-white font-bold text-lg mb-4">MKDAD SHOP</h3>
-        <p class="text-blue-200 mb-4">الطريقة الأسرع والأكثر أماناً لشحن حسابك.</p>
-        <div class="flex space-x-4 space-x-reverse">
-          <a href="#" class="text-white hover:text-blue-200 w-8 h-8 flex items-center justify-center">
-            <i class="ri-facebook-fill"></i>
-          </a>
-          <a href="#" class="text-white hover:text-blue-200 w-8 h-8 flex items-center justify-center">
-            <i class="ri-twitter-x-fill"></i>
-          </a>
-          <a href="#" class="text-white hover:text-blue-200 w-8 h-8 flex items-center justify-center">
-            <i class="ri-instagram-fill"></i>
-          </a>
-          <a href="#" class="text-white hover:text-blue-200 w-8 h-8 flex items-center justify-center">
-            <i class="ri-discord-fill"></i>
-          </a>
-        </div>
-      </div>
-      <div>
-        <h3 class="text-white font-bold text-lg mb-4">روابط سريعة</h3>
-        <ul class="space-y-2">
-          <li><a href="#" class="nav-link text-blue-200 hover:text-white transition" data-page="home">الرئيسية</a></li>
-          <li><a href="#" class="nav-link text-blue-200 hover:text-white transition" data-page="games">الألعاب</a></li>
-          <li><a href="#" class="nav-link text-blue-200 hover:text-white transition" data-page="deposit">شحن الرصيد</a></li>
-          <li><a href="#" class="nav-link text-blue-200 hover:text-white transition" data-page="orders">طلباتي</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-white font-bold text-lg mb-4">وسائل الدفع</h3>
-        <div class="grid grid-cols-2 gap-2">
-          <div class="bg-white/10 rounded p-2 flex items-center justify-center">
-            <i class="ri-phone-fill text-white"></i>
-          </div>
-          <div class="bg-white/10 rounded p-2 flex items-center justify-center">
-            <i class="ri-coin-fill text-white"></i>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h3 class="text-white font-bold text-lg mb-4">اتصل بنا</h3>
-        <ul class="space-y-3">
-          <li class="flex">
-            <div class="w-6 h-6 flex items-center justify-center text-blue-200 ml-2">
-              <i class="ri-mail-line"></i>
-            </div>
-            <span class="text-blue-200">support@mkdadshop.com</span>
-          </li>
-          <li class="flex">
-            <div class="w-6 h-6 flex items-center justify-center text-blue-200 ml-2">
-              <i class="ri-phone-line"></i>
-            </div>
-            <span class="text-blue-200">+963 123 456 789</span>
-          </li>
-          <li class="flex">
-            <div class="w-6 h-6 flex items-center justify-center text-blue-200 ml-2">
-              <i class="ri-whatsapp-line"></i>
-            </div>
-            <span class="text-blue-200">+963 987 654 321</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="border-t border-white/10 mt-8 pt-6 text-center">
-      <p class="text-blue-200 text-sm">© 2025 MKDAD SHOP. جميع الحقوق محفوظة.</p>
-    </div>
-  </div>
+<footer class="bg-gray-900 text-white py-10">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<h3 class="text-xl font-bold mb-4">MKDAD SHOP</h3>
+<p class="text-gray-400 mb-4">المتجر الأفضل لشحن جواهر فري فاير وشدات ببجي بأفضل الأسعار وبطريقة آمنة وسريعة.</p>
+<div class="flex space-x-4 space-x-reverse">
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary/20 rounded-full hover:bg-primary/30 transition">
+<i class="ri-facebook-fill text-white"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary/20 rounded-full hover:bg-primary/30 transition">
+<i class="ri-instagram-fill text-white"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary/20 rounded-full hover:bg-primary/30 transition">
+<i class="ri-telegram-fill text-white"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary/20 rounded-full hover:bg-primary/30 transition">
+<i class="ri-whatsapp-fill text-white"></i>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-4">روابط سريعة</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-page="home">الرئيسية</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-game="pubg">شحن شدات ببجي</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-game="freeFire">شحن جواهر فري فاير</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-page="topup">شحن الرصيد</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-page="help">المساعدة والدعم</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-4">اتصل بنا</h3>
+<ul class="space-y-2">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center text-primary mt-1 ml-2">
+<i class="ri-mail-line"></i>
+</div>
+<span class="text-gray-400">support@mkdadshop.com</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center text-primary mt-1 ml-2">
+<i class="ri-phone-line"></i>
+</div>
+<span class="text-gray-400">+963 991 234 567</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center text-primary mt-1 ml-2">
+<i class="ri-time-line"></i>
+</div>
+<span class="text-gray-400">متاح 24/7</span>
+</li>
+</ul>
+<div class="mt-6">
+<h4 class="font-bold text-gray-300 mb-2">وسائل الدفع المقبولة</h4>
+<div class="flex space-x-3 space-x-reverse">
+<div class="w-10 h-10 flex items-center justify-center bg-white rounded-md">
+<i class="ri-bank-card-fill text-xl text-gray-800"></i>
+</div>
+<div class="w-10 h-10 flex items-center justify-center bg-white rounded-md">
+<i class="ri-paypal-fill text-xl text-gray-800"></i>
+</div>
+<div class="w-10 h-10 flex items-center justify-center bg-white rounded-md">
+<i class="ri-visa-fill text-xl text-gray-800"></i>
+</div>
+<div class="w-10 h-10 flex items-center justify-center bg-white rounded-md">
+<i class="ri-mastercard-fill text-xl text-gray-800"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-500">
+<p>© 2025 MKDAD SHOP. جميع الحقوق محفوظة.</p>
+</div>
+</div>
 </footer>
-
+<!-- Modal for purchase confirmation -->
+<div id="purchaseModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+<div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xl font-bold text-gray-800">تأكيد الشراء</h3>
+<button id="closeModal" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="mb-6">
+<p class="text-gray-600 mb-4">أنت على وشك شراء <span id="packageName" class="font-bold text-primary"></span> بقيمة <span id="packagePrice" class="font-bold text-primary"></span> $</p>
+<div class="bg-gray-50 p-4 rounded-lg mb-4">
+<div class="flex justify-between mb-2">
+<span class="text-gray-600">معرف اللاعب:</span>
+<span id="playerIdConfirm" class="font-bold text-gray-800"></span>
+</div>
+<div class="flex justify-between mb-2">
+<span class="text-gray-600">المنتج:</span>
+<span id="productConfirm" class="font-bold text-gray-800"></span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-600">السعر:</span>
+<span id="priceConfirm" class="font-bold text-gray-800"></span>
+</div>
+</div>
+<div id="insufficientBalance" class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 hidden">
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-red-500 mr-2">
+<i class="ri-error-warning-line"></i>
+</div>
+<div>
+<p class="font-bold">رصيدك غير كافي!</p>
+<p>يرجى شحن رصيدك أولاً لإتمام عملية الشراء.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button id="confirmPurchase" class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition flex-1 whitespace-nowrap">تأكيد الشراء</button>
+<button id="cancelPurchase" class="bg-gray-200 text-gray-800 px-5 py-2 rounded-button font-bold hover:bg-gray-300 transition flex-1 whitespace-nowrap">إلغاء</button>
+</div>
+</div>
+</div>
+<!-- Success notification -->
+<div id="successNotification" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center max-w-xs z-50">
+<div class="w-6 h-6 flex items-center justify-center mr-3">
+<i class="ri-check-line text-xl"></i>
+</div>
+<p id="notificationText"></p>
+</div>
 <script>
-// User Data
-let userData = {
-  balance: 0,
-  orders: [],
-  deposits: []
+document.addEventListener('DOMContentLoaded', function() {
+// Initialize user balance and orders
+let userBalance = 0;
+const TELEGRAM_BOT_TOKEN = '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY';
+const TELEGRAM_CHAT_ID = '7420327643';
+let orders = {
+    deposits: [],
+    purchases: []
 };
-
-// Current Order Data
-let currentOrder = {
-  game: null,
-  method: null,
-  package: null,
-  price: null,
-  playerId: null,
-  server: null
-};
-
-// Current Deposit Data
-let currentDeposit = {
-  method: null,
-  amount: null,
-  transactionId: null,
-  phone: null
-};
-
-// Telegram Bot Settings
-const telegramBotToken = '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY';
-const telegramChatId = '7420327643';
-
-// DOM Elements
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-const gameTabs = document.querySelectorAll('.game-tab');
-const shippingMethods = document.querySelectorAll('.shipping-method');
-const packageButtons = document.querySelectorAll('.select-package');
-const playerIdInput = document.getElementById('player-id-input');
-const verifyButton = document.getElementById('verify-button');
-const serverSelection = document.getElementById('server-selection');
-const serverSelect = document.getElementById('server-select');
-const depositMethods = document.querySelectorAll('.deposit-method');
-const depositDetails = document.getElementById('deposit-details');
-const confirmDeposit = document.getElementById('confirm-deposit');
-const confirmMtnDeposit = document.getElementById('confirm-mtn-deposit');
-const paymentMethods = document.querySelectorAll('.payment-method');
-const completeOrder = document.getElementById('complete-order');
-const copyButtons = document.querySelectorAll('.copy-btn');
-const sendMessageBtn = document.getElementById('send-message');
-const ordersList = document.getElementById('orders-list');
-const noOrders = document.getElementById('no-orders');
-const navLinks = document.querySelectorAll('.nav-link');
-const pages = document.querySelectorAll('.page');
-const headerBalance = document.getElementById('header-balance');
-const mobileBalance = document.getElementById('mobile-balance');
-// Verify Player ID
-verifyButton.addEventListener('click', () => {
-  const playerId = playerIdInput.value.trim();
-  
-  if (!playerId) {
-    alert('الرجاء إدخال معرف اللاعب');
-    return;
-  }
-  
-  currentOrder.playerId = playerId;
-  
-  // Get server if PUBG
-  if (currentOrder.game === 'pubg') {
-    currentOrder.server = serverSelect.value;
-  }
-  
-  // Show payment page
-  showPage('payment-page');
-  
-  // Update order summary
-  updateOrderSummary();
-});
-
-// Update Order Summary
-function updateOrderSummary() {
-  document.getElementById('order-game').textContent = currentOrder.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile';
-  document.getElementById('order-method').textContent = currentOrder.method === 'auto' ? 'أوتوماتيكي' : 'يدوي';
-  document.getElementById('order-package').textContent = currentOrder.package;
-  document.getElementById('order-player-id').textContent = currentOrder.playerId;
-  document.getElementById('order-total').textContent = currentOrder.price.toLocaleString() + ' ل.س';
-  
-  if (currentOrder.game === 'pubg') {
-    document.getElementById('order-server-row').classList.remove('hidden');
-    document.getElementById('order-server').textContent = 
-      currentOrder.server === 'asia' ? 'آسيا' :
-      currentOrder.server === 'europe' ? 'أوروبا' :
-      currentOrder.server === 'na' ? 'أمريكا الشمالية' : 'الشرق الأوسط';
-  } else {
-    document.getElementById('order-server-row').classList.add('hidden');
-  }
-  
-  // Update available balance
-  document.getElementById('available-balance').textContent = `(${userData.balance.toLocaleString()} ل.س)`;
+// Function to send message to Telegram
+async function sendToTelegram(message, orderId) {
+    try {
+        const keyboard = {
+            inline_keyboard: [
+                [
+                    { text: "قبول ✅", callback_data: `accept_${orderId}` },
+                    { text: "رفض ❌", callback_data: `reject_${orderId}` }
+                ]
+            ]
+        };
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                reply_markup: keyboard
+            })
+        });
+        const data = await response.json();
+        return data.ok;
+    } catch (error) {
+        console.error('Error sending to Telegram:', error);
+        return false;
+    }
 }
-
-// Complete Order
-completeOrder.addEventListener('click', async () => {
-  const selectedMethod = document.querySelector('.payment-method.active').dataset.method;
-  
-  if (selectedMethod === 'balance' && userData.balance < currentOrder.price) {
-    alert('رصيدك غير كافي، الرجاء شحن الرصيد أولاً');
-    showPage('deposit-page');
-    return;
-  }
-  
-  // Generate order ID
-  const orderId = (currentOrder.game === 'freefire' ? 'FF-' : 'PUBG-') + Math.floor(100000 + Math.random() * 900000);
-  
-  // Deduct balance if paying with balance
-  if (selectedMethod === 'balance') {
-    userData.balance -= currentOrder.price;
-    updateBalance();
-  }
-  
-  // Create order object
-  const order = {
-    id: orderId,
-    date: new Date().toLocaleString(),
-    game: currentOrder.game,
-    package: currentOrder.package,
-    price: currentOrder.price,
-    method: currentOrder.method,
-    playerId: currentOrder.playerId,
-    server: currentOrder.server,
-    status: 'pending'
-  };
-  
-  // Add to user orders
-  userData.orders.push(order);
-  
-  // Show confirmation page
-  showPage('confirmation-page');
-  
-  // Update confirmation details
-  document.getElementById('order-number').textContent = '#' + orderId;
-  document.getElementById('order-date').textContent = order.date;
-  
-  // Send Telegram notification
-  await sendTelegramNotification(order);
+// Function to update orders display
+function updateOrdersDisplay() {
+    const depositOrdersContainer = document.getElementById('depositOrders');
+    const purchaseOrdersContainer = document.getElementById('purchaseOrders');
+    
+    // Clear current orders
+    depositOrdersContainer.innerHTML = '';
+    purchaseOrdersContainer.innerHTML = '';
+    
+    // Add deposit orders
+    orders.deposits.forEach(order => {
+        const orderElement = document.createElement('div');
+        orderElement.className = 'bg-gray-50 rounded-lg p-4';
+        orderElement.innerHTML = `
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-bold text-gray-800">طلب إيداع #${order.id}</p>
+                    <p class="text-gray-600">المبلغ: ${order.amount} $</p>
+                    <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
+                    <p class="text-gray-600">الطريقة: ${order.method}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm font-bold ${
+                    order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                    order.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                    'bg-red-100 text-red-800'
+                }">
+                    ${
+                        order.status === 'pending' ? 'قيد المراجعة' :
+                        order.status === 'accepted' ? 'مقبول' :
+                        'مرفوض'
+                    }
+                </span>
+            </div>
+        `;
+        depositOrdersContainer.appendChild(orderElement);
+    });
+    
+    // Add purchase orders
+    orders.purchases.forEach(order => {
+        const orderElement = document.createElement('div');
+        orderElement.className = 'bg-gray-50 rounded-lg p-4';
+        orderElement.innerHTML = `
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-bold text-gray-800">طلب شحن #${order.id}</p>
+                    <p class="text-gray-600">المنتج: ${order.product}</p>
+                    <p class="text-gray-600">السعر: ${order.price} $</p>
+                    <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
+                    <p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm font-bold ${
+                    order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                    order.status === 'completed' ? 'bg-green-100 text-green-800' :
+                    'bg-red-100 text-red-800'
+                }">
+                    ${
+                        order.status === 'pending' ? 'قيد المعالجة' :
+                        order.status === 'completed' ? 'مكتمل' :
+                        'مرفوض'
+                    }
+                </span>
+            </div>
+        `;
+        purchaseOrdersContainer.appendChild(orderElement);
+    });
+}
+// Handle orders tab switching
+document.getElementById('depositOrdersTab').addEventListener('click', function() {
+    this.classList.add('text-primary', 'border-b-2', 'border-primary');
+    this.classList.remove('text-gray-500');
+    document.getElementById('purchaseOrdersTab').classList.remove('text-primary', 'border-b-2', 'border-primary');
+    document.getElementById('purchaseOrdersTab').classList.add('text-gray-500');
+    document.getElementById('depositOrders').classList.remove('hidden');
+    document.getElementById('purchaseOrders').classList.add('hidden');
 });
-
-// Function to show a specific page
+document.getElementById('purchaseOrdersTab').addEventListener('click', function() {
+    this.classList.add('text-primary', 'border-b-2', 'border-primary');
+    this.classList.remove('text-gray-500');
+    document.getElementById('depositOrdersTab').classList.remove('text-primary', 'border-b-2', 'border-primary');
+    document.getElementById('depositOrdersTab').classList.add('text-gray-500');
+    document.getElementById('purchaseOrders').classList.remove('hidden');
+    document.getElementById('depositOrders').classList.add('hidden');
+});
+// Navigation
+const navMenuBtn = document.getElementById('navMenuBtn');
+const mainNav = document.getElementById('mainNav');
+navMenuBtn.addEventListener('click', function() {
+mainNav.classList.toggle('hidden');
+});
+// Page navigation
+const pages = document.querySelectorAll('.page-content');
+const pageLinks = document.querySelectorAll('[data-page]');
+const gameLinks = document.querySelectorAll('[data-game]');
+const backButtons = document.querySelectorAll('.back-btn');
 function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  window.scrollTo(0, 0);
+pages.forEach(page => {
+page.classList.add('hidden');
+});
+document.getElementById(pageId).classList.remove('hidden');
+mainNav.classList.add('hidden');
+window.scrollTo(0, 0);
 }
-
-// Send Telegram Notification
-async function sendTelegramNotification(order) {
-  try {
-    const gameName = order.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile';
-    const methodName = order.method === 'auto' ? 'أوتوماتيكي' : 'يدوي';
-    const serverInfo = order.server ? `\nالخادم: ${order.server}` : '';
+pageLinks.forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+const pageId = this.getAttribute('data-page') + 'Page';
+showPage(pageId);
+});
+});
+gameLinks.forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+const gameId = this.getAttribute('data-game') + 'Page';
+showPage(gameId);
+});
+});
+backButtons.forEach(button => {
+button.addEventListener('click', function() {
+showPage('homePage');
+});
+});
+// Purchase modal
+const purchaseModal = document.getElementById('purchaseModal');
+const closeModal = document.getElementById('closeModal');
+const cancelPurchase = document.getElementById('cancelPurchase');
+const confirmPurchase = document.getElementById('confirmPurchase');
+const packageName = document.getElementById('packageName');
+const packagePrice = document.getElementById('packagePrice');
+const playerIdConfirm = document.getElementById('playerIdConfirm');
+const productConfirm = document.getElementById('productConfirm');
+const priceConfirm = document.getElementById('priceConfirm');
+const insufficientBalance = document.getElementById('insufficientBalance');
+let currentPackage = null;
+let currentGame = null;
+const buyButtons = document.querySelectorAll('.buy-package');
+buyButtons.forEach(button => {
+button.addEventListener('click', function() {
+const packageCard = this.closest('.package-card');
+const packageId = packageCard.getAttribute('data-package');
+const packagePrice = packageCard.getAttribute('data-price');
+let playerId = '';
+let gameType = '';
+if (packageId.startsWith('pubg')) {
+playerId = document.getElementById('pubgId').value;
+gameType = 'ببجي موبايل';
+currentGame = 'pubg';
+} else if (packageId.startsWith('ff')) {
+playerId = document.getElementById('freeFireId').value;
+gameType = 'فري فاير';
+currentGame = 'freeFire';
+}
+if (!playerId) {
+showNotification('يرجى إدخال معرف اللاعب أولاً', 'error');
+return;
+}
+// Set modal content
+const packageNameText = packageCard.querySelector('h3').textContent;
+packageName.textContent = packageNameText;
+packagePrice.textContent = packagePrice;
+playerIdConfirm.textContent = playerId;
+productConfirm.textContent = packageNameText + ' - ' + gameType;
+priceConfirm.textContent = packagePrice + ' $';
+// Check balance
+if (userBalance < packagePrice) {
+insufficientBalance.classList.remove('hidden');
+confirmPurchase.disabled = true;
+confirmPurchase.classList.add('opacity-50', 'cursor-not-allowed');
+} else {
+insufficientBalance.classList.add('hidden');
+confirmPurchase.disabled = false;
+confirmPurchase.classList.remove('opacity-50', 'cursor-not-allowed');
+}
+currentPackage = {
+id: packageId,
+price: packagePrice,
+name: packageNameText,
+playerId: playerId,
+game: gameType
+};
+// Show modal
+purchaseModal.classList.remove('hidden');
+});
+});
+closeModal.addEventListener('click', function() {
+purchaseModal.classList.add('hidden');
+});
+cancelPurchase.addEventListener('click', function() {
+purchaseModal.classList.add('hidden');
+});
+confirmPurchase.addEventListener('click', async function() {
+    if (userBalance >= currentPackage.price) {
+        // Process purchase
+        userBalance -= currentPackage.price;
+        document.getElementById('userBalance').textContent = userBalance;
+        
+        const orderId = Date.now();
+        const order = {
+            id: orderId,
+            product: `${currentPackage.name} - ${currentPackage.game}`,
+            price: currentPackage.price,
+            playerId: currentPackage.playerId,
+            date: new Date().toISOString(),
+            status: 'pending'
+        };
+        
+        orders.purchases.push(order);
+        
+        // Send to Telegram
+        const message = `🎮 طلب شحن جديد #${orderId}\n\n` +
+            `المنتج: ${currentPackage.name}\n` +
+            `اللعبة: ${currentPackage.game}\n` +
+            `معرف اللاعب: ${currentPackage.playerId}\n` +
+            `السعر: ${currentPackage.price}$\n` +
+            `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+            
+        await sendToTelegram(message, orderId);
+        
+        purchaseModal.classList.add('hidden');
+        showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
+        updateOrdersDisplay();
+    } else {
+        showNotification('رصيدك غير كافي لإتمام عملية الشراء.', 'error');
+    }
+});
+// Top-up functionality
+const submitUsdt = document.getElementById('submitUsdt');
+const submitSyriatel = document.getElementById('submitSyriatel');
+submitUsdt.addEventListener('click', async function() {
+    const amount = document.getElementById('usdtAmount').value;
+    const txid = document.getElementById('usdtTxid').value;
     
-    const message = `
-🎮 طلب جديد في متجر MKDAD 🎮
-----------------------------
-📌 رقم الطلب: ${order.id}
-📅 التاريخ: ${order.date}
-🎮 اللعبة: ${gameName}
-📦 الباقة: ${order.package}
-💰 السعر: ${order.price.toLocaleString()} ل.س
-🔄 طريقة الشحن: ${methodName}
-🆔 معرف اللاعب: ${order.playerId}${serverInfo}
-----------------------------
-🚀 حالة الطلب: قيد المعالجة
-    `;
+    if (!amount || !txid) {
+        showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+        return;
+    }
     
-    const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
-    const params = {
-      chat_id: telegramChatId,
-      text: message,
-      parse_mode: 'HTML'
+    const orderId = Date.now();
+    const order = {
+        id: orderId,
+        amount: amount,
+        method: 'USDT',
+        txid: txid,
+        date: new Date().toISOString(),
+        status: 'pending'
     };
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params)
-    });
+    orders.deposits.push(order);
     
-    const result = await response.json();
-    console.log('Telegram API response:', result);
+    // Send to Telegram
+    const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
+        `الطريقة: USDT\n` +
+        `المبلغ: ${amount}$\n` +
+        `رقم العملية: ${txid}\n` +
+        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+        
+    await sendToTelegram(message, orderId);
     
-    if (!result.ok) {
-      console.error('Failed to send Telegram notification:', result);
-    }
-  } catch (error) {
-    console.error('Error sending Telegram notification:', error);
-  }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-  // Set initial balance
-  userData.balance = 50000;
-  updateBalance();
-  
-  // Load orders
-  loadOrders();
-  
-  // Set default shipping method
-  currentOrder.method = 'auto';
-  
-  // Set default payment method
-  document.querySelector('.payment-method[data-method="balance"]').classList.add('active');
+    showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
+    document.getElementById('usdtAmount').value = '';
+    document.getElementById('usdtTxid').value = '';
+    updateOrdersDisplay();
 });
-
-// Mobile Menu Toggle
-mobileMenuButton.addEventListener('click', () => {
-  mobileMenu.classList.toggle('hidden');
-});
-
-// Navigation - Fixed Version
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const pageId = link.getAttribute('data-page');
+submitSyriatel.addEventListener('click', async function() {
+    const amount = document.getElementById('syriatelAmount').value;
+    const code = document.getElementById('syriatelCode').value;
     
-    // Hide all pages
-    pages.forEach(page => {
-      page.classList.remove('active');
-      page.style.display = 'none';
-    });
-    
-    // Show selected page
-    const targetPage = document.getElementById(`${pageId}-page`);
-    if (targetPage) {
-      targetPage.classList.add('active');
-      targetPage.style.display = 'block';
+    if (!amount || !code) {
+        showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+        return;
     }
     
-    // Close mobile menu if open
-    mobileMenu.classList.add('hidden');
+    const orderId = Date.now();
+    const order = {
+        id: orderId,
+        amount: (amount / 15000).toFixed(2), // Convert to USD
+        method: 'سيرياتيل كاش',
+        code: code,
+        date: new Date().toISOString(),
+        status: 'pending'
+    };
     
-    // Scroll to top
-    window.scrollTo(0, 0);
-  });
+    orders.deposits.push(order);
+    
+    // Send to Telegram
+    const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
+        `الطريقة: سيرياتيل كاش\n` +
+        `المبلغ: ${amount} ل.س (${order.amount}$)\n` +
+        `رمز العملية: ${code}\n` +
+        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+        
+    await sendToTelegram(message, orderId);
+    
+    showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
+    document.getElementById('syriatelAmount').value = '';
+    document.getElementById('syriatelCode').value = '';
+    updateOrdersDisplay();
 });
-
-// Game Tab Switching
-gameTabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    const game = tab.dataset.game;
-    switchGame(game);
-  });
-});
-
-function switchGame(game) {
-  // Update active tab
-  gameTabs.forEach(t => t.classList.remove('active'));
-  document.querySelector(`.game-tab[data-game="${game}"]`).classList.add('active');
-  
-  // Show corresponding packages
-  document.querySelectorAll('.game-packages').forEach(pkg => {
-    if (pkg.dataset.game === game && pkg.dataset.method === currentOrder.method) {
-      pkg.classList.remove('hidden');
-      pkg.classList.add('active');
-    } else {
-      pkg.classList.add('hidden');
-      pkg.classList.remove('active');
-    }
-  });
-  
-  // Update current order
-  currentOrder.game = game;
+// Contact form
+const contactForm = document.getElementById('contactForm');
+contactForm.addEventListener('submit', function(e) {
+e.preventDefault();
+const name = document.getElementById('contactName').value;
+const email = document.getElementById('contactEmail').value;
+const subject = document.getElementById('contactSubject').value;
+const message = document.getElementById('contactMessage').value;
+if (!name || !email || !subject || !message) {
+showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+return;
 }
-
-// Shipping Method Switching
-shippingMethods.forEach(method => {
-  method.addEventListener('click', () => {
-    const shippingMethod = method.dataset.method;
-    
-    // Update active shipping method
-    shippingMethods.forEach(m => m.classList.remove('active'));
-    method.classList.add('active');
-    
-    // Update current order
-    currentOrder.method = shippingMethod;
-    
-    // Show corresponding packages
-    document.querySelectorAll('.game-packages').forEach(pkg => {
-      if (pkg.dataset.game === currentOrder.game && pkg.dataset.method === shippingMethod) {
-        pkg.classList.remove('hidden');
-        pkg.classList.add('active');
-      } else {
-        pkg.classList.add('hidden');
-        pkg.classList.remove('active');
-      }
-    });
-  });
+// Send to Telegram (simulation)
+console.log('Sending to Telegram:', {
+message: `New contact form submission`,
+name: name,
+email: email,
+subject: subject,
+message: message,
+date: new Date().toISOString()
 });
-
-packageButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    currentOrder.package = button.dataset.name;
-    currentOrder.price = parseInt(button.dataset.price);
-    currentOrder.item = button.dataset.item;
-    
-    // احفظ طريقة الشحن الحالية
-    const activeMethod = document.querySelector('.shipping-method.active').dataset.method;
-    currentOrder.method = activeMethod;
-    
-    // Show player ID page
-    pages.forEach(p => p.classList.remove('active'));
-    document.getElementById('player-id-page').classList.add('active');
-    
-    // Show server selection for PUBG
-    if (currentOrder.game === 'pubg') {
-      serverSelection.classList.remove('hidden');
-    } else {
-      serverSelection.classList.add('hidden');
-    }
-  });
+showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
+contactForm.reset();
 });
-
-// Verify Player ID
-verifyButton.addEventListener('click', () => {
-  const playerId = playerIdInput.value.trim();
-  
-  if (!playerId) {
-    alert('الرجاء إدخال معرف اللاعب');
-    return;
-  }
-  
-  currentOrder.playerId = playerId;
-  
-  // Get server if PUBG
-  if (currentOrder.game === 'pubg') {
-    currentOrder.server = serverSelect.value;
-  }
-  
-  // Show payment page
-  pages.forEach(p => p.classList.remove('active'));
-  document.getElementById('payment-page').classList.add('active');
-  
-  // Update order summary
-  document.getElementById('order-game').textContent = currentOrder.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile';
-  document.getElementById('order-method').textContent = currentOrder.method === 'auto' ? 'أوتوماتيكي' : 'يدوي';
-  document.getElementById('order-package').textContent = currentOrder.package;
-  document.getElementById('order-player-id').textContent = currentOrder.playerId;
-  document.getElementById('order-total').textContent = currentOrder.price.toLocaleString() + ' ل.س';
-  
-  if (currentOrder.game === 'pubg') {
-    document.getElementById('order-server-row').classList.remove('hidden');
-    document.getElementById('order-server').textContent = 
-      currentOrder.server === 'asia' ? 'آسيا' :
-      currentOrder.server === 'europe' ? 'أوروبا' :
-      currentOrder.server === 'na' ? 'أمريكا الشمالية' : 'الشرق الأوسط';
-  } else {
-    document.getElementById('order-server-row').classList.add('hidden');
-  }
-  
-  // Update available balance
-  document.getElementById('available-balance').textContent = `(${userData.balance.toLocaleString()} ل.س)`;
-});
-
-// Deposit Method Selection
-depositMethods.forEach(method => {
-  method.addEventListener('click', () => {
-    const depositMethod = method.dataset.method;
-    currentDeposit.method = depositMethod;
-    
-    // Show deposit details
-    depositDetails.classList.remove('hidden');
-    
-    // Show corresponding details
-    document.querySelectorAll('.deposit-details').forEach(d => d.classList.add('hidden'));
-    document.getElementById(`${depositMethod}-details`).classList.remove('hidden');
-  });
-});
-
-// Confirm Deposit
-confirmDeposit.addEventListener('click', () => {
-  const amount = parseInt(document.getElementById('syriatel-amount').value);
-  const transactionId = document.getElementById('syriatel-transaction-id').value.trim();
-  const phone = document.getElementById('syriatel-phone').value.trim();
-  
-  if (!amount || amount <= 0) {
-    alert('الرجاء إدخال مبلغ صحيح');
-    return;
-  }
-  
-  if (!transactionId) {
-    alert('الرجاء إدخال رقم عملية التحويل');
-    return;
-  }
-  
-  currentDeposit.amount = amount;
-  currentDeposit.transactionId = transactionId;
-  currentDeposit.phone = phone;
-  
-  // Generate deposit ID
-  const depositId = 'DEP-' + Math.floor(100000 + Math.random() * 900000);
-  
-  // Add to user deposits
-  userData.deposits.push({
-    id: depositId,
-    date: new Date().toLocaleString(),
-    amount: amount,
-    method: 'syriatel',
-    status: 'pending',
-    transactionId: transactionId
-  });
-  
-  // Show confirmation page
-  pages.forEach(p => p.classList.remove('active'));
-  document.getElementById('deposit-confirmation-page').classList.add('active');
-  
-  // Update confirmation details
-  document.getElementById('deposit-number').textContent = '#' + depositId;
-  document.getElementById('deposit-date').textContent = new Date().toLocaleString();
-  document.getElementById('deposit-amount-confirm').textContent = amount.toLocaleString() + ' ل.س';
-  
-  // In a real app, you would send this to your backend
-  console.log('Deposit request:', currentDeposit);
-  
-  // Send Telegram notification (in a real app)
-  // sendTelegramNotification(`New Deposit: ${amount} LBP via Syriatel Cash`);
-});
-
-// Confirm MTN Deposit
-confirmMtnDeposit.addEventListener('click', () => {
-  const amount = parseInt(document.getElementById('mtn-amount').value);
-  const transactionId = document.getElementById('mtn-transaction-id').value.trim();
-  const phone = document.getElementById('mtn-phone').value.trim();
-  
-  if (!amount || amount <= 0) {
-    alert('الرجاء إدخال مبلغ صحيح');
-    return;
-  }
-  
-  if (!transactionId) {
-    alert('الرجاء إدخال رقم عملية التحويل');
-    return;
-  }
-  
-  currentDeposit.amount = amount;
-  currentDeposit.transactionId = transactionId;
-  currentDeposit.phone = phone;
-  
-  // Generate deposit ID
-  const depositId = 'DEP-' + Math.floor(100000 + Math.random() * 900000);
-  
-  // Add to user deposits
-  userData.deposits.push({
-    id: depositId,
-    date: new Date().toLocaleString(),
-    amount: amount,
-    method: 'mtn',
-    status: 'pending',
-    transactionId: transactionId
-  });
-  
-  // Show confirmation page
-  pages.forEach(p => p.classList.remove('active'));
-  document.getElementById('deposit-confirmation-page').classList.add('active');
-  
-  // Update confirmation details
-  document.getElementById('deposit-number').textContent = '#' + depositId;
-  document.getElementById('deposit-date').textContent = new Date().toLocaleString();
-  document.getElementById('deposit-amount-confirm').textContent = amount.toLocaleString() + ' ل.س';
-  
-  // In a real app, you would send this to your backend
-  console.log('Deposit request:', currentDeposit);
-  
-  // Send Telegram notification (in a real app)
-  // sendTelegramNotification(`New Deposit: ${amount} LBP via MTN Cash`);
-});
-
-// Payment Method Selection
-paymentMethods.forEach(method => {
-  method.addEventListener('click', () => {
-    paymentMethods.forEach(m => m.classList.remove('active'));
-    method.classList.add('active');
-  });
-});
-
-// Complete Order
-completeOrder.addEventListener('click', () => {
-  const selectedMethod = document.querySelector('.payment-method.active').dataset.method;
-  
-  if (selectedMethod === 'balance' && userData.balance < currentOrder.price) {
-    alert('رصيدك غير كافي، الرجاء شحن الرصيد أولاً');
-    pages.forEach(p => p.classList.remove('active'));
-    document.getElementById('deposit-page').classList.add('active');
-    return;
-  }
-  
-  // Generate order ID
-  const orderId = (currentOrder.game === 'freefire' ? 'FF-' : 'PUBG-') + Math.floor(100000 + Math.random() * 900000);
-  
-  // Deduct balance if paying with balance
-  if (selectedMethod === 'balance') {
-    userData.balance -= currentOrder.price;
-    updateBalance();
-  }
-  
-  // Add to user orders
-  userData.orders.push({
-    id: orderId,
-    date: new Date().toLocaleString(),
-    game: currentOrder.game,
-    package: currentOrder.package,
-    price: currentOrder.price,
-    method: currentOrder.method,
-    playerId: currentOrder.playerId,
-    server: currentOrder.server,
-    status: 'pending'
-  });
-  
-  // Show confirmation page
-  pages.forEach(p => p.classList.remove('active'));
-  document.getElementById('confirmation-page').classList.add('active');
-  
-  // Update confirmation details
-  document.getElementById('order-number').textContent = '#' + orderId;
-  document.getElementById('order-date').textContent = new Date().toLocaleString();
-  
-  // In a real app, you would send this to your backend
-  console.log('Order placed:', currentOrder);
-  
-  // Send Telegram notification (in a real app)
-  // sendTelegramNotification(`New Order: ${currentOrder.package} for ${currentOrder.game}`);
-});
-
-// Copy Buttons
-copyButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const text = button.dataset.text;
-    navigator.clipboard.writeText(text);
-    alert('تم نسخ الرقم: ' + text);
-  });
-});
-
-// Send Support Message
-sendMessageBtn.addEventListener('click', () => {
-  const name = document.getElementById('support-name').value.trim();
-  const email = document.getElementById('support-email').value.trim();
-  const message = document.getElementById('support-message').value.trim();
-  
-  if (!name || !message) {
-    alert('الرجاء إدخال الاسم والرسالة');
-    return;
-  }
-  
-  // In a real app, you would send this to your backend
-  console.log('Support message:', { name, email, message });
-  
-  alert('تم إرسال رسالتك بنجاح، سنتواصل معك قريباً');
-  document.getElementById('support-name').value = '';
-  document.getElementById('support-email').value = '';
-  document.getElementById('support-message').value = '';
-  
-  // Send Telegram notification (in a real app)
-  // sendTelegramNotification(`New Support Message from ${name}`);
-});
-
-// Load Orders
-function loadOrders() {
-  if (userData.orders.length === 0) {
-    ordersList.innerHTML = '';
-    noOrders.classList.remove('hidden');
-    return;
-  }
-  
-  noOrders.classList.add('hidden');
-  ordersList.innerHTML = '';
-  
-  userData.orders.forEach(order => {
-    const row = document.createElement('tr');
-    row.className = 'text-white border-b border-white/10 hover:bg-white/5 transition cursor-pointer order-row';
-    row.dataset.id = order.id;
-    
-    row.innerHTML = `
-      <td class="py-4 text-right">${order.id}</td>
-      <td class="py-4 text-right">${order.date}</td>
-      <td class="py-4 text-right">${order.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile'}</td>
-      <td class="py-4 text-right">${order.package}</td>
-      <td class="py-4 text-right">${order.price.toLocaleString()} ل.س</td>
-      <td class="py-4 text-right">
-        <span class="status-${order.status}">
-          ${order.status === 'pending' ? 'قيد المعالجة' : 
-            order.status === 'completed' ? 'مكتمل' : 'مرفوض'}
-        </span>
-      </td>
-    `;
-    
-    row.addEventListener('click', () => {
-      showOrderDetails(order.id);
-    });
-    
-    ordersList.appendChild(row);
-  });
+// Admin settings
+const saveSettings = document.getElementById('saveSettings');
+const notificationsToggle = document.getElementById('notificationsToggle');
+const notificationsStatus = document.getElementById('notificationsStatus');
+notificationsToggle.addEventListener('change', function() {
+if (this.checked) {
+notificationsStatus.textContent = 'مفعل';
+notificationsStatus.className = 'text-green-600';
+} else {
+notificationsStatus.textContent = 'معطل';
+notificationsStatus.className = 'text-red-600';
 }
-
-// Show Order Details
-function showOrderDetails(orderId) {
-  const order = userData.orders.find(o => o.id === orderId);
-  if (!order) return;
-  
-  pages.forEach(p => p.classList.remove('active'));
-  document.getElementById('order-details-page').classList.add('active');
-  
-  // Update order details
-  document.getElementById('order-details-number').textContent = '#' + order.id;
-  document.getElementById('order-details-date').textContent = order.date;
-  document.getElementById('order-details-status').textContent = 
-    order.status === 'pending' ? 'قيد المعالجة' : 
-    order.status === 'completed' ? 'مكتمل' : 'مرفوض';
-  document.getElementById('order-details-status').className = 
-    `font-bold ${order.status === 'pending' ? 'status-pending' : 
-      order.status === 'completed' ? 'status-completed' : 'status-rejected'}`;
-  
-  document.getElementById('order-details-game').textContent = order.game === 'freefire' ? 'Free Fire' : 'PUBG Mobile';
-  document.getElementById('order-details-package').textContent = order.package;
-  document.getElementById('order-details-method').textContent = order.method === 'auto' ? 'أوتوماتيكي' : 'يدوي';
-  document.getElementById('order-details-player-id').textContent = order.playerId;
-  document.getElementById('order-details-total').textContent = order.price.toLocaleString() + ' ل.س';
-  
-  if (order.game === 'pubg') {
-    document.getElementById('order-details-server-row').classList.remove('hidden');
-    document.getElementById('order-details-server').textContent = 
-      order.server === 'asia' ? 'آسيا' :
-      order.server === 'europe' ? 'أوروبا' :
-      order.server === 'na' ? 'أمريكا الشمالية' : 'الشرق الأوسط';
-  } else {
-    document.getElementById('order-details-server-row').classList.add('hidden');
-  }
-  
-  // Hide admin actions for regular users
-  document.getElementById('order-actions').classList.add('hidden');
-}
-
-// Update Balance Display
-function updateBalance() {
-  headerBalance.textContent = userData.balance.toLocaleString();
-  mobileBalance.textContent = userData.balance.toLocaleString();
-}
-
-// Telegram Notification Function (for real implementation)
-function sendTelegramNotification(message) {
-  // This would be implemented with actual Telegram API calls
-  // fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${encodeURIComponent(message)}`);
-  console.log('Telegram notification:', message);
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-  // Set initial balance (in a real app, this would come from backend)
-  userData.balance = 0;
-  updateBalance();
-  
-  // Load orders
-  loadOrders();
-  
-  // Set default shipping method
-  currentOrder.method = 'auto';
-  
-  // Set default payment method
-  document.querySelector('.payment-method[data-method="balance"]').classList.add('active');
 });
-
-// Sample data for testing
-function addSampleData() {
-  userData.balance = 50000;
-  userData.orders = [
-    {
-      id: 'FF-123456',
-      date: '2023-10-15 14:30',
-      game: 'freefire',
-      package: '110 جوهرة',
-      price: 10000,
-      method: 'auto',
-      playerId: '123456789',
-      server: null,
-      status: 'completed'
-    },
-    {
-      id: 'PUBG-789012',
-      date: '2023-10-16 09:15',
-      game: 'pubg',
-      package: '325 UC',
-      price: 65000,
-      method: 'manual',
-      playerId: '987654321',
-      server: 'me',
-      status: 'pending'
-    }
-  ];
-  
-  updateBalance();
-  loadOrders();
+saveSettings.addEventListener('click', function() {
+const token = document.getElementById('telegramToken').value;
+const chatId = document.getElementById('telegramChatId').value;
+if (!token || !chatId) {
+showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+return;
 }
-
-// Uncomment to add sample data for testing
-// addSampleData();
+// Save settings (simulation)
+console.log('Saving settings:', {
+token: token,
+chatId: chatId,
+notifications: notificationsToggle.checked
+});
+showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+});
+// Utility functions
+function showNotification(message, type = 'success') {
+const notification = document.getElementById('successNotification');
+const notificationText = document.getElementById('notificationText');
+notificationText.textContent = message;
+if (type === 'error') {
+notification.classList.remove('bg-green-500');
+notification.classList.add('bg-red-500');
+} else {
+notification.classList.remove('bg-red-500');
+notification.classList.add('bg-green-500');
+}
+notification.classList.remove('translate-y-20', 'opacity-0');
+notification.classList.add('translate-y-0', 'opacity-100');
+setTimeout(() => {
+notification.classList.remove('translate-y-0', 'opacity-100');
+notification.classList.add('translate-y-20', 'opacity-0');
+}, 3000);
+}
+function copyToClipboard(elementId) {
+const element = document.getElementById(elementId);
+element.select();
+document.execCommand('copy');
+showNotification('تم نسخ النص بنجاح!', 'success');
+}
+// FAQ toggle
+window.toggleFaq = function(element) {
+const answer = element.nextElementSibling;
+const icon = element.querySelector('i');
+answer.classList.toggle('hidden');
+if (answer.classList.contains('hidden')) {
+icon.classList.remove('ri-arrow-up-s-line');
+icon.classList.add('ri-arrow-down-s-line');
+} else {
+icon.classList.remove('ri-arrow-down-s-line');
+icon.classList.add('ri-arrow-up-s-line');
+}
+};
+// Add some balance for testing
+document.getElementById('userBalance').addEventListener('click', function() {
+userBalance += 10;
+document.getElementById('userBalance').textContent = userBalance;
+showNotification('تم إضافة 10$ لرصيدك للاختبار!', 'success');
+});
+});
 </script>
 </body>
 </html>
