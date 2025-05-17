@@ -519,7 +519,7 @@ transform: translateX(26px);
 </div>
 </section>
 <!-- Admin Page -->
-<section id="adminPanel" class="hidden">
+<section id="adminPanel" class="page-content hidden">
 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
 <div class="flex items-center mb-6">
 <button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
@@ -736,72 +736,22 @@ transform: translateX(26px);
 </div>
 <p id="notificationText"></p>
 </div>
-    // ========== إعدادات لوحة المشرف ==========
-    const ADMIN_PASSWORD = "admin123"; // كلمة السر الافتراضية
-    
-    // عناصر واجهة تسجيل الدخول
-    const adminLoginModal = document.getElementById('adminLogin');
-    const adminPasswordInput = document.getElementById('adminPassword');
-    const submitAdminLogin = document.getElementById('submitAdminLogin');
-    const closeAdminLogin = document.getElementById('closeAdminLogin');
-    const adminPanel = document.getElementById('adminPanel');
-    
-    // فتح نافذة تسجيل الدخول عند الضغط على زر الإعدادات
-    document.querySelector('[data-page="admin"]').addEventListener('click', function(e) {
-        e.preventDefault();
-        adminLoginModal.classList.remove('hidden');
-    });
-    
-    // إغلاق نافذة تسجيل الدخول
-    closeAdminLogin.addEventListener('click', function() {
-        adminLoginModal.classList.add('hidden');
-    });
-    
-    // معالجة تسجيل الدخول
-    submitAdminLogin.addEventListener('click', function() {
-        const enteredPassword = adminPasswordInput.value;
-        
-        if (!enteredPassword) {
-            showNotification('يرجى إدخال كلمة السر', 'error');
-            return;
-        }
-        
-        if (enteredPassword === ADMIN_PASSWORD) {
-            adminLoginModal.classList.add('hidden');
-            adminPanel.classList.remove('hidden');
-            
-            // إخفاء جميع الصفحات الأخرى
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.add('hidden');
-            });
-            
-            showNotification('تم تسجيل الدخول بنجاح', 'success');
-        } else {
-            showNotification('كلمة السر غير صحيحة', 'error');
-        }
-        
-        adminPasswordInput.value = '';
-    });
-
-    // زر تسجيل الخروج (أضيفيه في لوحة المشرف)
-    function setupAdminLogout() {
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'adminLogout';
-        logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded-button hover:bg-red-600';
-        logoutBtn.innerHTML = 'تسجيل الخروج';
-        
-        // أضيفيه في بداية لوحة المشرف
-        adminPanel.insertBefore(logoutBtn, adminPanel.firstChild);
-        
-        logoutBtn.addEventListener('click', function() {
-            adminPanel.classList.add('hidden');
-            showPage('homePage');
-            showNotification('تم تسجيل الخروج بنجاح', 'success');
-        });
-    }
-    
-    // استدعاء الدوال عند التحميل
-    setupAdminLogout();
+<!-- نافذة تسجيل دخول المشرف -->
+<div id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
+            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <div class="mb-4">
+            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
+            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
+        </div>
+        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
+    </div>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
@@ -815,7 +765,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         currentPackage: null,
         currentGame: null,
-        exchangeRate: 15000 // سعر الصرف: 1 دولار = 15000 ليرة سورية
+        exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
+        ADMIN_PASSWORD: "admin123" // كلمة السر الافتراضية
     };
 
     // تهيئة الواجهة
@@ -860,12 +811,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const page = this.getAttribute('data-page');
         
                 if (page === 'admin') {
-                    adminLoginModal.classList.remove('hidden');
+                    document.getElementById('adminLogin').classList.remove('hidden');
                 } else {
                     showPage(page + 'Page');
                 }
             });
         });
+        
         // التنقل بين الألعاب
         document.querySelectorAll('[data-game]').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -969,6 +921,53 @@ document.addEventListener('DOMContentLoaded', function() {
             // حفظ الإعدادات (يمكن استبدالها بحفظ حقيقي)
             console.log('تم حفظ الإعدادات:', { token, chatId });
             showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+        });
+        
+        // إعداد تسجيل دخول المشرف
+        const adminLoginModal = document.getElementById('adminLogin');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const submitAdminLogin = document.getElementById('submitAdminLogin');
+        const closeAdminLogin = document.getElementById('closeAdminLogin');
+        const adminPanel = document.getElementById('adminPanel');
+        
+        // إغلاق نافذة تسجيل الدخول
+        closeAdminLogin.addEventListener('click', function() {
+            adminLoginModal.classList.add('hidden');
+        });
+        
+        // معالجة تسجيل الدخول
+        submitAdminLogin.addEventListener('click', function() {
+            const enteredPassword = adminPasswordInput.value;
+            
+            if (!enteredPassword) {
+                showNotification('يرجى إدخال كلمة السر', 'error');
+                return;
+            }
+            
+            if (enteredPassword === app.ADMIN_PASSWORD) {
+                adminLoginModal.classList.add('hidden');
+                showPage('adminPanel');
+                showNotification('تم تسجيل الدخول بنجاح', 'success');
+            } else {
+                showNotification('كلمة السر غير صحيحة', 'error');
+            }
+            
+            adminPasswordInput.value = '';
+        });
+        
+        // إعداد زر تسجيل الخروج
+        const logoutBtn = document.createElement('button');
+        logoutBtn.id = 'adminLogout';
+        logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded-button hover:bg-red-600 mb-6';
+        logoutBtn.innerHTML = 'تسجيل الخروج';
+        
+        // إضافة زر تسجيل الخروج إلى لوحة المشرف
+        const adminPanelHeader = document.querySelector('#adminPanel .flex.items-center.mb-6');
+        adminPanelHeader.appendChild(logoutBtn);
+        
+        logoutBtn.addEventListener('click', function() {
+            showPage('homePage');
+            showNotification('تم تسجيل الخروج بنجاح', 'success');
         });
     }
 
@@ -1342,21 +1341,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initUI();
 });
 </script>
-<!-- نافذة تسجيل دخول المشرف -->
-<section id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-        <div class="flex justify-between items-start mb-4">
-            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
-            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
-                <i class="ri-close-line text-2xl"></i>
-            </button>
-        </div>
-        <div class="mb-4">
-            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
-            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
-        </div>
-        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
-    </div>
-</section>
 </body>
 </html>
