@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MKDAD SHOP - متجر شحن جواهر وشدات الألعاب</title>
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script>tailwind.config={theme:{extend:{colors:{primary:'#1a237e',secondary:'#303f9f'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#1a237e',secondary:'#303f9f',accent:'#4caf50',danger:'#f44336'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -81,6 +81,29 @@ background-color: #1a237e;
 input:checked + .slider:before {
 transform: translateX(26px);
 }
+.loading-spinner {
+border: 4px solid rgba(0, 0, 0, 0.1);
+border-radius: 50%;
+border-top: 4px solid #1a237e;
+width: 30px;
+height: 30px;
+animation: spin 1s linear infinite;
+margin: 0 auto;
+}
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+.skeleton-loader {
+background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+background-size: 200% 100%;
+animation: shimmer 1.5s infinite;
+border-radius: 8px;
+}
+@keyframes shimmer {
+0% { background-position: 200% 0; }
+100% { background-position: -200% 0; }
+}
 </style>
 </head>
 <body>
@@ -95,6 +118,21 @@ transform: translateX(26px);
 <i class="ri-wallet-3-line text-white"></i>
 </div>
 <span>رصيدك: <span id="userBalance" class="font-bold">0</span> $</span>
+</div>
+<div class="relative">
+<button id="notificationsBtn" class="text-white w-8 h-8 flex items-center justify-center relative">
+<i class="ri-notification-3-line text-xl"></i>
+<span id="notificationBadge" class="absolute -top-1 -right-1 bg-danger text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+</button>
+<div id="notificationsDropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+<div class="p-4 border-b border-gray-200 flex justify-between items-center">
+<h3 class="font-bold text-gray-800">الإشعارات</h3>
+<button id="clearNotifications" class="text-primary text-sm">مسح الكل</button>
+</div>
+<div id="notificationsList" class="divide-y divide-gray-200">
+<!-- Notifications will be added here dynamically -->
+</div>
+</div>
 </div>
 <button id="navMenuBtn" class="text-white w-8 h-8 flex items-center justify-center">
 <i class="ri-menu-line text-xl"></i>
@@ -116,12 +154,15 @@ transform: translateX(26px);
 <main class="container mx-auto px-4 pt-24 pb-10 min-h-screen">
 <!-- Home Page -->
 <section id="homePage" class="page-content">
-<div class="hero-gradient rounded-xl p-6 mb-10 text-white">
+<div class="hero-gradient rounded-xl p-6 mb-10 text-white relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent z-0"></div>
+<div class="relative z-10">
 <h2 class="text-3xl font-bold mb-4">أهلاً بك في متجر MKDAD للشحن</h2>
 <p class="text-xl mb-6">المتجر الأفضل لشحن جواهر فري فاير وشدات ببجي</p>
 <div class="flex flex-wrap gap-4">
 <button class="bg-white text-primary px-6 py-3 rounded-button font-bold hover:bg-blue-100 transition whitespace-nowrap" data-page="topup">شحن رصيدك الآن</button>
 <button class="bg-primary/20 border-2 border-white text-white px-6 py-3 rounded-button font-bold hover:bg-primary/30 transition whitespace-nowrap" data-page="help">طلب المساعدة</button>
+</div>
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
@@ -188,79 +229,11 @@ transform: translateX(26px);
 <label for="pubgId" class="block text-gray-700 font-bold mb-2">أدخل معرف اللاعب:</label>
 <input type="text" id="pubgId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="مثال: 5287458796">
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg60" data-price="1">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">60 شدة</h3>
-<p class="text-primary font-bold">1 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-gamepad-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg180" data-price="3">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">180 شدة</h3>
-<p class="text-primary font-bold">3 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-gamepad-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg360" data-price="5">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">360 شدة</h3>
-<p class="text-primary font-bold">5 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-gamepad-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg600" data-price="10">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">600 شدة</h3>
-<p class="text-primary font-bold">10 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-gamepad-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg1200" data-price="20">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">1200 شدة</h3>
-<p class="text-primary font-bold">20 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-gamepad-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="pubg3000" data-price="50">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">3000 شدة</h3>
-<p class="text-primary font-bold">50 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-gamepad-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
+<div id="pubgPackages" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<!-- Packages will be loaded from Google Sheets -->
+<div class="skeleton-loader h-32"></div>
+<div class="skeleton-loader h-32"></div>
+<div class="skeleton-loader h-32"></div>
 </div>
 </div>
 </section>
@@ -277,79 +250,11 @@ transform: translateX(26px);
 <label for="freeFireId" class="block text-gray-700 font-bold mb-2">أدخل معرف اللاعب:</label>
 <input type="text" id="freeFireId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="مثال: 257846952">
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff100" data-price="1">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">100 جوهرة</h3>
-<p class="text-primary font-bold">1 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-diamond-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff310" data-price="3">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">310 جوهرة</h3>
-<p class="text-primary font-bold">3 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-diamond-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff520" data-price="5">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">520 جوهرة</h3>
-<p class="text-primary font-bold">5 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-diamond-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff1060" data-price="10">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">1060 جوهرة</h3>
-<p class="text-primary font-bold">10 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-diamond-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff2180" data-price="20">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">2180 جوهرة</h3>
-<p class="text-primary font-bold">20 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-diamond-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
-<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="ff5600" data-price="50">
-<div class="flex justify-between items-start mb-3">
-<div>
-<h3 class="font-bold text-gray-800">5600 جوهرة</h3>
-<p class="text-primary font-bold">50 $</p>
-</div>
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
-<i class="ri-diamond-line text-xl text-primary"></i>
-</div>
-</div>
-<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
-</div>
+<div id="freeFirePackages" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<!-- Packages will be loaded from Google Sheets -->
+<div class="skeleton-loader h-32"></div>
+<div class="skeleton-loader h-32"></div>
+<div class="skeleton-loader h-32"></div>
 </div>
 </div>
 </section>
@@ -387,7 +292,10 @@ transform: translateX(26px);
 <label for="usdtTxid" class="block text-gray-700 font-bold mb-2">رقم العملية (TXID):</label>
 <input type="text" id="usdtTxid" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل رقم العملية بعد التحويل">
 </div>
-<button id="submitUsdt" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">تأكيد الشحن</button>
+<button id="submitUsdt" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap flex items-center justify-center">
+<span id="usdtSubmitText">تأكيد الشحن</span>
+<span id="usdtSubmitSpinner" class="loading-spinner hidden ml-2"></span>
+</button>
 </div>
 <div class="border border-gray-200 rounded-xl p-6">
 <div class="flex items-center mb-4">
@@ -413,7 +321,10 @@ transform: translateX(26px);
 <label for="syriatelCode" class="block text-gray-700 font-bold mb-2">رمز عملية التحويل:</label>
 <input type="text" id="syriatelCode" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل رمز عملية التحويل">
 </div>
-<button id="submitSyriatel" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">تأكيد الشحن</button>
+<button id="submitSyriatel" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap flex items-center justify-center">
+<span id="syriatelSubmitText">تأكيد الشحن</span>
+<span id="syriatelSubmitSpinner" class="loading-spinner hidden ml-2"></span>
+</button>
 </div>
 </div>
 </div>
@@ -489,7 +400,10 @@ transform: translateX(26px);
 <label for="contactMessage" class="block text-gray-700 font-bold mb-2">الرسالة:</label>
 <textarea id="contactMessage" rows="4" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="اكتب رسالتك هنا..."></textarea>
 </div>
-<button type="submit" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition whitespace-nowrap">إرسال الرسالة</button>
+<button type="submit" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition whitespace-nowrap flex items-center justify-center">
+<span id="contactSubmitText">إرسال الرسالة</span>
+<span id="contactSubmitSpinner" class="loading-spinner hidden ml-2"></span>
+</button>
 </form>
 </div>
 </div>
@@ -511,9 +425,17 @@ transform: translateX(26px);
     </div>
     <div id="depositOrders" class="space-y-4">
         <!-- Deposit orders will be dynamically added here -->
+        <div class="text-center py-8 text-gray-500" id="noDepositOrders">
+            <i class="ri-inbox-line text-4xl mb-2"></i>
+            <p>لا توجد طلبات إيداع حتى الآن</p>
+        </div>
     </div>
     <div id="purchaseOrders" class="space-y-4 hidden">
         <!-- Purchase orders will be dynamically added here -->
+        <div class="text-center py-8 text-gray-500" id="noPurchaseOrders">
+            <i class="ri-inbox-line text-4xl mb-2"></i>
+            <p>لا توجد طلبات شحن حتى الآن</p>
+        </div>
     </div>
 </div>
 </section>
@@ -555,52 +477,38 @@ transform: translateX(26px);
 <span id="notificationsStatus" class="text-green-600">مفعل</span>
 </div>
 </div>
-<button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
+<button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap flex items-center justify-center">
+<span id="settingsSubmitText">حفظ الإعدادات</span>
+<span id="settingsSubmitSpinner" class="loading-spinner hidden ml-2"></span>
+</button>
 </div>
 <div class="border border-gray-200 rounded-xl p-6">
 <h3 class="text-xl font-bold text-gray-800 mb-4">إحصائيات الموقع</h3>
 <div class="grid grid-cols-2 gap-4 mb-6">
 <div class="bg-blue-50 rounded-lg p-4">
 <h4 class="text-gray-700 mb-1">عمليات الشحن</h4>
-<p class="text-2xl font-bold text-primary">247</p>
+<p class="text-2xl font-bold text-primary" id="statsPurchases">0</p>
 </div>
 <div class="bg-blue-50 rounded-lg p-4">
 <h4 class="text-gray-700 mb-1">المستخدمين</h4>
-<p class="text-2xl font-bold text-primary">128</p>
+<p class="text-2xl font-bold text-primary" id="statsUsers">0</p>
 </div>
 <div class="bg-blue-50 rounded-lg p-4">
 <h4 class="text-gray-700 mb-1">الإيرادات ($)</h4>
-<p class="text-2xl font-bold text-primary">1,850</p>
+<p class="text-2xl font-bold text-primary" id="statsRevenue">0</p>
 </div>
 <div class="bg-blue-50 rounded-lg p-4">
 <h4 class="text-gray-700 mb-1">طلبات الدعم</h4>
-<p class="text-2xl font-bold text-primary">12</p>
+<p class="text-2xl font-bold text-primary" id="statsSupport">0</p>
 </div>
 </div>
 <div>
 <h4 class="text-gray-800 font-bold mb-3">آخر العمليات</h4>
-<div class="space-y-3">
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-<div>
-<p class="font-bold text-gray-800">محمد أحمد</p>
-<p class="text-gray-600 text-sm">شحن 600 شدة ببجي</p>
-</div>
-<span class="text-green-600 font-bold">10 $</span>
-</div>
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-<div>
-<p class="font-bold text-gray-800">عمر خالد</p>
-<p class="text-gray-600 text-sm">شحن 1060 جوهرة فري فاير</p>
-</div>
-<span class="text-green-600 font-bold">10 $</span>
-</div>
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-<div>
-<p class="font-bold text-gray-800">سارة محمود</p>
-<p class="text-gray-600 text-sm">شحن رصيد (USDT)</p>
-</div>
-<span class="text-green-600 font-bold">20 $</span>
-</div>
+<div id="recentOrders" class="space-y-3">
+<!-- Recent orders will be loaded here -->
+<div class="skeleton-loader h-16"></div>
+<div class="skeleton-loader h-16"></div>
+<div class="skeleton-loader h-16"></div>
 </div>
 </div>
 </div>
@@ -723,7 +631,10 @@ transform: translateX(26px);
 </div>
 </div>
 <div class="flex gap-3">
-<button id="confirmPurchase" class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition flex-1 whitespace-nowrap">تأكيد الشراء</button>
+<button id="confirmPurchase" class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition flex-1 whitespace-nowrap flex items-center justify-center">
+<span id="confirmPurchaseText">تأكيد الشراء</span>
+<span id="confirmPurchaseSpinner" class="loading-spinner hidden ml-2"></span>
+</button>
 <button id="cancelPurchase" class="bg-gray-200 text-gray-800 px-5 py-2 rounded-button font-bold hover:bg-gray-300 transition flex-1 whitespace-nowrap">إلغاء</button>
 </div>
 </div>
@@ -735,6 +646,13 @@ transform: translateX(26px);
 </div>
 <p id="notificationText"></p>
 </div>
+<!-- Error notification -->
+<div id="errorNotification" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center max-w-xs z-50">
+<div class="w-6 h-6 flex items-center justify-center mr-3">
+<i class="ri-close-line text-xl"></i>
+</div>
+<p id="errorText"></p>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
@@ -742,17 +660,23 @@ document.addEventListener('DOMContentLoaded', function() {
         userBalance: 0,
         TELEGRAM_BOT_TOKEN: '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY',
         TELEGRAM_CHAT_ID: '7420327643',
+        GOOGLE_SHEETS_API: 'https://script.google.com/macros/s/AKfycbzJYbI4JY7X4J4J4J4J4J4J4J4J4J4J4J4J4J4J4J4J4J4J4/exec',
         orders: {
             deposits: [],
             purchases: []
         },
+        notifications: [],
         currentPackage: null,
         currentGame: null,
-        exchangeRate: 15000 // سعر الصرف: 1 دولار = 15000 ليرة سورية
+        exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
+        packages: {
+            pubg: [],
+            freeFire: []
+        }
     };
 
     // تهيئة الواجهة
-    function initUI() {
+    async function initUI() {
         // تحديث رصيد المستخدم
         updateBalanceDisplay();
         
@@ -770,11 +694,118 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إعداد شحن الرصيد
         setupTopUpFunctions();
+        
+        // تحميل الحزم من Google Sheets
+        await loadPackages();
+        
+        // تحميل الإحصائيات
+        await loadStatistics();
+        
+        // تحميل الإشعارات
+        loadNotifications();
+    }
+
+    // تحميل الحزم من Google Sheets
+    async function loadPackages() {
+        try {
+            const response = await fetch(app.GOOGLE_SHEETS_API + '?action=getPackages');
+            const data = await response.json();
+            
+            if (data.success) {
+                app.packages = data.packages;
+                renderPackages();
+            } else {
+                showError('حدث خطأ أثناء تحميل الحزم. يرجى المحاولة لاحقاً.');
+            }
+        } catch (error) {
+            console.error('Error loading packages:', error);
+            showError('تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.');
+        }
+    }
+    
+    // عرض الحزم في الواجهة
+    function renderPackages() {
+        // عرض حزم ببجي
+        const pubgContainer = document.getElementById('pubgPackages');
+        pubgContainer.innerHTML = '';
+        
+        app.packages.pubg.forEach(pkg => {
+            const packageElement = createPackageElement(pkg, 'pubg');
+            pubgContainer.appendChild(packageElement);
+        });
+        
+        // عرض حزم فري فاير
+        const freeFireContainer = document.getElementById('freeFirePackages');
+        freeFireContainer.innerHTML = '';
+        
+        app.packages.freeFire.forEach(pkg => {
+            const packageElement = createPackageElement(pkg, 'freeFire');
+            freeFireContainer.appendChild(packageElement);
+        });
+    }
+    
+    // إنشاء عنصر حزمة
+    function createPackageElement(pkg, gameType) {
+        const packageElement = document.createElement('div');
+        packageElement.className = 'package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer';
+        packageElement.setAttribute('data-package', pkg.id);
+        packageElement.setAttribute('data-price', pkg.price);
+        
+        const icon = gameType === 'pubg' ? 'ri-gamepad-line' : 'ri-diamond-line';
+        
+        packageElement.innerHTML = `
+            <div class="flex justify-between items-start mb-3">
+                <div>
+                    <h3 class="font-bold text-gray-800">${pkg.name}</h3>
+                    <p class="text-primary font-bold">${pkg.price} $</p>
+                </div>
+                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+                    <i class="${icon} text-xl text-primary"></i>
+                </div>
+            </div>
+            <button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+        `;
+        
+        return packageElement;
+    }
+    
+    // تحميل الإحصائيات
+    async function loadStatistics() {
+        try {
+            const response = await fetch(app.GOOGLE_SHEETS_API + '?action=getStats');
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('statsPurchases').textContent = data.stats.purchases;
+                document.getElementById('statsUsers').textContent = data.stats.users;
+                document.getElementById('statsRevenue').textContent = data.stats.revenue;
+                document.getElementById('statsSupport').textContent = data.stats.support;
+                
+                // عرض آخر الطلبات
+                const recentOrdersContainer = document.getElementById('recentOrders');
+                recentOrdersContainer.innerHTML = '';
+                
+                data.stats.recentOrders.forEach(order => {
+                    const orderElement = document.createElement('div');
+                    orderElement.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-lg';
+                    orderElement.innerHTML = `
+                        <div>
+                            <p class="font-bold text-gray-800">${order.customer}</p>
+                            <p class="text-gray-600 text-sm">${order.product}</p>
+                        </div>
+                        <span class="text-green-600 font-bold">${order.amount} $</span>
+                    `;
+                    recentOrdersContainer.appendChild(orderElement);
+                });
+            }
+        } catch (error) {
+            console.error('Error loading statistics:', error);
+        }
     }
 
     // تحديث عرض الرصيد
     function updateBalanceDisplay() {
-        document.getElementById('userBalance').textContent = app.userBalance;
+        document.getElementById('userBalance').textContent = app.userBalance.toFixed(2);
     }
 
     // إعداد التنقل بين الصفحات
@@ -817,6 +848,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('purchaseOrdersTab').addEventListener('click', function() {
             toggleOrdersTab('purchase');
         });
+        
+        // إدارة الإشعارات
+        document.getElementById('notificationsBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('notificationsDropdown').classList.toggle('hidden');
+        });
+        
+        document.getElementById('clearNotifications').addEventListener('click', function() {
+            app.notifications = [];
+            updateNotifications();
+            showNotification('تم مسح جميع الإشعارات', 'success');
+        });
+        
+        // إغلاق قائمة الإشعارات عند النقر خارجها
+        document.addEventListener('click', function() {
+            document.getElementById('notificationsDropdown').classList.add('hidden');
+        });
     }
 
     // تبديل عرض طلبات الإيداع/الشراء
@@ -850,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // إعداد نموذج الاتصال
     function setupContactForm() {
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const name = document.getElementById('contactName').value;
@@ -859,14 +907,46 @@ document.addEventListener('DOMContentLoaded', function() {
             const message = document.getElementById('contactMessage').value;
             
             if (!name || !email || !subject || !message) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                showError('يرجى ملء جميع الحقول المطلوبة.');
                 return;
             }
             
-            // إرسال البيانات (يمكن استبدالها بإرسال حقيقي)
-            console.log('تم إرسال رسالة الدعم:', { name, email, subject, message });
-            showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
-            this.reset();
+            // عرض حالة التحميل
+            document.getElementById('contactSubmitText').classList.add('hidden');
+            document.getElementById('contactSubmitSpinner').classList.remove('hidden');
+            
+            try {
+                // إرسال البيانات إلى Google Sheets
+                const response = await fetch(app.GOOGLE_SHEETS_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'submitContact',
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: message
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
+                    this.reset();
+                } else {
+                    showError('حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة لاحقاً.');
+                }
+            } catch (error) {
+                console.error('Error submitting contact form:', error);
+                showError('تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.');
+            } finally {
+                // إخفاء حالة التحميل
+                document.getElementById('contactSubmitText').classList.remove('hidden');
+                document.getElementById('contactSubmitSpinner').classList.add('hidden');
+            }
         });
     }
 
@@ -885,18 +965,51 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        document.getElementById('saveSettings').addEventListener('click', function() {
+        document.getElementById('saveSettings').addEventListener('click', async function() {
             const token = document.getElementById('telegramToken').value;
             const chatId = document.getElementById('telegramChatId').value;
             
             if (!token || !chatId) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                showError('يرجى ملء جميع الحقول المطلوبة.');
                 return;
             }
             
-            // حفظ الإعدادات (يمكن استبدالها بحفظ حقيقي)
-            console.log('تم حفظ الإعدادات:', { token, chatId });
-            showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+            // عرض حالة التحميل
+            document.getElementById('settingsSubmitText').classList.add('hidden');
+            document.getElementById('settingsSubmitSpinner').classList.remove('hidden');
+            
+            try {
+                // حفظ الإعدادات في Google Sheets
+                const response = await fetch(app.GOOGLE_SHEETS_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'saveSettings',
+                        telegramToken: token,
+                        telegramChatId: chatId,
+                        notificationsEnabled: notificationsToggle.checked
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+                    app.TELEGRAM_BOT_TOKEN = token;
+                    app.TELEGRAM_CHAT_ID = chatId;
+                } else {
+                    showError('حدث خطأ أثناء حفظ الإعدادات. يرجى المحاولة لاحقاً.');
+                }
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                showError('تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.');
+            } finally {
+                // إخفاء حالة التحميل
+                document.getElementById('settingsSubmitText').classList.remove('hidden');
+                document.getElementById('settingsSubmitSpinner').classList.add('hidden');
+            }
         });
     }
 
@@ -904,9 +1017,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupPurchaseButtons() {
         const purchaseModal = document.getElementById('purchaseModal');
         
-        document.querySelectorAll('.buy-package').forEach(button => {
-            button.addEventListener('click', function() {
-                const packageCard = this.closest('.package-card');
+        // استخدام تفويض الأحداث للتعامل مع الحزم الديناميكية
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('buy-package')) {
+                const packageCard = e.target.closest('.package-card');
                 const packageId = packageCard.getAttribute('data-package');
                 const packagePrice = parseFloat(packageCard.getAttribute('data-price'));
                 
@@ -924,16 +1038,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 if (!playerId) {
-                    showNotification('يرجى إدخال معرف اللاعب أولاً', 'error');
+                    showError('يرجى إدخال معرف اللاعب أولاً');
                     return;
                 }
                 
                 // تعبئة بيانات النافذة المنبثقة
-                const packageNameText = packageCard.querySelector('h3').textContent;
-                document.getElementById('packageName').textContent = packageNameText;
+                const packageName = packageCard.querySelector('h3').textContent;
+                document.getElementById('packageName').textContent = packageName;
                 document.getElementById('packagePrice').textContent = packagePrice;
                 document.getElementById('playerIdConfirm').textContent = playerId;
-                document.getElementById('productConfirm').textContent = `${packageNameText} - ${gameType}`;
+                document.getElementById('productConfirm').textContent = `${packageName} - ${gameType}`;
                 document.getElementById('priceConfirm').textContent = `${packagePrice} $`;
                 
                 // التحقق من الرصيد
@@ -953,14 +1067,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 app.currentPackage = {
                     id: packageId,
                     price: packagePrice,
-                    name: packageNameText,
+                    name: packageName,
                     playerId: playerId,
                     game: gameType
                 };
                 
                 // عرض النافذة المنبثقة
                 purchaseModal.classList.remove('hidden');
-            });
+            }
         });
         
         // إغلاق النافذة المنبثقة
@@ -970,37 +1084,77 @@ document.addEventListener('DOMContentLoaded', function() {
         // تأكيد الشراء
         document.getElementById('confirmPurchase').addEventListener('click', async function() {
             if (app.userBalance >= app.currentPackage.price) {
-                // معالجة عملية الشراء
-                app.userBalance -= app.currentPackage.price;
-                updateBalanceDisplay();
+                // عرض حالة التحميل
+                document.getElementById('confirmPurchaseText').classList.add('hidden');
+                document.getElementById('confirmPurchaseSpinner').classList.remove('hidden');
                 
-                const orderId = Date.now();
-                const order = {
-                    id: orderId,
-                    product: `${app.currentPackage.name} - ${app.currentPackage.game}`,
-                    price: app.currentPackage.price,
-                    playerId: app.currentPackage.playerId,
-                    date: new Date().toISOString(),
-                    status: 'pending'
-                };
-                
-                app.orders.purchases.push(order);
-                
-                // إرسال إشعار للتليجرام
-                const message = `🎮 طلب شحن جديد #${orderId}\n\n` +
-                    `المنتج: ${app.currentPackage.name}\n` +
-                    `اللعبة: ${app.currentPackage.game}\n` +
-                    `معرف اللاعب: ${app.currentPackage.playerId}\n` +
-                    `السعر: ${app.currentPackage.price}$\n` +
-                    `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                try {
+                    // معالجة عملية الشراء
+                    app.userBalance -= app.currentPackage.price;
+                    updateBalanceDisplay();
                     
-                await sendToTelegram(message, orderId);
-                
-                purchaseModal.classList.add('hidden');
-                showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
-                updateOrdersDisplay();
+                    const orderId = Date.now();
+                    const order = {
+                        id: orderId,
+                        product: `${app.currentPackage.name} - ${app.currentPackage.game}`,
+                        price: app.currentPackage.price,
+                        playerId: app.currentPackage.playerId,
+                        date: new Date().toISOString(),
+                        status: 'pending'
+                    };
+                    
+                    app.orders.purchases.push(order);
+                    
+                    // إرسال البيانات إلى Google Sheets
+                    const response = await fetch(app.GOOGLE_SHEETS_API, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: 'submitOrder',
+                            order: order
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // إرسال إشعار للتليجرام
+                        const message = `🎮 طلب شحن جديد #${orderId}\n\n` +
+                            `المنتج: ${app.currentPackage.name}\n` +
+                            `اللعبة: ${app.currentPackage.game}\n` +
+                            `معرف اللاعب: ${app.currentPackage.playerId}\n` +
+                            `السعر: ${app.currentPackage.price}$\n` +
+                            `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                            
+                        await sendToTelegram(message, orderId);
+                        
+                        // إضافة إشعار للمستخدم
+                        addNotification({
+                            id: Date.now(),
+                            title: 'طلب شحن جديد',
+                            message: `تم إنشاء طلب شحن ${app.currentPackage.name} بقيمة ${app.currentPackage.price}$`,
+                            date: new Date().toISOString(),
+                            read: false
+                        });
+                        
+                        purchaseModal.classList.add('hidden');
+                        showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
+                        updateOrdersDisplay();
+                    } else {
+                        showError('حدث خطأ أثناء معالجة الطلب. يرجى المحاولة لاحقاً.');
+                    }
+                } catch (error) {
+                    console.error('Error processing order:', error);
+                    showError('تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.');
+                } finally {
+                    // إخفاء حالة التحميل
+                    document.getElementById('confirmPurchaseText').classList.remove('hidden');
+                    document.getElementById('confirmPurchaseSpinner').classList.add('hidden');
+                }
             } else {
-                showNotification('رصيدك غير كافي لإتمام عملية الشراء.', 'error');
+                showError('رصيدك غير كافي لإتمام عملية الشراء.');
             }
         });
     }
@@ -1013,35 +1167,75 @@ document.addEventListener('DOMContentLoaded', function() {
             const txid = document.getElementById('usdtTxid').value;
             
             if (!amount || !txid) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                showError('يرجى ملء جميع الحقول المطلوبة.');
                 return;
             }
             
-            const orderId = Date.now();
-            const order = {
-                id: orderId,
-                amount: parseFloat(amount),
-                method: 'USDT',
-                txid: txid,
-                date: new Date().toISOString(),
-                status: 'pending'
-            };
+            // عرض حالة التحميل
+            document.getElementById('usdtSubmitText').classList.add('hidden');
+            document.getElementById('usdtSubmitSpinner').classList.remove('hidden');
             
-            app.orders.deposits.push(order);
-            
-            // إرسال إشعار للتليجرام
-            const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
-                `الطريقة: USDT\n` +
-                `المبلغ: ${amount}$\n` +
-                `رقم العملية: ${txid}\n` +
-                `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+            try {
+                const orderId = Date.now();
+                const order = {
+                    id: orderId,
+                    amount: parseFloat(amount),
+                    method: 'USDT',
+                    txid: txid,
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                };
                 
-            await sendToTelegram(message, orderId);
-            
-            showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
-            document.getElementById('usdtAmount').value = '';
-            document.getElementById('usdtTxid').value = '';
-            updateOrdersDisplay();
+                // إرسال البيانات إلى Google Sheets
+                const response = await fetch(app.GOOGLE_SHEETS_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'submitDeposit',
+                        deposit: order
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    app.orders.deposits.push(order);
+                    
+                    // إرسال إشعار للتليجرام
+                    const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
+                        `الطريقة: USDT\n` +
+                        `المبلغ: ${amount}$\n` +
+                        `رقم العملية: ${txid}\n` +
+                        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                        
+                    await sendToTelegram(message, orderId);
+                    
+                    // إضافة إشعار للمستخدم
+                    addNotification({
+                        id: Date.now(),
+                        title: 'طلب إيداع جديد',
+                        message: `تم إنشاء طلب إيداع بقيمة ${amount}$ عبر USDT`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                    
+                    showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
+                    document.getElementById('usdtAmount').value = '';
+                    document.getElementById('usdtTxid').value = '';
+                    updateOrdersDisplay();
+                } else {
+                    showError('حدث خطأ أثناء إرسال طلب الإيداع. يرجى المحاولة لاحقاً.');
+                }
+            } catch (error) {
+                console.error('Error submitting USDT deposit:', error);
+                showError('تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.');
+            } finally {
+                // إخفاء حالة التحميل
+                document.getElementById('usdtSubmitText').classList.remove('hidden');
+                document.getElementById('usdtSubmitSpinner').classList.add('hidden');
+            }
         });
         
         // شحن عبر سيرياتيل كاش
@@ -1050,48 +1244,88 @@ document.addEventListener('DOMContentLoaded', function() {
             const code = document.getElementById('syriatelCode').value;
             
             if (!amount || !code) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                showError('يرجى ملء جميع الحقول المطلوبة.');
                 return;
             }
             
-            // التحقق من العملية
-            const isValid = await verifySyriatelTransaction(amount, code);
+            // عرض حالة التحميل
+            document.getElementById('syriatelSubmitText').classList.add('hidden');
+            document.getElementById('syriatelSubmitSpinner').classList.remove('hidden');
             
-            if (!isValid) {
-                showNotification('لم يتم العثور على العملية أو المبلغ غير صحيح.', 'error');
-                return;
-            }
-            
-            // إذا كانت العملية صحيحة
-            const orderId = Date.now();
-            const usdAmount = (parseInt(amount) / app.exchangeRate).toFixed(2);
-            
-            const order = {
-                id: orderId,
-                amount: parseFloat(usdAmount),
-                method: 'سيرياتيل كاش',
-                code: code,
-                date: new Date().toISOString(),
-                status: 'completed'
-            };
-            
-            app.orders.deposits.push(order);
-            app.userBalance += order.amount;
-            updateBalanceDisplay();
-            
-            // إرسال إشعار للتليجرام
-            const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
-                `الطريقة: سيرياتيل كاش\n` +
-                `المبلغ: ${amount} ل.س (${usdAmount}$)\n` +
-                `رمز العملية: ${code}\n` +
-                `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+            try {
+                // التحقق من العملية
+                const isValid = await verifySyriatelTransaction(amount, code);
                 
-            await sendToTelegram(message, orderId);
-            
-            showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
-            document.getElementById('syriatelAmount').value = '';
-            document.getElementById('syriatelCode').value = '';
-            updateOrdersDisplay();
+                if (!isValid) {
+                    showError('لم يتم العثور على العملية أو المبلغ غير صحيح.');
+                    return;
+                }
+                
+                // إذا كانت العملية صحيحة
+                const orderId = Date.now();
+                const usdAmount = (parseInt(amount) / app.exchangeRate).toFixed(2);
+                
+                const order = {
+                    id: orderId,
+                    amount: parseFloat(usdAmount),
+                    method: 'سيرياتيل كاش',
+                    code: code,
+                    date: new Date().toISOString(),
+                    status: 'completed'
+                };
+                
+                // إرسال البيانات إلى Google Sheets
+                const response = await fetch(app.GOOGLE_SHEETS_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'submitDeposit',
+                        deposit: order
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    app.orders.deposits.push(order);
+                    app.userBalance += order.amount;
+                    updateBalanceDisplay();
+                    
+                    // إرسال إشعار للتليجرام
+                    const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
+                        `الطريقة: سيرياتيل كاش\n` +
+                        `المبلغ: ${amount} ل.س (${usdAmount}$)\n` +
+                        `رمز العملية: ${code}\n` +
+                        `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+                        
+                    await sendToTelegram(message, orderId);
+                    
+                    // إضافة إشعار للمستخدم
+                    addNotification({
+                        id: Date.now(),
+                        title: 'إيداع ناجح',
+                        message: `تم إضافة ${usdAmount}$ إلى رصيدك عبر سيرياتيل كاش`,
+                        date: new Date().toISOString(),
+                        read: false
+                    });
+                    
+                    showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
+                    document.getElementById('syriatelAmount').value = '';
+                    document.getElementById('syriatelCode').value = '';
+                    updateOrdersDisplay();
+                } else {
+                    showError('حدث خطأ أثناء معالجة الإيداع. يرجى المحاولة لاحقاً.');
+                }
+            } catch (error) {
+                console.error('Error processing Syriatel deposit:', error);
+                showError('تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت.');
+            } finally {
+                // إخفاء حالة التحميل
+                document.getElementById('syriatelSubmitText').classList.remove('hidden');
+                document.getElementById('syriatelSubmitSpinner').classList.add('hidden');
+            }
         });
     }
 
@@ -1159,16 +1393,24 @@ document.addEventListener('DOMContentLoaded', function() {
         purchaseOrdersContainer.innerHTML = '';
         
         // عرض طلبات الإيداع
-        app.orders.deposits.forEach(order => {
-            const orderElement = createOrderElement(order, 'إيداع');
-            depositOrdersContainer.appendChild(orderElement);
-        });
+        if (app.orders.deposits.length === 0) {
+            depositOrdersContainer.appendChild(document.getElementById('noDepositOrders').cloneNode(true));
+        } else {
+            app.orders.deposits.forEach(order => {
+                const orderElement = createOrderElement(order, 'إيداع');
+                depositOrdersContainer.appendChild(orderElement);
+            });
+        }
         
         // عرض طلبات الشراء
-        app.orders.purchases.forEach(order => {
-            const orderElement = createOrderElement(order, 'شحن');
-            purchaseOrdersContainer.appendChild(orderElement);
-        });
+        if (app.orders.purchases.length === 0) {
+            purchaseOrdersContainer.appendChild(document.getElementById('noPurchaseOrders').cloneNode(true));
+        } else {
+            app.orders.purchases.forEach(order => {
+                const orderElement = createOrderElement(order, 'شحن');
+                purchaseOrdersContainer.appendChild(orderElement);
+            });
+        }
     }
 
     // إنشاء عنصر طلب
@@ -1210,21 +1452,91 @@ document.addEventListener('DOMContentLoaded', function() {
         
         return orderElement;
     }
+    
+    // تحميل الإشعارات
+    function loadNotifications() {
+        // في تطبيق حقيقي، سيتم جلب الإشعارات من الخادم
+        // هنا نستخدم بيانات وهمية للتوضيح
+        app.notifications = [
+            {
+                id: 1,
+                title: 'طلب جديد',
+                message: 'تم استلام طلبك #12345 بنجاح',
+                date: new Date(Date.now() - 3600000).toISOString(),
+                read: false
+            },
+            {
+                id: 2,
+                title: 'إيداع ناجح',
+                message: 'تم إضافة 10$ إلى رصيدك',
+                date: new Date(Date.now() - 86400000).toISOString(),
+                read: true
+            }
+        ];
+        
+        updateNotifications();
+    }
+    
+    // تحديث عرض الإشعارات
+    function updateNotifications() {
+        const notificationsList = document.getElementById('notificationsList');
+        const notificationBadge = document.getElementById('notificationBadge');
+        
+        notificationsList.innerHTML = '';
+        
+        const unreadCount = app.notifications.filter(n => !n.read).length;
+        
+        if (unreadCount > 0) {
+            notificationBadge.textContent = unreadCount;
+            notificationBadge.classList.remove('hidden');
+        } else {
+            notificationBadge.classList.add('hidden');
+        }
+        
+        if (app.notifications.length === 0) {
+            const emptyItem = document.createElement('div');
+            emptyItem.className = 'p-4 text-center text-gray-500';
+            emptyItem.textContent = 'لا توجد إشعارات';
+            notificationsList.appendChild(emptyItem);
+        } else {
+            app.notifications.forEach(notification => {
+                const notificationElement = document.createElement('div');
+                notificationElement.className = `p-4 ${notification.read ? 'bg-white' : 'bg-blue-50'}`;
+                notificationElement.innerHTML = `
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full text-primary mr-3">
+                            <i class="ri-notification-3-line"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">${notification.title}</h4>
+                            <p class="text-gray-600 text-sm">${notification.message}</p>
+                            <p class="text-gray-400 text-xs mt-1">${new Date(notification.date).toLocaleString('ar-SA')}</p>
+                        </div>
+                    </div>
+                `;
+                
+                notificationElement.addEventListener('click', () => {
+                    notification.read = true;
+                    updateNotifications();
+                });
+                
+                notificationsList.appendChild(notificationElement);
+            });
+        }
+    }
+    
+    // إضافة إشعار جديد
+    function addNotification(notification) {
+        app.notifications.unshift(notification);
+        updateNotifications();
+    }
 
     // عرض الإشعارات
     function showNotification(message, type = 'success') {
-        const notification = document.getElementById('successNotification');
-        const notificationText = document.getElementById('notificationText');
+        const notification = document.getElementById(type === 'success' ? 'successNotification' : 'errorNotification');
+        const textElement = document.getElementById(type === 'success' ? 'notificationText' : 'errorText');
         
-        notificationText.textContent = message;
-        
-        if (type === 'error') {
-            notification.classList.remove('bg-green-500');
-            notification.classList.add('bg-red-500');
-        } else {
-            notification.classList.remove('bg-red-500');
-            notification.classList.add('bg-green-500');
-        }
+        textElement.textContent = message;
         
         notification.classList.remove('translate-y-20', 'opacity-0');
         notification.classList.add('translate-y-0', 'opacity-100');
@@ -1233,6 +1545,11 @@ document.addEventListener('DOMContentLoaded', function() {
             notification.classList.remove('translate-y-0', 'opacity-100');
             notification.classList.add('translate-y-20', 'opacity-0');
         }, 3000);
+    }
+    
+    // عرض رسالة خطأ
+    function showError(message) {
+        showNotification(message, 'error');
     }
 
     // نسخ النص إلى الحافظة
