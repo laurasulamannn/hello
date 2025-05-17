@@ -519,9 +519,57 @@ transform: translateX(26px);
 </div>
 </section>
 <!-- Admin Page -->
-<section id="adminPanel" class="page-content hidden">
-<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-<div class="flex items-center mb-6">
+<section id="adminPanel" class="hidden">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <div class="flex items-center mb-6">
+            <button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+                <i class="ri-arrow-right-line text-xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold text-gray-800">إعدادات المشرف</h2>
+        </div>
+        
+        <!-- زر تسجيل الخروج -->
+        <button id="adminLogout" class="bg-red-500 text-white px-4 py-2 rounded-button hover:bg-red-600 mb-6">
+            تسجيل الخروج
+        </button>
+        
+        <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div class="flex items-start">
+                <div class="w-8 h-8 flex items-center justify-center text-yellow-500 mr-3">
+                    <i class="ri-information-line text-xl"></i>
+                </div>
+                <p class="text-yellow-700">هذه الصفحة مخصصة للمشرفين فقط. يرجى عدم تغيير الإعدادات إلا إذا كنت تملك الصلاحيات اللازمة.</p>
+            </div>
+        </div>
+        
+        <!-- تبويبات لوحة المشرف -->
+        <div class="mb-6">
+            <div class="flex border-b border-gray-200">
+                <button class="px-6 py-2 text-primary font-bold border-b-2 border-primary admin-tab" data-tab="settings">الإعدادات</button>
+                <button class="px-6 py-2 text-gray-500 font-bold admin-tab" data-tab="orders">إدارة الطلبات</button>
+                <button class="px-6 py-2 text-gray-500 font-bold admin-tab" data-tab="stats">الإحصائيات</button>
+            </div>
+        </div>
+        
+        <!-- قسم إدارة الطلبات -->
+        <div id="adminOrdersTab" class="hidden">
+            <div class="mb-6">
+                <div class="flex border-b border-gray-200">
+                    <button class="px-6 py-2 text-primary font-bold border-b-2 border-primary admin-order-tab" data-order-type="deposit">طلبات الإيداع</button>
+                    <button class="px-6 py-2 text-gray-500 font-bold admin-order-tab" data-order-type="purchase">طلبات الشحن</button>
+                </div>
+            </div>
+            
+            <!-- طلبات الإيداع -->
+            <div id="adminDepositOrders" class="space-y-4">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+            
+            <!-- طلبات الشحن -->
+            <div id="adminPurchaseOrders" class="space-y-4 hidden">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+        </div>
 <button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
 <i class="ri-arrow-right-line text-xl"></i>
 </button>
@@ -736,22 +784,72 @@ transform: translateX(26px);
 </div>
 <p id="notificationText"></p>
 </div>
-<!-- نافذة تسجيل دخول المشرف -->
-<div id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-        <div class="flex justify-between items-start mb-4">
-            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
-            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
-                <i class="ri-close-line text-2xl"></i>
-            </button>
-        </div>
-        <div class="mb-4">
-            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
-            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
-        </div>
-        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
-    </div>
-</div>
+    // ========== إعدادات لوحة المشرف ==========
+    const ADMIN_PASSWORD = "admin123"; // كلمة السر الافتراضية
+    
+    // عناصر واجهة تسجيل الدخول
+    const adminLoginModal = document.getElementById('adminLogin');
+    const adminPasswordInput = document.getElementById('adminPassword');
+    const submitAdminLogin = document.getElementById('submitAdminLogin');
+    const closeAdminLogin = document.getElementById('closeAdminLogin');
+    const adminPanel = document.getElementById('adminPanel');
+    
+    // فتح نافذة تسجيل الدخول عند الضغط على زر الإعدادات
+    document.querySelector('[data-page="admin"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        adminLoginModal.classList.remove('hidden');
+    });
+    
+    // إغلاق نافذة تسجيل الدخول
+    closeAdminLogin.addEventListener('click', function() {
+        adminLoginModal.classList.add('hidden');
+    });
+    
+    // معالجة تسجيل الدخول
+    submitAdminLogin.addEventListener('click', function() {
+        const enteredPassword = adminPasswordInput.value;
+        
+        if (!enteredPassword) {
+            showNotification('يرجى إدخال كلمة السر', 'error');
+            return;
+        }
+        
+        if (enteredPassword === ADMIN_PASSWORD) {
+            adminLoginModal.classList.add('hidden');
+            adminPanel.classList.remove('hidden');
+            
+            // إخفاء جميع الصفحات الأخرى
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            showNotification('تم تسجيل الدخول بنجاح', 'success');
+        } else {
+            showNotification('كلمة السر غير صحيحة', 'error');
+        }
+        
+        adminPasswordInput.value = '';
+    });
+
+    // زر تسجيل الخروج (أضيفيه في لوحة المشرف)
+    function setupAdminLogout() {
+        const logoutBtn = document.createElement('button');
+        logoutBtn.id = 'adminLogout';
+        logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded-button hover:bg-red-600';
+        logoutBtn.innerHTML = 'تسجيل الخروج';
+        
+        // أضيفيه في بداية لوحة المشرف
+        adminPanel.insertBefore(logoutBtn, adminPanel.firstChild);
+        
+        logoutBtn.addEventListener('click', function() {
+            adminPanel.classList.add('hidden');
+            showPage('homePage');
+            showNotification('تم تسجيل الخروج بنجاح', 'success');
+        });
+    }
+    
+    // استدعاء الدوال عند التحميل
+    setupAdminLogout();
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
@@ -765,11 +863,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         currentPackage: null,
         currentGame: null,
-        exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
-        ADMIN_PASSWORD: "admin123" // كلمة السر الافتراضية
+        exchangeRate: 15000 // سعر الصرف: 1 دولار = 15000 ليرة سورية
     };
 
-    // تهيئة الواجهة
     function initUI() {
         // تحديث رصيد المستخدم
         updateBalanceDisplay();
@@ -788,6 +884,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إعداد شحن الرصيد
         setupTopUpFunctions();
+        
+        // إعداد تبويبات المشرف وأزرار الطلبات
+        setupAdminTabs();
+        setupOrderActions();
+        
+        // تحميل الطلبات إذا كان المستخدم مشرفاً
+        if (adminPanel.classList.contains('hidden') === false) {
+            loadAdminOrders();
+        }
     }
 
     // تحديث عرض الرصيد
@@ -811,13 +916,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const page = this.getAttribute('data-page');
         
                 if (page === 'admin') {
-                    document.getElementById('adminLogin').classList.remove('hidden');
+                    adminLoginModal.classList.remove('hidden');
                 } else {
                     showPage(page + 'Page');
                 }
             });
         });
-        
         // التنقل بين الألعاب
         document.querySelectorAll('[data-game]').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -893,7 +997,207 @@ document.addEventListener('DOMContentLoaded', function() {
             this.reset();
         });
     }
+    function setupAdminTabs() {
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // تحديث التبويب النشط
+                adminTabs.forEach(t => {
+                    t.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    t.classList.add('text-gray-500');
+                });
+                
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+                this.classList.remove('text-gray-500');
+                
+                // إظهار المحتوى المناسب
+                if (tabId === 'orders') {
+                    document.getElementById('adminOrdersTab').classList.remove('hidden');
+                    loadAdminOrders();
+                } else {
+                    document.getElementById('adminOrdersTab').classList.add('hidden');
+                }
+            });
+        });
+        
+        // تبويبات الطلبات
+        const orderTabs = document.querySelectorAll('.admin-order-tab');
+        orderTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const orderType = this.getAttribute('data-order-type');
+                
+                // تحديث التبويب النشط
+                orderTabs.forEach(t => {
+                    t.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    t.classList.add('text-gray-500');
+                });
+                
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+                this.classList.remove('text-gray-500');
+                
+                // إظهار المحتوى المناسب
+                if (orderType === 'deposit') {
+                    document.getElementById('adminDepositOrders').classList.remove('hidden');
+                    document.getElementById('adminPurchaseOrders').classList.add('hidden');
+                } else {
+                    document.getElementById('adminDepositOrders').classList.add('hidden');
+                    document.getElementById('adminPurchaseOrders').classList.remove('hidden');
+                }
+            });
+        });
+    }
 
+    // تحميل الطلبات للمشرف
+    function loadAdminOrders() {
+        const depositContainer = document.getElementById('adminDepositOrders');
+        const purchaseContainer = document.getElementById('adminPurchaseOrders');
+        
+        depositContainer.innerHTML = '';
+        purchaseContainer.innerHTML = '';
+        
+        // عرض طلبات الإيداع
+        app.orders.deposits.forEach(order => {
+            const orderElement = createAdminOrderElement(order, 'deposit');
+            depositContainer.appendChild(orderElement);
+        });
+        
+        // عرض طلبات الشراء
+        app.orders.purchases.forEach(order => {
+            const orderElement = createAdminOrderElement(order, 'purchase');
+            purchaseContainer.appendChild(orderElement);
+        });
+    }
+
+    // إنشاء عنصر طلب للمشرف
+    function createAdminOrderElement(order, type) {
+        const orderElement = document.createElement('div');
+        orderElement.className = 'bg-gray-50 rounded-lg p-4';
+        
+        const statusClass = {
+            pending: 'bg-yellow-100 text-yellow-800',
+            completed: 'bg-green-100 text-green-800',
+            accepted: 'bg-green-100 text-green-800',
+            rejected: 'bg-red-100 text-red-800'
+        };
+        
+        const statusText = {
+            pending: 'قيد الانتظار',
+            completed: 'مكتمل',
+            accepted: 'مقبول',
+            rejected: 'مرفوض'
+        };
+        
+        const isDeposit = type === 'deposit';
+        const orderTypeText = isDeposit ? 'إيداع' : 'شحن';
+        
+        orderElement.innerHTML = `
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <p class="font-bold text-gray-800">طلب ${orderTypeText} #${order.id}</p>
+                    ${order.product ? `<p class="text-gray-600">المنتج: ${order.product}</p>` : ''}
+                    <p class="text-gray-600">المبلغ: ${order.amount} ${isDeposit ? '$' : '$'}</p>
+                    <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
+                    ${order.playerId ? `<p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>` : ''}
+                    ${order.method ? `<p class="text-gray-600">الطريقة: ${order.method}</p>` : ''}
+                    ${order.txid ? `<p class="text-gray-600">رقم العملية: ${order.txid}</p>` : ''}
+                    ${order.code ? `<p class="text-gray-600">رمز التحويل: ${order.code}</p>` : ''}
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm font-bold ${statusClass[order.status] || 'bg-gray-100 text-gray-800'}">
+                    ${statusText[order.status] || order.status}
+                </span>
+            </div>
+            
+            ${order.status === 'pending' ? `
+            <div class="flex gap-2 justify-end">
+                <button class="approve-order bg-green-500 text-white px-3 py-1 rounded-button text-sm hover:bg-green-600" 
+                        data-order-id="${order.id}" data-order-type="${type}">
+                    قبول
+                </button>
+                <button class="reject-order bg-red-500 text-white px-3 py-1 rounded-button text-sm hover:bg-red-600" 
+                        data-order-id="${order.id}" data-order-type="${type}">
+                    رفض
+                </button>
+            </div>
+            ` : ''}
+        `;
+        
+        return orderElement;
+    }
+
+    // معالجة قبول/رفض الطلبات
+    function setupOrderActions() {
+        document.addEventListener('click', async function(e) {
+            // قبول الطلب
+            if (e.target.classList.contains('approve-order')) {
+                const orderId = e.target.getAttribute('data-order-id');
+                const orderType = e.target.getAttribute('data-order-type');
+                
+                // تحديث حالة الطلب
+                const ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
+                const orderIndex = ordersArray.findIndex(o => o.id == orderId);
+                
+                if (orderIndex !== -1) {
+                    ordersArray[orderIndex].status = 'accepted';
+                    
+                    // إذا كان إيداعاً، نضيف الرصيد
+                    if (orderType === 'deposit' && ordersArray[orderIndex].method !== 'سيرياتيل كاش') {
+                        app.userBalance += ordersArray[orderIndex].amount;
+                        updateBalanceDisplay();
+                    }
+                    
+                    // إرسال إشعار
+                    await sendOrderStatusUpdate(orderId, orderType, 'accepted');
+                    
+                    // إعادة تحميل الطلبات
+                    loadAdminOrders();
+                    showNotification('تم قبول الطلب بنجاح', 'success');
+                }
+            }
+            
+            // رفض الطلب
+            if (e.target.classList.contains('reject-order')) {
+                const orderId = e.target.getAttribute('data-order-id');
+                const orderType = e.target.getAttribute('data-order-type');
+                
+                // تحديث حالة الطلب
+                const ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
+                const orderIndex = ordersArray.findIndex(o => o.id == orderId);
+                
+                if (orderIndex !== -1) {
+                    ordersArray[orderIndex].status = 'rejected';
+                    
+                    // إرسال إشعار
+                    await sendOrderStatusUpdate(orderId, orderType, 'rejected');
+                    
+                    // إعادة تحميل الطلبات
+                    loadAdminOrders();
+                    showNotification('تم رفض الطلب بنجاح', 'success');
+                }
+            }
+        });
+    }
+
+    // إرسال تحديث حالة الطلب
+    async function sendOrderStatusUpdate(orderId, orderType, status) {
+        const statusText = {
+            accepted: 'مقبول',
+            rejected: 'مرفوض'
+        };
+        
+        const order = (orderType === 'deposit' ? app.orders.deposits : app.orders.purchases)
+            .find(o => o.id == orderId);
+        
+        if (!order) return;
+        
+        const message = `📢 تحديث حالة الطلب #${orderId}\n\n` +
+            `النوع: ${orderType === 'deposit' ? 'إيداع' : 'شحن'}\n` +
+            `الحالة: ${statusText[status]}\n` +
+            `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
+            
+        await sendToTelegram(message);
+    }
     // إعداد إعدادات المشرف
     function setupAdminSettings() {
         const notificationsToggle = document.getElementById('notificationsToggle');
@@ -921,53 +1225,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // حفظ الإعدادات (يمكن استبدالها بحفظ حقيقي)
             console.log('تم حفظ الإعدادات:', { token, chatId });
             showNotification('تم حفظ الإعدادات بنجاح!', 'success');
-        });
-        
-        // إعداد تسجيل دخول المشرف
-        const adminLoginModal = document.getElementById('adminLogin');
-        const adminPasswordInput = document.getElementById('adminPassword');
-        const submitAdminLogin = document.getElementById('submitAdminLogin');
-        const closeAdminLogin = document.getElementById('closeAdminLogin');
-        const adminPanel = document.getElementById('adminPanel');
-        
-        // إغلاق نافذة تسجيل الدخول
-        closeAdminLogin.addEventListener('click', function() {
-            adminLoginModal.classList.add('hidden');
-        });
-        
-        // معالجة تسجيل الدخول
-        submitAdminLogin.addEventListener('click', function() {
-            const enteredPassword = adminPasswordInput.value;
-            
-            if (!enteredPassword) {
-                showNotification('يرجى إدخال كلمة السر', 'error');
-                return;
-            }
-            
-            if (enteredPassword === app.ADMIN_PASSWORD) {
-                adminLoginModal.classList.add('hidden');
-                showPage('adminPanel');
-                showNotification('تم تسجيل الدخول بنجاح', 'success');
-            } else {
-                showNotification('كلمة السر غير صحيحة', 'error');
-            }
-            
-            adminPasswordInput.value = '';
-        });
-        
-        // إعداد زر تسجيل الخروج
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'adminLogout';
-        logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded-button hover:bg-red-600 mb-6';
-        logoutBtn.innerHTML = 'تسجيل الخروج';
-        
-        // إضافة زر تسجيل الخروج إلى لوحة المشرف
-        const adminPanelHeader = document.querySelector('#adminPanel .flex.items-center.mb-6');
-        adminPanelHeader.appendChild(logoutBtn);
-        
-        logoutBtn.addEventListener('click', function() {
-            showPage('homePage');
-            showNotification('تم تسجيل الخروج بنجاح', 'success');
         });
     }
 
@@ -1341,5 +1598,21 @@ document.addEventListener('DOMContentLoaded', function() {
     initUI();
 });
 </script>
+<!-- نافذة تسجيل دخول المشرف -->
+<section id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
+            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <div class="mb-4">
+            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
+            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
+        </div>
+        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
+    </div>
+</section>
 </body>
 </html>
