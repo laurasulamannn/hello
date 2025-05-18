@@ -785,64 +785,52 @@ transform: translateX(26px);
 <p id="notificationText"></p>
 </div>
     // ========== إعدادات لوحة المشرف ==========
-    const ADMIN_PASSWORD = "admin123"; // كلمة السر الافتراضية
-    
-    // عناصر واجهة تسجيل الدخول
-    const adminLoginModal = document.getElementById('adminLogin');
-    const adminPasswordInput = document.getElementById('adminPassword');
-    const submitAdminLogin = document.getElementById('submitAdminLogin');
-    const closeAdminLogin = document.getElementById('closeAdminLogin');
-    const adminPanel = document.getElementById('adminPanel');
-    
-    // فتح نافذة تسجيل الدخول عند الضغط على زر الإعدادات
-    document.querySelector('[data-page="admin"]').addEventListener('click', function(e) {
-        e.preventDefault();
-        adminLoginModal.classList.remove('hidden');
-    });
-    
-    // إغلاق نافذة تسجيل الدخول
-    closeAdminLogin.addEventListener('click', function() {
-        adminLoginModal.classList.add('hidden');
-    });
-    
-    // معالجة تسجيل الدخول
-    submitAdminLogin.addEventListener('click', function() {
-        const enteredPassword = adminPasswordInput.value;
-        
-        if (!enteredPassword) {
-            showNotification('يرجى إدخال كلمة السر', 'error');
-            return;
-        }
-        
-        if (enteredPassword === ADMIN_PASSWORD) {
-            adminLoginModal.classList.add('hidden');
-            adminPanel.classList.remove('hidden');
-            
-            // إخفاء جميع الصفحات الأخرى
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.add('hidden');
-            });
-            
-            showNotification('تم تسجيل الدخول بنجاح', 'success');
-        } else {
-            showNotification('كلمة السر غير صحيحة', 'error');
-        }
-        
-        adminPasswordInput.value = '';
-    });
+// إعدادات لوحة المشرف
+    const ADMIN_PASSWORD = "admin123";
 
-    // زر تسجيل الخروج (أضيفيه في لوحة المشرف)
+    function setupAdminLogin() {
+        const adminLoginModal = document.getElementById('adminLogin');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const submitAdminLogin = document.getElementById('submitAdminLogin');
+        const closeAdminLogin = document.getElementById('closeAdminLogin');
+        const adminPanel = document.getElementById('adminPanel');
+
+    // فتح نافذة تسجيل الدخول
+        document.querySelector('[data-page="admin"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            adminLoginModal.classList.remove('hidden');
+        });
+
+    // إغلاق النافذة
+        closeAdminLogin.addEventListener('click', function() {
+            adminLoginModal.classList.add('hidden');
+        });
+
+    // معالجة تسجيل الدخول
+        submitAdminLogin.addEventListener('click', function() {
+            const enteredPassword = adminPasswordInput.value;
+        
+            if (!enteredPassword) {
+                showNotification('يرجى إدخال كلمة السر', 'error');
+                return;
+            }
+        
+            if (enteredPassword === ADMIN_PASSWORD) {
+                adminLoginModal.classList.add('hidden');
+                adminPanel.classList.remove('hidden');
+                showPage('adminPanel');
+                showNotification('تم تسجيل الدخول بنجاح', 'success');
+            } else {
+                showNotification('كلمة السر غير صحيحة', 'error');
+            }
+        
+            adminPasswordInput.value = '';
+        });
+    }
+
     function setupAdminLogout() {
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'adminLogout';
-        logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded-button hover:bg-red-600';
-        logoutBtn.innerHTML = 'تسجيل الخروج';
-        
-        // أضيفيه في بداية لوحة المشرف
-        adminPanel.insertBefore(logoutBtn, adminPanel.firstChild);
-        
-        logoutBtn.addEventListener('click', function() {
-            adminPanel.classList.add('hidden');
+        document.getElementById('adminLogout').addEventListener('click', function() {
+            document.getElementById('adminPanel').classList.add('hidden');
             showPage('homePage');
             showNotification('تم تسجيل الخروج بنجاح', 'success');
         });
@@ -872,7 +860,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إعداد قائمة التنقل
         setupNavigation();
-        
+        setupAdminLogin();
+        setupAdminLogout();
+        setupAdminTabs();
+        setupOrderActions();
         // إعداد نموذج الاتصال
         setupContactForm();
         
@@ -881,6 +872,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إعداد أزرار الشراء
         setupPurchaseButtons();
+        setupAdminSettings();
         
         // إعداد شحن الرصيد
         setupTopUpFunctions();
