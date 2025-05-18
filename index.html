@@ -108,13 +108,6 @@ color: #2c3e50;
 background-color: #1a237e;
 color: white;
 }
-.mobile-menu {
-transition: all 0.3s ease;
-transform: translateX(100%);
-}
-.mobile-menu.open {
-transform: translateX(0);
-}
 </style>
 </head>
 
@@ -168,24 +161,6 @@ transform: translateX(0);
     </div>
 </div>
 
-<!-- قائمة الجوال -->
-<div id="mobileMenu" class="mobile-menu fixed inset-y-0 right-0 w-64 bg-white shadow-lg z-50 p-4">
-    <div class="flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold text-gray-800">القائمة</h3>
-        <button id="closeMobileMenu" class="text-gray-500 hover:text-gray-700">
-            <i class="ri-close-line text-2xl"></i>
-        </button>
-    </div>
-    <ul class="space-y-4">
-        <li><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-gray-100 rounded" data-page="home">الرئيسية</a></li>
-        <li><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-gray-100 rounded" data-page="games">شحن الألعاب</a></li>
-        <li><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-gray-100 rounded" data-page="topup">شحن الرصيد</a></li>
-        <li><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-gray-100 rounded" data-page="orders">طلباتي</a></li>
-        <li><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-gray-100 rounded" data-page="help">المساعدة والدعم</a></li>
-        <li id="adminMenuItem" class="hidden"><a href="#" class="block py-2 px-4 text-gray-800 hover:bg-gray-100 rounded" data-page="admin">إعدادات المشرف</a></li>
-    </ul>
-</div>
-
 <!-- نافذة تسجيل دخول المشرف -->
 <div id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
@@ -203,20 +178,27 @@ transform: translateX(0);
     </div>
 </div>
 
-<header class="bg-primary shadow-md fixed w-full top-0 z-40">
+<header class="bg-primary shadow-md fixed w-full top-0 z-50">
 <div class="container mx-auto px-4 py-3 flex justify-between items-center">
 <div class="flex items-center">
 <h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
 </div>
-<div class="flex items-center space-x-4 space-x-reverse">
-    <button id="mobileMenuBtn" class="text-white md:hidden">
-        <i class="ri-menu-line text-2xl"></i>
-    </button>
-    <div class="hidden md:flex items-center space-x-4 space-x-reverse" id="userControls">
-        <!-- سيتم ملؤها ديناميكيًا بعد تسجيل الدخول -->
-    </div>
+<div class="flex items-center space-x-4 space-x-reverse" id="userControls">
+    <!-- سيتم ملؤها ديناميكيًا بعد تسجيل الدخول -->
 </div>
 </div>
+<nav id="mainNav" class="hidden bg-secondary">
+<div class="container mx-auto px-4 py-3">
+<ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="games">الألعاب</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="admin">إعدادات المشرف</a></li>
+</ul>
+</div>
+</nav>
 </header>
 
 <main class="container mx-auto px-4 pt-24 pb-10 min-h-screen">
@@ -230,12 +212,7 @@ transform: translateX(0);
 <button class="bg-primary/20 border-2 border-white text-white px-6 py-3 rounded-button font-bold hover:bg-primary/30 transition whitespace-nowrap" data-page="help">طلب المساعدة</button>
 </div>
 </div>
-<div class="flex items-center">
-    <button id="navMenuBtn" class="text-white mr-4 md:hidden">
-        <i class="ri-menu-line text-2xl"></i>
-    </button>
-    <h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
-</div>
+
 <div class="bg-white rounded-xl shadow-lg p-6 mb-10">
 <h3 class="text-2xl font-bold text-gray-800 mb-4">مميزات متجرنا</h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1001,7 +978,6 @@ document.addEventListener('DOMContentLoaded', function() {
         currentGame: null,
         exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
         ADMIN_PASSWORD: "admin123",
-        ADMIN_EMAIL: "sawsans086@gmail.com", // إيميل المشرف المحدد
         USER_LEVELS: {
             basic: { name: 'عادي', min: 0, max: 49, discount: 0, class: 'level-basic' },
             silver: { name: 'فضي', min: 50, max: 99, discount: 5, class: 'level-silver' },
@@ -1013,8 +989,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // تهيئة واجهة المستخدم
     function initUI() {
-        // تحميل بيانات المستخدمين من ملف JSON إذا وجد
-        loadUsersFromJSON();
+        // تحميل بيانات المستخدمين من localStorage إذا وجدت
+        loadUsersFromStorage();
         
         // عرض نافذة تسجيل الدخول إذا لم يكن هناك مستخدم مسجل
         if (!app.currentUser) {
@@ -1041,122 +1017,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // إعداد تبويبات المشرف وأزرار الطلبات
         setupAdminTabs();
         setupOrderActions();
-        
-        // إعداد قائمة الجوال
-        setupMobileMenu();
     }
 
-    // تحميل المستخدمين من ملف JSON
-    function loadUsersFromJSON() {
-        // في بيئة حقيقية، هنا ستقوم بجلب البيانات من ملف JSON عبر fetch أو AJAX
-        // لكن لأغراض العرض، سنستخدم localStorage كمحاكاة
-        
-        const savedUsers = localStorage.getItem('mkdadShopUsers');
-        if (savedUsers) {
-            app.users = JSON.parse(savedUsers);
-        }
-        
-        // إضافة مستخدم مشرف افتراضي إذا لم يكن موجوداً
-        if (!app.users.some(u => u.email === app.ADMIN_EMAIL)) {
-            app.users.push({
-                id: Date.now(),
-                username: 'admin',
-                password: 'admin123',
-                email: app.ADMIN_EMAIL,
-                phone: '0999999999',
-                balance: 1000,
-                level: 'admin',
-                joinDate: new Date().toISOString()
-            });
-            saveUsersToJSON();
-        }
-    }
-
-    // حفظ المستخدمين في ملف JSON
-    function saveUsersToJSON() {
-        // في بيئة حقيقية، هنا ستقوم بحفظ البيانات إلى ملف JSON عبر API
-        // لكن لأغراض العرض، سنستخدم localStorage كمحاكاة
-        localStorage.setItem('mkdadShopUsers', JSON.stringify(app.users));
-        
-        // يمكنك إضافة هنا كود لإرسال البيانات إلى الخادم لحفظها في ملف JSON
-        // مثال:
-        // fetch('/save-users', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(app.users)
-        // });
-    }
-
-    // تحديث عناصر تحكم المستخدم في الشريط العلوي
-    function updateUserControls() {
-        const userControls = document.getElementById('userControls');
-        const adminMenuItem = document.getElementById('adminMenuItem');
-        
-        if (app.currentUser) {
-            const userLevel = app.USER_LEVELS[app.currentUser.level] || app.USER_LEVELS.basic;
-            
-            userControls.innerHTML = `
-                <div class="bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
-                    <div class="w-6 h-6 flex items-center justify-center mr-2">
-                        <i class="ri-wallet-3-line text-white"></i>
-                    </div>
-                    <span>رصيدك: <span id="userBalance" class="font-bold">${app.currentUser.balance}</span> $</span>
-                </div>
-                <div class="bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
-                    <span class="user-level-badge ${userLevel.class} mr-2">${userLevel.name}</span>
-                    <span>${app.currentUser.username}</span>
-                </div>
-                <button id="logoutBtn" class="text-white w-8 h-8 flex items-center justify-center">
-                    <i class="ri-logout-box-r-line text-xl"></i>
-                </button>
-            `;
-            
-            // إظهار أو إخفاء عنصر المشرف في القائمة بناءً على الإيميل
-            if (app.currentUser.email === app.ADMIN_EMAIL) {
-                adminMenuItem.classList.remove('hidden');
-            } else {
-                adminMenuItem.classList.add('hidden');
-            }
-            
-            // إعداد زر تسجيل الخروج
-            document.getElementById('logoutBtn').addEventListener('click', logoutUser);
-        } else {
-            userControls.innerHTML = `
-                <button id="loginBtn" class="text-white px-4 py-1 rounded-button bg-primary/20 hover:bg-primary/30">
-                    تسجيل الدخول
-                </button>
-            `;
-            
-            // إعداد زر تسجيل الدخول
-            document.getElementById('loginBtn').addEventListener('click', function() {
-                document.getElementById('loginModal').classList.remove('hidden');
-            });
-        }
-    }
-
-    // إعداد قائمة الجوال
-    function setupMobileMenu() {
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const closeMobileMenu = document.getElementById('closeMobileMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.add('open');
-        });
-        
-        closeMobileMenu.addEventListener('click', function() {
-            mobileMenu.classList.remove('open');
-        });
-        
-        // إغلاق القائمة عند النقر على رابط
-        document.querySelectorAll('#mobileMenu a').forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenu.classList.remove('open');
-            });
-        });
-    }
     // تحميل المستخدمين من localStorage
     function loadUsersFromStorage() {
         const savedUsers = localStorage.getItem('mkdadShopUsers');
@@ -1318,14 +1180,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 app.userBalance = user.balance;
                 document.getElementById('loginModal').classList.add('hidden');
                 updateUserControls();
-                if (user.email === 'sawsans086@gmail.com') {
-                    document.querySelector('[data-page="admin"]').classList.remove('hidden');
-                } else {
-                    document.querySelector('[data-page="admin"]').classList.add('hidden');
-                }
-    
-                showNotification(`مرحباً بعودتك، ${user.username}!`, 'success');
-            }
                 showNotification(`مرحباً بعودتك، ${user.username}!`, 'success');
             } else {
                 showNotification('اسم المستخدم أو كلمة السر غير صحيحة', 'error');
@@ -2169,7 +2023,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // تهيئة التطبيق
     // تهيئة التطبيق
     initUI();
     setupAuthForms();
