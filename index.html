@@ -81,31 +81,117 @@ background-color: #1a237e;
 input:checked + .slider:before {
 transform: translateX(26px);
 }
+.user-level-badge {
+display: inline-block;
+padding: 2px 8px;
+border-radius: 12px;
+font-size: 12px;
+font-weight: bold;
+}
+.level-basic {
+background-color: #e0e0e0;
+color: #424242;
+}
+.level-silver {
+background-color: #c0c0c0;
+color: #212121;
+}
+.level-gold {
+background-color: #ffd700;
+color: #5e3800;
+}
+.level-platinum {
+background-color: #e5e4e2;
+color: #2c3e50;
+}
+.level-admin {
+background-color: #1a237e;
+color: white;
+}
 </style>
 </head>
 
 <body>
+<!-- نافذة تسجيل الدخول -->
+<div id="loginModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold text-gray-800">تسجيل الدخول / إنشاء حساب</h3>
+            <button id="closeLogin" class="text-gray-500 hover:text-gray-700">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <div id="loginForm">
+            <div class="mb-4">
+                <label for="loginUsername" class="block text-gray-700 font-bold mb-2">اسم المستخدم:</label>
+                <input type="text" id="loginUsername" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل اسم المستخدم">
+            </div>
+            <div class="mb-4">
+                <label for="loginPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
+                <input type="password" id="loginPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
+            </div>
+            <button id="submitLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mb-3">تسجيل الدخول</button>
+            <button id="showRegister" class="text-primary font-bold w-full text-center py-2">إنشاء حساب جديد</button>
+        </div>
+        
+        <div id="registerForm" class="hidden">
+            <div class="mb-4">
+                <label for="regUsername" class="block text-gray-700 font-bold mb-2">اسم المستخدم:</label>
+                <input type="text" id="regUsername" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="اختر اسم مستخدم">
+            </div>
+            <div class="mb-4">
+                <label for="regEmail" class="block text-gray-700 font-bold mb-2">البريد الإلكتروني:</label>
+                <input type="email" id="regEmail" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل بريدك الإلكتروني">
+            </div>
+            <div class="mb-4">
+                <label for="regPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
+                <input type="password" id="regPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="اختر كلمة سر قوية">
+            </div>
+            <div class="mb-4">
+                <label for="regConfirmPassword" class="block text-gray-700 font-bold mb-2">تأكيد كلمة السر:</label>
+                <input type="password" id="regConfirmPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أعد إدخال كلمة السر">
+            </div>
+            <div class="mb-4">
+                <label for="regPhone" class="block text-gray-700 font-bold mb-2">رقم الهاتف:</label>
+                <input type="text" id="regPhone" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل رقم الهاتف">
+            </div>
+            <button id="submitRegister" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mb-3">إنشاء حساب</button>
+            <button id="showLogin" class="text-primary font-bold w-full text-center py-2">لديك حساب؟ تسجيل الدخول</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة تسجيل دخول المشرف -->
+<div id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
+            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <div class="mb-4">
+            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
+            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
+        </div>
+        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
+    </div>
+</div>
+
 <header class="bg-primary shadow-md fixed w-full top-0 z-50">
 <div class="container mx-auto px-4 py-3 flex justify-between items-center">
 <div class="flex items-center">
 <h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
 </div>
-<div class="flex items-center space-x-4 space-x-reverse">
-<div class="bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
-<div class="w-6 h-6 flex items-center justify-center mr-2">
-<i class="ri-wallet-3-line text-white"></i>
-</div>
-<span>رصيدك: <span id="userBalance" class="font-bold">0</span> $</span>
-</div>
-<button id="navMenuBtn" class="text-white w-8 h-8 flex items-center justify-center">
-<i class="ri-menu-line text-xl"></i>
-</button>
+<div class="flex items-center space-x-4 space-x-reverse" id="userControls">
+    <!-- سيتم ملؤها ديناميكيًا بعد تسجيل الدخول -->
 </div>
 </div>
 <nav id="mainNav" class="hidden bg-secondary">
 <div class="container mx-auto px-4 py-3">
 <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
 <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
+<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="games">الألعاب</a></li>
 <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
 <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
 <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
@@ -114,6 +200,7 @@ transform: translateX(26px);
 </div>
 </nav>
 </header>
+
 <main class="container mx-auto px-4 pt-24 pb-10 min-h-screen">
 <!-- Home Page -->
 <section id="homePage" class="page-content">
@@ -121,28 +208,11 @@ transform: translateX(26px);
 <h2 class="text-3xl font-bold mb-4">أهلاً بك في متجر MKDAD للشحن</h2>
 <p class="text-xl mb-6">المتجر الأفضل لشحن جواهر فري فاير وشدات ببجي</p>
 <div class="flex flex-wrap gap-4">
-<button class="bg-white text-primary px-6 py-3 rounded-button font-bold hover:bg-blue-100 transition whitespace-nowrap" data-page="topup">شحن رصيدك الآن</button>
+<button class="bg-white text-primary px-6 py-3 rounded-button font-bold hover:bg-blue-100 transition whitespace-nowrap" data-page="games">تصفح الألعاب</button>
 <button class="bg-primary/20 border-2 border-white text-white px-6 py-3 rounded-button font-bold hover:bg-primary/30 transition whitespace-nowrap" data-page="help">طلب المساعدة</button>
 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=PUBG%20Mobile%20game%20artwork%20with%20weapons%20and%20characters%20in%20action%2C%20dramatic%20lighting%2C%20blue%20color%20scheme%2C%20professional%20game%20promotional%20art%20style%2C%20high%20quality&width=600&height=300&seq=1&orientation=landscape')"></div>
-<div class="p-6">
-<h3 class="text-2xl font-bold text-gray-800 mb-3">ببجي موبايل</h3>
-<p class="text-gray-600 mb-4">اشحن شدات ببجي موبايل بأفضل الأسعار وبطريقة آمنة وسريعة</p>
-<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="pubg">شحن شدات ببجي</button>
-</div>
-</div>
-<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Free%20Fire%20game%20artwork%20with%20characters%20and%20diamonds%2C%20blue%20color%20scheme%2C%20professional%20game%20promotional%20art%20style%2C%20high%20quality&width=600&height=300&seq=2&orientation=landscape')"></div>
-<div class="p-6">
-<h3 class="text-2xl font-bold text-gray-800 mb-3">فري فاير</h3>
-<p class="text-gray-600 mb-4">اشحن جواهر فري فاير بأفضل الأسعار وبطريقة آمنة وسريعة</p>
-<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="freeFire">شحن جواهر فري فاير</button>
-</div>
-</div>
-</div>
+
 <div class="bg-white rounded-xl shadow-lg p-6 mb-10">
 <h3 class="text-2xl font-bold text-gray-800 mb-4">مميزات متجرنا</h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -176,6 +246,38 @@ transform: translateX(26px);
 </div>
 </div>
 </section>
+
+<!-- Games Page -->
+<section id="gamesPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">الألعاب المتاحة</h2>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=PUBG%20Mobile%20game%20artwork%20with%20weapons%20and%20characters%20in%20action%2C%20dramatic%20lighting%2C%20blue%20color%20scheme%2C%20professional%20game%20promotional%20art%20style%2C%20high%20quality&width=600&height=300&seq=1&orientation=landscape')"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-3">ببجي موبايل</h3>
+<p class="text-gray-600 mb-4">اشحن شدات ببجي موبايل بأفضل الأسعار وبطريقة آمنة وسريعة</p>
+<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="pubg">شحن شدات ببجي</button>
+</div>
+</div>
+<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Free%20Fire%20game%20artwork%20with%20characters%20and%20diamonds%2C%20blue%20color%20scheme%2C%20professional%20game%20promotional%20art%20style%2C%20high%20quality&width=600&height=300&seq=2&orientation=landscape')"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-3">فري فاير</h3>
+<p class="text-gray-600 mb-4">اشحن جواهر فري فاير بأفضل الأسعار وبطريقة آمنة وسريعة</p>
+<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="freeFire">شحن جواهر فري فاير</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
 <!-- PUBG Mobile Page -->
 <section id="pubgPage" class="page-content hidden">
 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -265,6 +367,7 @@ transform: translateX(26px);
 </div>
 </div>
 </section>
+
 <!-- Free Fire Page -->
 <section id="freeFirePage" class="page-content hidden">
 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -354,6 +457,7 @@ transform: translateX(26px);
 </div>
 </div>
 </section>
+
 <!-- Top Up Page -->
 <section id="topupPage" class="page-content hidden">
 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -419,6 +523,7 @@ transform: translateX(26px);
 </div>
 </div>
 </section>
+
 <!-- Help Page -->
 <section id="helpPage" class="page-content hidden">
 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -495,6 +600,7 @@ transform: translateX(26px);
 </div>
 </div>
 </section>
+
 <!-- Orders Page -->
 <section id="ordersPage" class="page-content hidden">
 <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -518,6 +624,7 @@ transform: translateX(26px);
     </div>
 </div>
 </section>
+
 <!-- Admin Page -->
 <section id="adminPanel" class="page-content hidden">
     <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
@@ -547,10 +654,39 @@ transform: translateX(26px);
             <div class="flex border-b border-gray-200">
                 <button class="px-6 py-2 text-primary font-bold border-b-2 border-primary admin-tab" data-tab="settings">الإعدادات</button>
                 <button class="px-6 py-2 text-gray-500 font-bold admin-tab" data-tab="orders">إدارة الطلبات</button>
+                <button class="px-6 py-2 text-gray-500 font-bold admin-tab" data-tab="users">إدارة المستخدمين</button>
                 <button class="px-6 py-2 text-gray-500 font-bold admin-tab" data-tab="stats">الإحصائيات</button>
             </div>
         </div>
         
+        <!-- قسم إدارة المستخدمين -->
+        <div id="adminUsersTab" class="hidden">
+            <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-800 mb-3">قائمة المستخدمين</h3>
+                <div class="relative">
+                    <input type="text" id="userSearch" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary mb-4" placeholder="ابحث عن مستخدم...">
+                    <i class="ri-search-line absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 text-right font-bold text-gray-700">اسم المستخدم</th>
+                            <th class="py-3 px-4 text-right font-bold text-gray-700">البريد الإلكتروني</th>
+                            <th class="py-3 px-4 text-right font-bold text-gray-700">المستوى</th>
+                            <th class="py-3 px-4 text-right font-bold text-gray-700">الرصيد</th>
+                            <th class="py-3 px-4 text-right font-bold text-gray-700">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersList" class="divide-y divide-gray-200">
+                        <!-- سيتم ملؤها ديناميكيًا -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+           
         <!-- قسم إدارة الطلبات -->
         <div id="adminOrdersTab" class="hidden">
             <div class="mb-6">
@@ -597,26 +733,26 @@ transform: translateX(26px);
                 </div>
                 
                 <div class="border border-gray-200 rounded-xl p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">آخر العمليات</h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">أحدث المستخدمين</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                             <div>
                                 <p class="font-bold text-gray-800">محمد أحمد</p>
-                                <p class="text-gray-600 text-sm">شحن 600 شدة ببجي</p>
+                                <p class="text-gray-600 text-sm">مستوى: <span class="user-level-badge level-silver">فضي</span></p>
                             </div>
-                            <span class="text-green-600 font-bold">10 $</span>
+                            <span class="text-green-600 font-bold">50 $</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                             <div>
                                 <p class="font-bold text-gray-800">عمر خالد</p>
-                                <p class="text-gray-600 text-sm">شحن 1060 جوهرة فري فاير</p>
+                                <p class="text-gray-600 text-sm">مستوى: <span class="user-level-badge level-gold">ذهبي</span></p>
                             </div>
-                            <span class="text-green-600 font-bold">10 $</span>
+                            <span class="text-green-600 font-bold">120 $</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                             <div>
                                 <p class="font-bold text-gray-800">سارة محمود</p>
-                                <p class="text-gray-600 text-sm">شحن رصيد (USDT)</p>
+                                <p class="text-gray-600 text-sm">مستوى: <span class="user-level-badge level-basic">عادي</span></p>
                             </div>
                             <span class="text-green-600 font-bold">20 $</span>
                         </div>
@@ -625,34 +761,77 @@ transform: translateX(26px);
             </div>
         </div>
         
-        <!-- قسم الإعدادات -->
+        <!-- قسم إعدادات المشرف -->
         <div id="adminSettingsTab">
-            <div class="border border-gray-200 rounded-xl p-6">
-                <h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات الموقع</h3>
-                <div class="mb-4">
-                    <label for="telegramToken" class="block text-gray-700 font-bold mb-2">توكن البوت:</label>
-                    <input type="text" id="telegramToken" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل توكن البوت">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات بوت التليجرام</h3>
+                    <div class="mb-4">
+                        <label for="telegramToken" class="block text-gray-700 font-bold mb-2">توكن البوت:</label>
+                        <input type="text" id="telegramToken" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل توكن البوت">
+                    </div>
+                    <div class="mb-4">
+                        <label for="telegramChatId" class="block text-gray-700 font-bold mb-2">معرف المحادثة:</label>
+                        <input type="text" id="telegramChatId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف المحادثة">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-bold mb-2">تفعيل الإشعارات:</label>
+                        <div class="flex items-center">
+                            <label class="custom-switch mr-3">
+                                <input type="checkbox" id="notificationsToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span id="notificationsStatus" class="text-green-600">مفعل</span>
+                        </div>
+                    </div>
+                    <button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
                 </div>
-                <div class="mb-4">
-                    <label for="telegramChatId" class="block text-gray-700 font-bold mb-2">معرف المحادثة:</label>
-                    <input type="text" id="telegramChatId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف المحادثة">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">تفعيل الإشعارات:</label>
-                    <div class="flex items-center">
-                        <label class="custom-switch mr-3">
-                            <input type="checkbox" id="notificationsToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                        <span id="notificationsStatus" class="text-green-600">مفعل</span>
+                
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات المستويات</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-gray-700">المستوى العادي</span>
+                            <span class="text-gray-600">0 - 49 $</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-gray-700">المستوى الفضي</span>
+                            <span class="text-gray-600">50 - 99 $</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-gray-700">المستوى الذهبي</span>
+                            <span class="text-gray-600">100 - 499 $</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-gray-700">المستوى البلاتيني</span>
+                            <span class="text-gray-600">500+ $</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-bold text-gray-800 mb-3">خصومات المستويات</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                <span class="font-bold text-gray-700">المستوى الفضي</span>
+                                <span class="text-primary font-bold">5% خصم</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                <span class="font-bold text-gray-700">المستوى الذهبي</span>
+                                <span class="text-primary font-bold">10% خصم</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                <span class="font-bold text-gray-700">المستوى البلاتيني</span>
+                                <span class="text-primary font-bold">15% خصم</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
             </div>
         </div>
     </div>
 </section>
 </main>
+
 <footer class="bg-gray-900 text-white py-10">
 <div class="container mx-auto px-4">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -678,8 +857,7 @@ transform: translateX(26px);
 <h3 class="text-xl font-bold mb-4">روابط سريعة</h3>
 <ul class="space-y-2">
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="home">الرئيسية</a></li>
-<li><a href="#" class="text-gray-400 hover:text-white transition" data-game="pubg">شحن شدات ببجي</a></li>
-<li><a href="#" class="text-gray-400 hover:text-white transition" data-game="freeFire">شحن جواهر فري فاير</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-page="games">الألعاب</a></li>
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="topup">شحن الرصيد</a></li>
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="help">المساعدة والدعم</a></li>
 </ul>
@@ -730,6 +908,7 @@ transform: translateX(26px);
 </div>
 </div>
 </footer>
+
 <!-- Modal for purchase confirmation -->
 <div id="purchaseModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
 <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
@@ -773,6 +952,7 @@ transform: translateX(26px);
 </div>
 </div>
 </div>
+
 <!-- Success notification -->
 <div id="successNotification" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center max-w-xs z-50">
 <div class="w-6 h-6 flex items-center justify-center mr-3">
@@ -780,29 +960,16 @@ transform: translateX(26px);
 </div>
 <p id="notificationText"></p>
 </div>
-<!-- نافذة تسجيل دخول المشرف -->
-<div id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-        <div class="flex justify-between items-start mb-4">
-            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
-            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
-                <i class="ri-close-line text-2xl"></i>
-            </button>
-        </div>
-        <div class="mb-4">
-            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
-            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
-        </div>
-        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
-    </div>
-</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
     const app = {
+        currentUser: null,
+        users: [],
         userBalance: 0,
-        TELEGRAM_BOT_TOKEN: '',
-        TELEGRAM_CHAT_ID: '',
+        TELEGRAM_BOT_TOKEN: '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY',
+        TELEGRAM_CHAT_ID: '7420327643',
         orders: {
             deposits: [],
             purchases: []
@@ -810,12 +977,27 @@ document.addEventListener('DOMContentLoaded', function() {
         currentPackage: null,
         currentGame: null,
         exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
-        ADMIN_PASSWORD: "admin123" // كلمة سر المشرف
+        ADMIN_PASSWORD: "admin123",
+        USER_LEVELS: {
+            basic: { name: 'عادي', min: 0, max: 49, discount: 0, class: 'level-basic' },
+            silver: { name: 'فضي', min: 50, max: 99, discount: 5, class: 'level-silver' },
+            gold: { name: 'ذهبي', min: 100, max: 499, discount: 10, class: 'level-gold' },
+            platinum: { name: 'بلاتيني', min: 500, max: Infinity, discount: 15, class: 'level-platinum' },
+            admin: { name: 'مشرف', min: 0, max: Infinity, discount: 0, class: 'level-admin' }
+        }
     };
 
+    // تهيئة واجهة المستخدم
     function initUI() {
-        // تحديث رصيد المستخدم
-        updateBalanceDisplay();
+        // تحميل بيانات المستخدمين من localStorage إذا وجدت
+        loadUsersFromStorage();
+        
+        // عرض نافذة تسجيل الدخول إذا لم يكن هناك مستخدم مسجل
+        if (!app.currentUser) {
+            document.getElementById('loginModal').classList.remove('hidden');
+        } else {
+            updateUserControls();
+        }
         
         // إعداد قائمة التنقل
         setupNavigation();
@@ -823,24 +1005,93 @@ document.addEventListener('DOMContentLoaded', function() {
         // إعداد نموذج الاتصال
         setupContactForm();
         
+        // إعداد إعدادات المشرف
+        setupAdminSettings();
+        
         // إعداد أزرار الشراء
         setupPurchaseButtons();
         
         // إعداد شحن الرصيد
         setupTopUpFunctions();
         
-        // إعداد لوحة المشرف
-        setupAdminPanel();
+        // إعداد تبويبات المشرف وأزرار الطلبات
+        setupAdminTabs();
+        setupOrderActions();
+    }
+
+    // تحميل المستخدمين من localStorage
+    function loadUsersFromStorage() {
+        const savedUsers = localStorage.getItem('mkdadShopUsers');
+        if (savedUsers) {
+            app.users = JSON.parse(savedUsers);
+        }
         
-        // تحميل الطلبات إذا كان المستخدم مشرفاً
-        if (document.getElementById('adminPanel').classList.contains('hidden') === false) {
-            loadAdminOrders();
+        // إضافة مستخدم مشرف افتراضي إذا لم يكن موجوداً
+        if (!app.users.some(u => u.username === 'admin')) {
+            app.users.push({
+                id: Date.now(),
+                username: 'admin',
+                password: 'admin123',
+                email: 'admin@mkdadshop.com',
+                phone: '0999999999',
+                balance: 1000,
+                level: 'admin',
+                joinDate: new Date().toISOString()
+            });
+            saveUsersToStorage();
         }
     }
 
-    // تحديث عرض الرصيد
-    function updateBalanceDisplay() {
-        document.getElementById('userBalance').textContent = app.userBalance;
+    // حفظ المستخدمين في localStorage
+    function saveUsersToStorage() {
+        localStorage.setItem('mkdadShopUsers', JSON.stringify(app.users));
+    }
+
+    // تحديث عناصر تحكم المستخدم في الشريط العلوي
+    function updateUserControls() {
+        const userControls = document.getElementById('userControls');
+        
+        if (app.currentUser) {
+            const userLevel = app.USER_LEVELS[app.currentUser.level] || app.USER_LEVELS.basic;
+            
+            userControls.innerHTML = `
+                <div class="bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
+                    <div class="w-6 h-6 flex items-center justify-center mr-2">
+                        <i class="ri-wallet-3-line text-white"></i>
+                    </div>
+                    <span>رصيدك: <span id="userBalance" class="font-bold">${app.currentUser.balance}</span> $</span>
+                </div>
+                <div class="bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
+                    <span class="user-level-badge ${userLevel.class} mr-2">${userLevel.name}</span>
+                    <span>${app.currentUser.username}</span>
+                </div>
+                <button id="logoutBtn" class="text-white w-8 h-8 flex items-center justify-center">
+                    <i class="ri-logout-box-r-line text-xl"></i>
+                </button>
+            `;
+            
+            // إعداد زر تسجيل الخروج
+            document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+        } else {
+            userControls.innerHTML = `
+                <button id="loginBtn" class="text-white px-4 py-1 rounded-button bg-primary/20 hover:bg-primary/30">
+                    تسجيل الدخول
+                </button>
+            `;
+            
+            // إعداد زر تسجيل الدخول
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                document.getElementById('loginModal').classList.remove('hidden');
+            });
+        }
+    }
+
+    // تسجيل خروج المستخدم
+    function logoutUser() {
+        app.currentUser = null;
+        updateUserControls();
+        document.getElementById('loginModal').classList.remove('hidden');
+        showNotification('تم تسجيل الخروج بنجاح', 'success');
     }
 
     // إعداد التنقل بين الصفحات
@@ -848,9 +1099,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const navMenuBtn = document.getElementById('navMenuBtn');
         const mainNav = document.getElementById('mainNav');
         
-        navMenuBtn.addEventListener('click', function() {
-            mainNav.classList.toggle('hidden');
-        });
+        // إعداد زر القائمة
+        if (navMenuBtn) {
+            navMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('hidden');
+            });
+        }
 
         // التنقل بين الصفحات
         document.querySelectorAll('[data-page]').forEach(link => {
@@ -865,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-        
+
         // التنقل بين الألعاب
         document.querySelectorAll('[data-game]').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -882,31 +1136,495 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // تبويبات طلباتي
-        document.getElementById('depositOrdersTab').addEventListener('click', function() {
+        document.getElementById('depositOrdersTab')?.addEventListener('click', function() {
             toggleOrdersTab('deposit');
         });
         
-        document.getElementById('purchaseOrdersTab').addEventListener('click', function() {
+        document.getElementById('purchaseOrdersTab')?.addEventListener('click', function() {
             toggleOrdersTab('purchase');
         });
     }
 
-    // تبديل عرض طلبات الإيداع/الشراء
-    function toggleOrdersTab(tab) {
-        const isDeposit = tab === 'deposit';
+    // إعداد نموذج تسجيل الدخول والتسجيل
+    function setupAuthForms() {
+        // تبديل بين نموذج تسجيل الدخول والتسجيل
+        document.getElementById('showRegister')?.addEventListener('click', function() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        });
         
-        document.getElementById('depositOrdersTab').classList.toggle('text-primary', isDeposit);
-        document.getElementById('depositOrdersTab').classList.toggle('text-gray-500', !isDeposit);
-        document.getElementById('depositOrdersTab').classList.toggle('border-b-2', isDeposit);
-        document.getElementById('depositOrdersTab').classList.toggle('border-primary', isDeposit);
+        document.getElementById('showLogin')?.addEventListener('click', function() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        });
         
-        document.getElementById('purchaseOrdersTab').classList.toggle('text-primary', !isDeposit);
-        document.getElementById('purchaseOrdersTab').classList.toggle('text-gray-500', isDeposit);
-        document.getElementById('purchaseOrdersTab').classList.toggle('border-b-2', !isDeposit);
-        document.getElementById('purchaseOrdersTab').classList.toggle('border-primary', !isDeposit);
+        // إغلاق نافذة تسجيل الدخول
+        document.getElementById('closeLogin')?.addEventListener('click', function() {
+            document.getElementById('loginModal').classList.add('hidden');
+        });
         
-        document.getElementById('depositOrders').classList.toggle('hidden', !isDeposit);
-        document.getElementById('purchaseOrders').classList.toggle('hidden', isDeposit);
+        // تسجيل الدخول
+        document.getElementById('submitLogin')?.addEventListener('click', function() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            const user = app.users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                app.currentUser = user;
+                app.userBalance = user.balance;
+                document.getElementById('loginModal').classList.add('hidden');
+                updateUserControls();
+                showNotification(`مرحباً بعودتك، ${user.username}!`, 'success');
+            } else {
+                showNotification('اسم المستخدم أو كلمة السر غير صحيحة', 'error');
+            }
+        });
+        
+        // إنشاء حساب جديد
+        document.getElementById('submitRegister')?.addEventListener('click', function() {
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const phone = document.getElementById('regPhone').value;
+            
+            if (!username || !email || !password || !confirmPassword || !phone) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('كلمة السر غير متطابقة', 'error');
+                return;
+            }
+            
+            if (app.users.some(u => u.username === username)) {
+                showNotification('اسم المستخدم موجود مسبقاً', 'error');
+                return;
+            }
+            
+            if (app.users.some(u => u.email === email)) {
+                showNotification('البريد الإلكتروني موجود مسبقاً', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now(),
+                username,
+                email,
+                password,
+                phone,
+                balance: 0,
+                level: 'basic',
+                joinDate: new Date().toISOString()
+            };
+            
+            app.users.push(newUser);
+            app.currentUser = newUser;
+            app.userBalance = 0;
+            saveUsersToStorage();
+            
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('loginModal').classList.add('hidden');
+            
+            updateUserControls();
+            showNotification(`مرحباً بك ${username}! تم إنشاء حسابك بنجاح`, 'success');
+        });
+    }
+
+    // إعداد نموذج تسجيل دخول المشرف
+    function setupAdminLogin() {
+        document.querySelector('[data-page="admin"]')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminLogin').classList.remove('hidden');
+        });
+        
+        document.getElementById('closeAdminLogin')?.addEventListener('click', function() {
+            document.getElementById('adminLogin').classList.add('hidden');
+        });
+        
+        document.getElementById('submitAdminLogin')?.addEventListener('click', function() {
+            const enteredPassword = document.getElementById('adminPassword').value;
+            
+            if (!enteredPassword) {
+                showNotification('يرجى إدخال كلمة السر', 'error');
+                return;
+            }
+            
+            if (enteredPassword === app.ADMIN_PASSWORD) {
+                // البحث عن مستخدم المشرف
+                const adminUser = app.users.find(u => u.username === 'admin');
+                if (adminUser) {
+                    app.currentUser = adminUser;
+                    app.userBalance = adminUser.balance;
+                    updateUserControls();
+                }
+                
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                showPage('adminPanel');
+                showNotification('تم تسجيل الدخول كمسؤول بنجاح', 'success');
+            } else {
+                showNotification('كلمة السر غير صحيحة', 'error');
+            }
+            
+            document.getElementById('adminPassword').value = '';
+        });
+    }
+
+    // تسجيل خروج المشرف
+    function setupAdminLogout() {
+        document.getElementById('adminLogout')?.addEventListener('click', function() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            showPage('homePage');
+            showNotification('تم تسجيل الخروج كمسؤول بنجاح', 'success');
+        });
+    }
+
+    // إعداد تبويبات المشرف
+    function setupAdminTabs() {
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // تحديث التبويب النشط
+                adminTabs.forEach(t => {
+                    t.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    t.classList.add('text-gray-500');
+                });
+                
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+                this.classList.remove('text-gray-500');
+                
+                // إخفاء جميع أقسام المشرف
+                document.querySelectorAll('#adminPanel > div[id$="Tab"]').forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // إظهار القسم المحدد
+                document.getElementById(`admin${tabId.charAt(0).toUpperCase() + tabId.slice(1)}Tab`).classList.remove('hidden');
+            });
+        });
+
+        // تبويبات طلبات المشرف
+        const adminOrderTabs = document.querySelectorAll('.admin-order-tab');
+        adminOrderTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const orderType = this.getAttribute('data-order-type');
+                
+                // تحديث التبويب النشط
+                adminOrderTabs.forEach(t => {
+                    t.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    t.classList.add('text-gray-500');
+                });
+                
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+                this.classList.remove('text-gray-500');
+                
+                // إخفاء جميع أقسام الطلبات
+                document.getElementById('adminDepositOrders').classList.add('hidden');
+                document.getElementById('adminPurchaseOrders').classList.add('hidden');
+                
+                // إظهار القسم المحدد
+                document.getElementById(`admin${orderType === 'deposit' ? 'Deposit' : 'Purchase'}Orders`).classList.remove('hidden');
+            });
+        });
+    }
+
+    // إعداد نموذج الاتصال
+    function setupContactForm() {
+        document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            if (!name || !email || !subject || !message) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            // هنا يمكنك إضافة إرسال الرسالة إلى الخادم أو البريد الإلكتروني
+            this.reset();
+            showNotification('تم إرسال رسالتك بنجاح، سنتواصل معك قريباً', 'success');
+        });
+    }
+
+    // إعداد إعدادات المشرف
+    function setupAdminSettings() {
+        document.getElementById('saveSettings')?.addEventListener('click', function() {
+            const telegramToken = document.getElementById('telegramToken').value;
+            const telegramChatId = document.getElementById('telegramChatId').value;
+            const notificationsEnabled = document.getElementById('notificationsToggle').checked;
+            
+            if (!telegramToken || !telegramChatId) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            app.TELEGRAM_BOT_TOKEN = telegramToken;
+            app.TELEGRAM_CHAT_ID = telegramChatId;
+            
+            document.getElementById('notificationsStatus').textContent = notificationsEnabled ? 'مفعل' : 'غير مفعل';
+            document.getElementById('notificationsStatus').className = notificationsEnabled ? 'text-green-600' : 'text-gray-600';
+            
+            showNotification('تم حفظ الإعدادات بنجاح', 'success');
+        });
+    }
+
+    // إعداد أزرار الشراء
+    function setupPurchaseButtons() {
+        document.querySelectorAll('.buy-package').forEach(button => {
+            button.addEventListener('click', function() {
+                const packageCard = this.closest('.package-card');
+                const packageName = packageCard.getAttribute('data-package');
+                const packagePrice = parseFloat(packageCard.getAttribute('data-price'));
+                
+                if (!app.currentUser) {
+                    document.getElementById('loginModal').classList.remove('hidden');
+                    showNotification('يجب تسجيل الدخول أولاً', 'error');
+                    return;
+                }
+                
+                // تحديد اللعبة بناءً على الصفحة الحالية
+                let gameId, gameName;
+                if (document.getElementById('pubgPage').classList.contains('hidden')) {
+                    gameId = document.getElementById('freeFireId').value;
+                    gameName = 'فري فاير';
+                    app.currentGame = 'freeFire';
+                } else {
+                    gameId = document.getElementById('pubgId').value;
+                    gameName = 'ببجي موبايل';
+                    app.currentGame = 'pubg';
+                }
+                
+                if (!gameId) {
+                    showNotification('يرجى إدخال معرف اللاعب', 'error');
+                    return;
+                }
+                
+                app.currentPackage = {
+                    name: packageName,
+                    price: packagePrice,
+                    game: gameName
+                };
+                
+                // تحديث معلومات نافذة الشراء
+                document.getElementById('packageName').textContent = getPackageDisplayName(packageName);
+                document.getElementById('packagePrice').textContent = packagePrice;
+                document.getElementById('playerIdConfirm').textContent = gameId;
+                document.getElementById('productConfirm').textContent = getPackageDisplayName(packageName);
+                document.getElementById('priceConfirm').textContent = `${packagePrice} $`;
+                
+                // التحقق من الرصيد الكافي
+                if (app.currentUser.balance < packagePrice) {
+                    document.getElementById('insufficientBalance').classList.remove('hidden');
+                    document.getElementById('confirmPurchase').classList.add('hidden');
+                } else {
+                    document.getElementById('insufficientBalance').classList.add('hidden');
+                    document.getElementById('confirmPurchase').classList.remove('hidden');
+                }
+                
+                document.getElementById('purchaseModal').classList.remove('hidden');
+            });
+        });
+        
+        // إغلاق نافذة الشراء
+        document.getElementById('closeModal')?.addEventListener('click', function() {
+            document.getElementById('purchaseModal').classList.add('hidden');
+        });
+        
+        document.getElementById('cancelPurchase')?.addEventListener('click', function() {
+            document.getElementById('purchaseModal').classList.add('hidden');
+        });
+        
+        // تأكيد الشراء
+        document.getElementById('confirmPurchase')?.addEventListener('click', function() {
+            if (!app.currentUser || !app.currentPackage) {
+                document.getElementById('purchaseModal').classList.add('hidden');
+                return;
+            }
+            
+            // خصم المبلغ من رصيد المستخدم
+            const userIndex = app.users.findIndex(u => u.id === app.currentUser.id);
+            if (userIndex !== -1) {
+                app.users[userIndex].balance -= app.currentPackage.price;
+                app.currentUser.balance = app.users[userIndex].balance;
+                saveUsersToStorage();
+                
+                // إنشاء طلب شراء
+                const order = {
+                    id: Date.now(),
+                    userId: app.currentUser.id,
+                    username: app.currentUser.username,
+                    game: app.currentGame,
+                    package: app.currentPackage.name,
+                    packageName: getPackageDisplayName(app.currentPackage.name),
+                    price: app.currentPackage.price,
+                    playerId: app.currentGame === 'pubg' ? document.getElementById('pubgId').value : document.getElementById('freeFireId').value,
+                    status: 'completed',
+                    date: new Date().toISOString()
+                };
+                
+                app.orders.purchases.push(order);
+                saveOrdersToStorage();
+                
+                // تحديث واجهة المستخدم
+                updateUserControls();
+                document.getElementById('purchaseModal').classList.add('hidden');
+                showNotification('تمت عملية الشراء بنجاح!', 'success');
+                
+                // إرسال إشعار إلى التليجرام
+                sendTelegramNotification(`طلب شحن جديد:
+- المستخدم: ${order.username}
+- اللعبة: ${order.game === 'pubg' ? 'ببجي موبايل' : 'فري فاير'}
+- الباقة: ${order.packageName}
+- السعر: ${order.price} $
+- معرف اللاعب: ${order.playerId}`);
+            }
+        });
+    }
+
+    // إعداد وظائف شحن الرصيد
+    function setupTopUpFunctions() {
+        // شحن USDT
+        document.getElementById('submitUsdt')?.addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('usdtAmount').value);
+            const txid = document.getElementById('usdtTxid').value;
+            
+            if (!amount || !txid) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            if (amount < 1) {
+                showNotification('الحد الأدنى للشحن هو 1 دولار', 'error');
+                return;
+            }
+            
+            // إنشاء طلب إيداع
+            const order = {
+                id: Date.now(),
+                userId: app.currentUser.id,
+                username: app.currentUser.username,
+                type: 'usdt',
+                amount: amount,
+                txid: txid,
+                status: 'pending',
+                date: new Date().toISOString()
+            };
+            
+            app.orders.deposits.push(order);
+            saveOrdersToStorage();
+            
+            // إرسال إشعار إلى التليجرام
+            sendTelegramNotification(`طلب إيداع جديد:
+- المستخدم: ${order.username}
+- المبلغ: ${order.amount} $
+- العملة: USDT
+- رقم العملية: ${order.txid}
+- الحالة: قيد المراجعة`);
+            
+            document.getElementById('usdtAmount').value = '';
+            document.getElementById('usdtTxid').value = '';
+            
+            showNotification('تم إرسال طلب الشحن بنجاح، سيتم مراجعته من قبل الإدارة', 'success');
+        });
+        
+        // شحن سيرياتيل كاش
+        document.getElementById('submitSyriatel')?.addEventListener('click', function() {
+            const amount = parseInt(document.getElementById('syriatelAmount').value);
+            const code = document.getElementById('syriatelCode').value;
+            
+            if (!amount || !code) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+            
+            const usdAmount = amount / app.exchangeRate;
+            
+            if (usdAmount < 1) {
+                showNotification('الحد الأدنى للشحن هو ما يعادل 1 دولار', 'error');
+                return;
+            }
+            
+            // إنشاء طلب إيداع
+            const order = {
+                id: Date.now(),
+                userId: app.currentUser.id,
+                username: app.currentUser.username,
+                type: 'syriatel',
+                amount: usdAmount,
+                localAmount: amount,
+                code: code,
+                status: 'pending',
+                date: new Date().toISOString()
+            };
+            
+            app.orders.deposits.push(order);
+            saveOrdersToStorage();
+            
+            // إرسال إشعار إلى التليجرام
+            sendTelegramNotification(`طلب إيداع جديد:
+- المستخدم: ${order.username}
+- المبلغ: ${order.localAmount} ليرة (${order.amount.toFixed(2)} $)
+- العملة: سيرياتيل كاش
+- رمز العملية: ${order.code}
+- الحالة: قيد المراجعة`);
+            
+            document.getElementById('syriatelAmount').value = '';
+            document.getElementById('syriatelCode').value = '';
+            
+            showNotification('تم إرسال طلب الشحن بنجاح، سيتم مراجعته من قبل الإدارة', 'success');
+        });
+    }
+
+    // إعداد إجراءات الطلبات للمشرف
+    function setupOrderActions() {
+        // هنا يمكنك إضافة كود للتعامل مع إجراءات المشرف مثل الموافقة على الطلبات أو رفضها
+        // مثلاً: document.querySelectorAll('.approve-order').forEach(btn => { ... });
+    }
+
+    // حفظ الطلبات في localStorage
+    function saveOrdersToStorage() {
+        localStorage.setItem('mkdadShopOrders', JSON.stringify(app.orders));
+    }
+
+    // تحميل الطلبات من localStorage
+    function loadOrdersFromStorage() {
+        const savedOrders = localStorage.getItem('mkdadShopOrders');
+        if (savedOrders) {
+            app.orders = JSON.parse(savedOrders);
+        }
+    }
+
+    // إرسال إشعار إلى التليجرام
+    function sendTelegramNotification(message) {
+        if (!app.TELEGRAM_BOT_TOKEN || !app.TELEGRAM_CHAT_ID) return;
+        
+        const url = `https://api.telegram.org/bot${app.TELEGRAM_BOT_TOKEN}/sendMessage`;
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: app.TELEGRAM_CHAT_ID,
+                text: message
+            })
+        }).catch(error => console.error('Error sending Telegram notification:', error));
     }
 
     // عرض صفحة محددة
@@ -916,516 +1634,304 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         document.getElementById(pageId).classList.remove('hidden');
-        document.getElementById('mainNav').classList.add('hidden');
-        window.scrollTo(0, 0);
-    }
-
-    // إعداد نموذج الاتصال
-    function setupContactForm() {
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value;
-            
-            if (!name || !email || !subject || !message) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-                return;
-            }
-            
-            // إرسال البيانات (يمكن استبدالها بإرسال حقيقي)
-            console.log('تم إرسال رسالة الدعم:', { name, email, subject, message });
-            showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
-            this.reset();
-        });
-    }
-
-    // إعداد لوحة المشرف
-    function setupAdminPanel() {
-        // إعداد تبويبات المشرف
-        document.querySelectorAll('.admin-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabId = this.getAttribute('data-tab');
-                
-                // تحديث التبويب النشط
-                document.querySelectorAll('.admin-tab').forEach(t => {
-                    t.classList.remove('text-primary', 'border-b-2', 'border-primary');
-                    t.classList.add('text-gray-500');
-                });
-                
-                this.classList.add('text-primary', 'border-b-2', 'border-primary');
-                this.classList.remove('text-gray-500');
-                
-                // إظهار المحتوى المناسب
-                document.getElementById('adminSettingsTab').classList.add('hidden');
-                document.getElementById('adminOrdersTab').classList.add('hidden');
-                document.getElementById('adminStatsTab').classList.add('hidden');
-                
-                if (tabId === 'settings') {
-                    document.getElementById('adminSettingsTab').classList.remove('hidden');
-                } else if (tabId === 'orders') {
-                    document.getElementById('adminOrdersTab').classList.remove('hidden');
-                    loadAdminOrders();
-                } else if (tabId === 'stats') {
-                    document.getElementById('adminStatsTab').classList.remove('hidden');
-                }
-            });
-        });
         
-        // إعداد تبويبات الطلبات
-        document.querySelectorAll('.admin-order-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const orderType = this.getAttribute('data-order-type');
-                
-                // تحديث التبويب النشط
-                document.querySelectorAll('.admin-order-tab').forEach(t => {
-                    t.classList.remove('text-primary', 'border-b-2', 'border-primary');
-                    t.classList.add('text-gray-500');
-                });
-                
-                this.classList.add('text-primary', 'border-b-2', 'border-primary');
-                this.classList.remove('text-gray-500');
-                
-                // إظهار المحتوى المناسب
-                if (orderType === 'deposit') {
-                    document.getElementById('adminDepositOrders').classList.remove('hidden');
-                    document.getElementById('adminPurchaseOrders').classList.add('hidden');
-                } else {
-                    document.getElementById('adminDepositOrders').classList.add('hidden');
-                    document.getElementById('adminPurchaseOrders').classList.remove('hidden');
-                }
-            });
-        });
-        
-        // إعداد تسجيل الدخول للمشرف
-        document.getElementById('submitAdminLogin').addEventListener('click', function() {
-            const password = document.getElementById('adminPassword').value;
-            
-            if (!password) {
-                showNotification('يرجى إدخال كلمة السر', 'error');
-                return;
-            }
-            
-            if (password === app.ADMIN_PASSWORD) {
-                document.getElementById('adminLogin').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                showPage('adminPanel');
-                showNotification('تم تسجيل الدخول بنجاح', 'success');
-            } else {
-                showNotification('كلمة السر غير صحيحة', 'error');
-            }
-            
-            document.getElementById('adminPassword').value = '';
-        });
-        
-        // إغلاق نافذة تسجيل الدخول
-        document.getElementById('closeAdminLogin').addEventListener('click', function() {
-            document.getElementById('adminLogin').classList.add('hidden');
-        });
-        
-        // تسجيل خروج المشرف
-        document.getElementById('adminLogout').addEventListener('click', function() {
-            document.getElementById('adminPanel').classList.add('hidden');
-            showPage('homePage');
-            showNotification('تم تسجيل الخروج بنجاح', 'success');
-        });
-        
-        // حفظ إعدادات المشرف
-        document.getElementById('saveSettings').addEventListener('click', function() {
-            const token = document.getElementById('telegramToken').value;
-            const chatId = document.getElementById('telegramChatId').value;
-            
-            if (!token || !chatId) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-                return;
-            }
-            
-            // حفظ الإعدادات
-            app.TELEGRAM_BOT_TOKEN = token;
-            app.TELEGRAM_CHAT_ID = chatId;
-            
-            showNotification('تم حفظ الإعدادات بنجاح!', 'success');
-        });
-        
-        // تفعيل/تعطيل الإشعارات
-        document.getElementById('notificationsToggle').addEventListener('change', function() {
-            const status = document.getElementById('notificationsStatus');
-            
-            if (this.checked) {
-                status.textContent = 'مفعل';
-                status.className = 'text-green-600';
-            } else {
-                status.textContent = 'معطل';
-                status.className = 'text-red-600';
-            }
-        });
-    }
-
-    // تحميل الطلبات للمشرف
-    function loadAdminOrders() {
-        const depositContainer = document.getElementById('adminDepositOrders');
-        const purchaseContainer = document.getElementById('adminPurchaseOrders');
-        
-        depositContainer.innerHTML = '';
-        purchaseContainer.innerHTML = '';
-        
-        // عرض طلبات الإيداع
-        app.orders.deposits.forEach(order => {
-            const orderElement = createAdminOrderElement(order, 'deposit');
-            depositContainer.appendChild(orderElement);
-        });
-        
-        // عرض طلبات الشراء
-        app.orders.purchases.forEach(order => {
-            const orderElement = createAdminOrderElement(order, 'purchase');
-            purchaseContainer.appendChild(orderElement);
-        });
-    }
-
-    // إنشاء عنصر طلب للمشرف
-    function createAdminOrderElement(order, type) {
-        const orderElement = document.createElement('div');
-        orderElement.className = 'bg-gray-50 rounded-lg p-4';
-        
-        const statusClass = {
-            pending: 'bg-yellow-100 text-yellow-800',
-            completed: 'bg-green-100 text-green-800',
-            accepted: 'bg-green-100 text-green-800',
-            rejected: 'bg-red-100 text-red-800'
-        };
-        
-        const statusText = {
-            pending: 'قيد الانتظار',
-            completed: 'مكتمل',
-            accepted: 'مقبول',
-            rejected: 'مرفوض'
-        };
-        
-        const isDeposit = type === 'deposit';
-        const orderTypeText = isDeposit ? 'إيداع' : 'شحن';
-        
-        orderElement.innerHTML = `
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <p class="font-bold text-gray-800">طلب ${orderTypeText} #${order.id}</p>
-                    ${order.product ? `<p class="text-gray-600">المنتج: ${order.product}</p>` : ''}
-                    <p class="text-gray-600">المبلغ: ${order.amount} ${isDeposit ? '$' : '$'}</p>
-                    <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
-                    ${order.playerId ? `<p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>` : ''}
-                    ${order.method ? `<p class="text-gray-600">الطريقة: ${order.method}</p>` : ''}
-                    ${order.txid ? `<p class="text-gray-600">رقم العملية: ${order.txid}</p>` : ''}
-                    ${order.code ? `<p class="text-gray-600">رمز التحويل: ${order.code}</p>` : ''}
-                </div>
-                <span class="px-3 py-1 rounded-full text-sm font-bold ${statusClass[order.status] || 'bg-gray-100 text-gray-800'}">
-                    ${statusText[order.status] || order.status}
-                </span>
-            </div>
-            
-            ${order.status === 'pending' ? `
-            <div class="flex gap-2 justify-end">
-                <button class="approve-order bg-green-500 text-white px-3 py-1 rounded-button text-sm hover:bg-green-600" 
-                        data-order-id="${order.id}" data-order-type="${type}">
-                    قبول
-                </button>
-                <button class="reject-order bg-red-500 text-white px-3 py-1 rounded-button text-sm hover:bg-red-600" 
-                        data-order-id="${order.id}" data-order-type="${type}">
-                    رفض
-                </button>
-            </div>
-            ` : ''}
-        `;
-        
-        // إضافة معالجات الأحداث لأزرار القبول والرفض
-        if (order.status === 'pending') {
-            const approveBtn = orderElement.querySelector('.approve-order');
-            const rejectBtn = orderElement.querySelector('.reject-order');
-            
-            approveBtn.addEventListener('click', function() {
-                const orderId = this.getAttribute('data-order-id');
-                const orderType = this.getAttribute('data-order-type');
-                
-                // تحديث حالة الطلب
-                const ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
-                const orderIndex = ordersArray.findIndex(o => o.id == orderId);
-                
-                if (orderIndex !== -1) {
-                    ordersArray[orderIndex].status = 'accepted';
-                    
-                    // إذا كان إيداعاً، نضيف الرصيد
-                    if (orderType === 'deposit') {
-                        app.userBalance += ordersArray[orderIndex].amount;
-                        updateBalanceDisplay();
-                    }
-                    
-                    // إعادة تحميل الطلبات
-                    loadAdminOrders();
-                    showNotification('تم قبول الطلب بنجاح', 'success');
-                }
-            });
-            
-            rejectBtn.addEventListener('click', function() {
-                const orderId = this.getAttribute('data-order-id');
-                const orderType = this.getAttribute('data-order-type');
-                
-                // تحديث حالة الطلب
-                const ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
-                const orderIndex = ordersArray.findIndex(o => o.id == orderId);
-                
-                if (orderIndex !== -1) {
-                    ordersArray[orderIndex].status = 'rejected';
-                    
-                    // إعادة تحميل الطلبات
-                    loadAdminOrders();
-                    showNotification('تم رفض الطلب بنجاح', 'success');
-                }
-            });
+        // إذا كانت صفحة الطلبات، قم بتحميل الطلبات
+        if (pageId === 'ordersPage') {
+            loadUserOrders();
         }
         
-        return orderElement;
+        // إذا كانت صفحة المشرف، قم بتحميل البيانات
+        if (pageId === 'adminPanel') {
+            loadAdminData();
+        }
     }
 
-    // إعداد أزرار الشراء
-    function setupPurchaseButtons() {
-        const purchaseModal = document.getElementById('purchaseModal');
+    // تحميل طلبات المستخدم
+    function loadUserOrders() {
+        loadOrdersFromStorage();
         
-        document.querySelectorAll('.buy-package').forEach(button => {
-            button.addEventListener('click', function() {
-                const packageCard = this.closest('.package-card');
-                const packageId = packageCard.getAttribute('data-package');
-                const packagePrice = parseFloat(packageCard.getAttribute('data-price'));
-                
-                let playerId = '';
-                let gameType = '';
-                
-                if (packageId.startsWith('pubg')) {
-                    playerId = document.getElementById('pubgId').value;
-                    gameType = 'ببجي موبايل';
-                    app.currentGame = 'pubg';
-                } else if (packageId.startsWith('ff')) {
-                    playerId = document.getElementById('freeFireId').value;
-                    gameType = 'فري فاير';
-                    app.currentGame = 'freeFire';
-                }
-                
-                if (!playerId) {
-                    showNotification('يرجى إدخال معرف اللاعب أولاً', 'error');
-                    return;
-                }
-                
-                // تعبئة بيانات النافذة المنبثقة
-                const packageNameText = packageCard.querySelector('h3').textContent;
-                document.getElementById('packageName').textContent = packageNameText;
-                document.getElementById('packagePrice').textContent = packagePrice;
-                document.getElementById('playerIdConfirm').textContent = playerId;
-                document.getElementById('productConfirm').textContent = `${packageNameText} - ${gameType}`;
-                document.getElementById('priceConfirm').textContent = `${packagePrice} $`;
-                
-                // التحقق من الرصيد
-                const insufficientBalance = document.getElementById('insufficientBalance');
-                const confirmPurchase = document.getElementById('confirmPurchase');
-                
-                if (app.userBalance < packagePrice) {
-                    insufficientBalance.classList.remove('hidden');
-                    confirmPurchase.disabled = true;
-                    confirmPurchase.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    insufficientBalance.classList.add('hidden');
-                    confirmPurchase.disabled = false;
-                    confirmPurchase.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-                
-                app.currentPackage = {
-                    id: packageId,
-                    price: packagePrice,
-                    name: packageNameText,
-                    playerId: playerId,
-                    game: gameType
-                };
-                
-                // عرض النافذة المنبثقة
-                purchaseModal.classList.remove('hidden');
-            });
-        });
-        
-        // إغلاق النافذة المنبثقة
-        document.getElementById('closeModal').addEventListener('click', () => purchaseModal.classList.add('hidden'));
-        document.getElementById('cancelPurchase').addEventListener('click', () => purchaseModal.classList.add('hidden'));
-        
-        // تأكيد الشراء
-        document.getElementById('confirmPurchase').addEventListener('click', function() {
-            if (app.userBalance >= app.currentPackage.price) {
-                // معالجة عملية الشراء
-                app.userBalance -= app.currentPackage.price;
-                updateBalanceDisplay();
-                
-                const orderId = Date.now();
-                const order = {
-                    id: orderId,
-                    product: `${app.currentPackage.name} - ${app.currentPackage.game}`,
-                    amount: app.currentPackage.price,
-                    playerId: app.currentPackage.playerId,
-                    date: new Date().toISOString(),
-                    status: 'completed'
-                };
-                
-                app.orders.purchases.push(order);
-                
-                purchaseModal.classList.add('hidden');
-                showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
-                updateOrdersDisplay();
-            } else {
-                showNotification('رصيدك غير كافي لإتمام عملية الشراء.', 'error');
-            }
-        });
-    }
-
-    // إعداد وظائف شحن الرصيد
-    function setupTopUpFunctions() {
-        // شحن عبر USDT
-        document.getElementById('submitUsdt').addEventListener('click', function() {
-            const amount = parseFloat(document.getElementById('usdtAmount').value);
-            const txid = document.getElementById('usdtTxid').value;
-            
-            if (!amount || !txid) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-                return;
-            }
-            
-            const orderId = Date.now();
-            const order = {
-                id: orderId,
-                amount: amount,
-                method: 'USDT',
-                txid: txid,
-                date: new Date().toISOString(),
-                status: 'pending'
-            };
-            
-            app.orders.deposits.push(order);
-            
-            showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
-            document.getElementById('usdtAmount').value = '';
-            document.getElementById('usdtTxid').value = '';
-            updateOrdersDisplay();
-        });
-        
-        // شحن عبر سيرياتيل كاش
-        document.getElementById('submitSyriatel').addEventListener('click', function() {
-            const amount = parseFloat(document.getElementById('syriatelAmount').value);
-            const code = document.getElementById('syriatelCode').value;
-            
-            if (!amount || !code) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-                return;
-            }
-            
-            // إذا كانت العملية صحيحة
-            const orderId = Date.now();
-            const usdAmount = (amount / app.exchangeRate).toFixed(2);
-            
-            const order = {
-                id: orderId,
-                amount: parseFloat(usdAmount),
-                method: 'سيرياتيل كاش',
-                code: code,
-                date: new Date().toISOString(),
-                status: 'completed'
-            };
-            
-            app.orders.deposits.push(order);
-            app.userBalance += order.amount;
-            updateBalanceDisplay();
-            
-            showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
-            document.getElementById('syriatelAmount').value = '';
-            document.getElementById('syriatelCode').value = '';
-            updateOrdersDisplay();
-        });
-    }
-
-    // تحديث عرض الطلبات
-    function updateOrdersDisplay() {
         const depositOrdersContainer = document.getElementById('depositOrders');
         const purchaseOrdersContainer = document.getElementById('purchaseOrders');
         
         depositOrdersContainer.innerHTML = '';
         purchaseOrdersContainer.innerHTML = '';
         
+        if (!app.currentUser) return;
+        
         // عرض طلبات الإيداع
-        app.orders.deposits.forEach(order => {
-            const orderElement = createOrderElement(order, 'إيداع');
-            depositOrdersContainer.appendChild(orderElement);
-        });
+        const userDepositOrders = app.orders.deposits.filter(order => order.userId === app.currentUser.id);
+        if (userDepositOrders.length === 0) {
+            depositOrdersContainer.innerHTML = '<p class="text-gray-500 text-center py-4">لا توجد طلبات إيداع</p>';
+        } else {
+            userDepositOrders.forEach(order => {
+                const orderElement = createOrderElement(order, 'deposit');
+                depositOrdersContainer.appendChild(orderElement);
+            });
+        }
         
         // عرض طلبات الشراء
-        app.orders.purchases.forEach(order => {
-            const orderElement = createOrderElement(order, 'شحن');
-            purchaseOrdersContainer.appendChild(orderElement);
-        });
+        const userPurchaseOrders = app.orders.purchases.filter(order => order.userId === app.currentUser.id);
+        if (userPurchaseOrders.length === 0) {
+            purchaseOrdersContainer.innerHTML = '<p class="text-gray-500 text-center py-4">لا توجد طلبات شراء</p>';
+        } else {
+            userPurchaseOrders.forEach(order => {
+                const orderElement = createOrderElement(order, 'purchase');
+                purchaseOrdersContainer.appendChild(orderElement);
+            });
+        }
     }
 
     // إنشاء عنصر طلب
     function createOrderElement(order, type) {
-        const orderElement = document.createElement('div');
-        orderElement.className = 'bg-gray-50 rounded-lg p-4';
+        const element = document.createElement('div');
+        element.className = 'bg-gray-50 rounded-lg p-4 border border-gray-200';
         
-        const statusClass = {
-            pending: 'bg-yellow-100 text-yellow-800',
-            completed: 'bg-green-100 text-green-800',
-            accepted: 'bg-green-100 text-green-800',
-            rejected: 'bg-red-100 text-red-800'
-        };
-        
-        const statusText = {
-            pending: 'قيد المعالجة',
-            completed: 'مكتمل',
-            accepted: 'مقبول',
-            rejected: 'مرفوض'
-        };
-        
-        const isDeposit = type === 'إيداع';
-        
-        orderElement.innerHTML = `
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="font-bold text-gray-800">طلب ${type} #${order.id}</p>
-                    ${order.product ? `<p class="text-gray-600">المنتج: ${order.product}</p>` : ''}
-                    <p class="text-gray-600">المبلغ: ${order.amount} ${isDeposit ? '$' : '$'}</p>
-                    <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
-                    ${order.playerId ? `<p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>` : ''}
-                    ${order.method ? `<p class="text-gray-600">الطريقة: ${order.method}</p>` : ''}
-                    ${order.txid ? `<p class="text-gray-600">رقم العملية: ${order.txid}</p>` : ''}
-                    ${order.code ? `<p class="text-gray-600">رمز التحويل: ${order.code}</p>` : ''}
+        if (type === 'deposit') {
+            element.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="font-bold text-gray-800">طلب إيداع #${order.id}</h4>
+                        <p class="text-gray-600 text-sm">${new Date(order.date).toLocaleString()}</p>
+                    </div>
+                    <span class="text-primary font-bold">${order.amount} ${order.type === 'usdt' ? '$' : 'ليرة'}</span>
                 </div>
-                <span class="px-3 py-1 rounded-full text-sm font-bold ${statusClass[order.status] || 'bg-gray-100 text-gray-800'}">
-                    ${statusText[order.status] || order.status}
-                </span>
-            </div>
-        `;
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">${order.type === 'usdt' ? 'USDT' : 'سيرياتيل كاش'}</span>
+                    <span class="px-3 py-1 rounded-full text-sm ${order.status === 'completed' ? 'bg-green-100 text-green-800' : order.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}">${getStatusText(order.status)}</span>
+                </div>
+            `;
+        } else {
+            element.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="font-bold text-gray-800">طلب شحن #${order.id}</h4>
+                        <p class="text-gray-600 text-sm">${new Date(order.date).toLocaleString()}</p>
+                    </div>
+                    <span class="text-primary font-bold">${order.price} $</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div>
+                        <p class="text-gray-600 text-sm">اللعبة</p>
+                        <p class="font-bold">${order.game === 'pubg' ? 'ببجي موبايل' : 'فري فاير'}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">الباقة</p>
+                        <p class="font-bold">${order.packageName}</p>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">معرف اللاعب: ${order.playerId}</span>
+                    <span class="px-3 py-1 rounded-full text-sm ${order.status === 'completed' ? 'bg-green-100 text-green-800' : order.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}">${getStatusText(order.status)}</span>
+                </div>
+            `;
+        }
         
-        return orderElement;
+        return element;
+    }
+
+    // تحميل بيانات المشرف
+    function loadAdminData() {
+        loadOrdersFromStorage();
+        loadUsersFromStorage();
+        
+        // تحميل قائمة المستخدمين
+        const usersList = document.getElementById('usersList');
+        usersList.innerHTML = '';
+        
+        app.users.forEach(user => {
+            const userLevel = app.USER_LEVELS[user.level] || app.USER_LEVELS.basic;
+            
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            row.innerHTML = `
+                <td class="py-3 px-4">${user.username}</td>
+                <td class="py-3 px-4">${user.email}</td>
+                <td class="py-3 px-4"><span class="user-level-badge ${userLevel.class}">${userLevel.name}</span></td>
+                <td class="py-3 px-4">${user.balance} $</td>
+                <td class="py-3 px-4">
+                    <button class="text-primary hover:text-secondary" onclick="editUser(${user.id})">
+                        <i class="ri-edit-line"></i>
+                    </button>
+                </td>
+            `;
+            usersList.appendChild(row);
+        });
+        
+        // تحميل طلبات الإيداع
+        const adminDepositOrders = document.getElementById('adminDepositOrders');
+        adminDepositOrders.innerHTML = '';
+        
+        if (app.orders.deposits.length === 0) {
+            adminDepositOrders.innerHTML = '<p class="text-gray-500 text-center py-4">لا توجد طلبات إيداع</p>';
+        } else {
+            app.orders.deposits.forEach(order => {
+                const orderElement = createAdminOrderElement(order, 'deposit');
+                adminDepositOrders.appendChild(orderElement);
+            });
+        }
+        
+        // تحميل طلبات الشراء
+        const adminPurchaseOrders = document.getElementById('adminPurchaseOrders');
+        adminPurchaseOrders.innerHTML = '';
+        
+        if (app.orders.purchases.length === 0) {
+            adminPurchaseOrders.innerHTML = '<p class="text-gray-500 text-center py-4">لا توجد طلبات شراء</p>';
+        } else {
+            app.orders.purchases.forEach(order => {
+                const orderElement = createAdminOrderElement(order, 'purchase');
+                adminPurchaseOrders.appendChild(orderElement);
+            });
+        }
+    }
+
+    // إنشاء عنصر طلب للمشرف
+    function createAdminOrderElement(order, type) {
+        const element = document.createElement('div');
+        element.className = 'bg-gray-50 rounded-lg p-4 border border-gray-200';
+        
+        if (type === 'deposit') {
+            element.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="font-bold text-gray-800">طلب إيداع #${order.id}</h4>
+                        <p class="text-gray-600 text-sm">${new Date(order.date).toLocaleString()}</p>
+                    </div>
+                    <span class="text-primary font-bold">${order.amount} ${order.type === 'usdt' ? '$' : 'ليرة'}</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div>
+                        <p class="text-gray-600 text-sm">المستخدم</p>
+                        <p class="font-bold">${order.username}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">طريقة الدفع</p>
+                        <p class="font-bold">${order.type === 'usdt' ? 'USDT' : 'سيرياتيل كاش'}</p>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <p class="text-gray-600 text-sm">${order.type === 'usdt' ? 'رقم العملية' : 'رمز التحويل'}</p>
+                    <p class="font-bold">${order.type === 'usdt' ? order.txid : order.code}</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="px-3 py-1 rounded-full text-sm ${order.status === 'completed' ? 'bg-green-100 text-green-800' : order.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}">${getStatusText(order.status)}</span>
+                    ${order.status === 'pending' ? `
+                    <div class="flex space-x-2 space-x-reverse">
+                        <button class="px-3 py-1 bg-green-500 text-white rounded-button text-sm hover:bg-green-600" onclick="processOrder(${order.id}, 'deposit', 'completed')">موافقة</button>
+                        <button class="px-3 py-1 bg-red-500 text-white rounded-button text-sm hover:bg-red-600" onclick="processOrder(${order.id}, 'deposit', 'rejected')">رفض</button>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        } else {
+            element.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="font-bold text-gray-800">طلب شحن #${order.id}</h4>
+                        <p class="text-gray-600 text-sm">${new Date(order.date).toLocaleString()}</p>
+                    </div>
+                    <span class="text-primary font-bold">${order.price} $</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div>
+                        <p class="text-gray-600 text-sm">المستخدم</p>
+                        <p class="font-bold">${order.username}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">اللعبة</p>
+                        <p class="font-bold">${order.game === 'pubg' ? 'ببجي موبايل' : 'فري فاير'}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">الباقة</p>
+                        <p class="font-bold">${order.packageName}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">معرف اللاعب</p>
+                        <p class="font-bold">${order.playerId}</p>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="px-3 py-1 rounded-full text-sm ${order.status === 'completed' ? 'bg-green-100 text-green-800' : order.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}">${getStatusText(order.status)}</span>
+                    ${order.status === 'pending' ? `
+                    <div class="flex space-x-2 space-x-reverse">
+                        <button class="px-3 py-1 bg-green-500 text-white rounded-button text-sm hover:bg-green-600" onclick="processOrder(${order.id}, 'purchase', 'completed')">موافقة</button>
+                        <button class="px-3 py-1 bg-red-500 text-white rounded-button text-sm hover:bg-red-600" onclick="processOrder(${order.id}, 'purchase', 'rejected')">رفض</button>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        return element;
+    }
+
+    // تبديل تبويبات الطلبات
+    function toggleOrdersTab(type) {
+        if (type === 'deposit') {
+            document.getElementById('depositOrdersTab').classList.add('text-primary', 'border-b-2', 'border-primary');
+            document.getElementById('depositOrdersTab').classList.remove('text-gray-500');
+            document.getElementById('purchaseOrdersTab').classList.remove('text-primary', 'border-b-2', 'border-primary');
+            document.getElementById('purchaseOrdersTab').classList.add('text-gray-500');
+            document.getElementById('depositOrders').classList.remove('hidden');
+            document.getElementById('purchaseOrders').classList.add('hidden');
+        } else {
+            document.getElementById('purchaseOrdersTab').classList.add('text-primary', 'border-b-2', 'border-primary');
+            document.getElementById('purchaseOrdersTab').classList.remove('text-gray-500');
+            document.getElementById('depositOrdersTab').classList.remove('text-primary', 'border-b-2', 'border-primary');
+            document.getElementById('depositOrdersTab').classList.add('text-gray-500');
+            document.getElementById('purchaseOrders').classList.remove('hidden');
+            document.getElementById('depositOrders').classList.add('hidden');
+        }
+    }
+
+    // الحصول على اسم العرض للباقة
+    function getPackageDisplayName(packageId) {
+        const packages = {
+            'pubg60': '60 شدة ببجي',
+            'pubg180': '180 شدة ببجي',
+            'pubg360': '360 شدة ببجي',
+            'pubg600': '600 شدة ببجي',
+            'pubg1200': '1200 شدة ببجي',
+            'pubg3000': '3000 شدة ببجي',
+            'ff100': '100 جوهرة فري فاير',
+            'ff310': '310 جوهرة فري فاير',
+            'ff520': '520 جوهرة فري فاير',
+            'ff1060': '1060 جوهرة فري فاير',
+            'ff2180': '2180 جوهرة فري فاير',
+            'ff5600': '5600 جوهرة فري فاير'
+        };
+        
+        return packages[packageId] || packageId;
+    }
+
+    // الحصول على نص الحالة
+    function getStatusText(status) {
+        const statuses = {
+            'pending': 'قيد المراجعة',
+            'completed': 'مكتمل',
+            'rejected': 'مرفوض'
+        };
+        
+        return statuses[status] || status;
     }
 
     // عرض الإشعارات
-    function showNotification(message, type = 'success') {
+    function showNotification(message, type) {
         const notification = document.getElementById('successNotification');
         const notificationText = document.getElementById('notificationText');
         
         notificationText.textContent = message;
         
+        // تحديد لون الإشعار بناءً على النوع
         if (type === 'error') {
-            notification.classList.remove('bg-green-500');
-            notification.classList.add('bg-red-500');
-        } else {
-            notification.classList.remove('bg-red-500');
-            notification.classList.add('bg-green-500');
+            notification.className = notification.className.replace('bg-green-500', 'bg-red-500');
+        } else if (type === 'success') {
+            notification.className = notification.className.replace('bg-red-500', 'bg-green-500');
         }
         
         notification.classList.remove('translate-y-20', 'opacity-0');
         notification.classList.add('translate-y-0', 'opacity-100');
         
+        // إخفاء الإشعار بعد 3 ثواني
         setTimeout(() => {
             notification.classList.remove('translate-y-0', 'opacity-100');
             notification.classList.add('translate-y-20', 'opacity-0');
@@ -1433,38 +1939,95 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // نسخ النص إلى الحافظة
-    window.copyToClipboard = function(elementId) {
+    function copyToClipboard(elementId) {
         const element = document.getElementById(elementId);
         element.select();
         document.execCommand('copy');
-        showNotification('تم نسخ النص بنجاح!', 'success');
-    };
+        showNotification('تم نسخ النص إلى الحافظة', 'success');
+    }
 
     // تبديل عرض الأسئلة الشائعة
-    window.toggleFaq = function(element) {
-        const answer = element.nextElementSibling;
-        const icon = element.querySelector('i');
-        
-        answer.classList.toggle('hidden');
+    function toggleFaq(button) {
+        const answer = button.nextElementSibling;
+        const icon = button.querySelector('i');
         
         if (answer.classList.contains('hidden')) {
-            icon.classList.remove('ri-arrow-up-s-line');
-            icon.classList.add('ri-arrow-down-s-line');
-        } else {
+            answer.classList.remove('hidden');
             icon.classList.remove('ri-arrow-down-s-line');
             icon.classList.add('ri-arrow-up-s-line');
+        } else {
+            answer.classList.add('hidden');
+            icon.classList.remove('ri-arrow-up-s-line');
+            icon.classList.add('ri-arrow-down-s-line');
+        }
+    }
+
+    // جعل الدوال متاحة عالمياً للاستخدام في الأحداث
+    window.copyToClipboard = copyToClipboard;
+    window.toggleFaq = toggleFaq;
+    window.editUser = function(userId) {
+        // يمكنك إضافة وظيفة تعديل المستخدم هنا
+        showNotification('وظيفة تعديل المستخدم قيد التطوير', 'info');
+    };
+    
+    window.processOrder = function(orderId, orderType, action) {
+        // معالجة الطلب (موافقة/رفض)
+        let ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
+        const orderIndex = ordersArray.findIndex(o => o.id === orderId);
+        
+        if (orderIndex !== -1) {
+            ordersArray[orderIndex].status = action;
+            
+            // إذا كان طلب إيداع وتمت الموافقة عليه، قم بإضافة الرصيد للمستخدم
+            if (orderType === 'deposit' && action === 'completed') {
+                const userIndex = app.users.findIndex(u => u.id === ordersArray[orderIndex].userId);
+                if (userIndex !== -1) {
+                    app.users[userIndex].balance += ordersArray[orderIndex].amount;
+                    
+                    // تحديث مستوى المستخدم إذا لزم الأمر
+                    updateUserLevel(app.users[userIndex]);
+                    
+                    // إذا كان المستخدم الحالي هو صاحب الطلب، قم بتحديث رصيده
+                    if (app.currentUser && app.currentUser.id === ordersArray[orderIndex].userId) {
+                        app.currentUser.balance = app.users[userIndex].balance;
+                        updateUserControls();
+                    }
+                }
+            }
+            
+            saveOrdersToStorage();
+            saveUsersToStorage();
+            loadAdminData();
+            
+            showNotification(`تم ${action === 'completed' ? 'الموافقة على' : 'رفض'} الطلب بنجاح`, 'success');
         }
     };
 
-    // إضافة رصيد للاختبار (لأغراض التطوير فقط)
-    document.getElementById('userBalance').addEventListener('click', function() {
-        app.userBalance += 10;
-        updateBalanceDisplay();
-        showNotification('تم إضافة 10$ لرصيدك للاختبار!', 'success');
-    });
+    // تحديث مستوى المستخدم بناءً على رصيده
+    function updateUserLevel(user) {
+        if (user.level === 'admin') return;
+        
+        let newLevel = 'basic';
+        
+        if (user.balance >= app.USER_LEVELS.platinum.min) {
+            newLevel = 'platinum';
+        } else if (user.balance >= app.USER_LEVELS.gold.min) {
+            newLevel = 'gold';
+        } else if (user.balance >= app.USER_LEVELS.silver.min) {
+            newLevel = 'silver';
+        }
+        
+        if (user.level !== newLevel) {
+            user.level = newLevel;
+            showNotification(`تم ترقية ${user.username} إلى المستوى ${app.USER_LEVELS[newLevel].name}`, 'success');
+        }
+    }
 
-    // بدء التطبيق
+    // تهيئة التطبيق
     initUI();
+    setupAuthForms();
+    setupAdminLogin();
+    setupAdminLogout();
 });
 </script>
 </body>
