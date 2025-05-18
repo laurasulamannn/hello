@@ -108,6 +108,33 @@ color: #2c3e50;
 background-color: #1a237e;
 color: white;
 }
+.app-icon {
+width: 80px;
+height: 80px;
+border-radius: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 40px;
+color: white;
+cursor: pointer;
+transition: all 0.3s ease;
+margin: 0 auto;
+}
+.app-icon:hover {
+transform: scale(1.1);
+}
+.mobile-menu {
+display: none;
+}
+@media (max-width: 768px) {
+.mobile-menu {
+display: block;
+}
+.desktop-menu {
+display: none;
+}
+}
 </style>
 </head>
 
@@ -182,10 +209,11 @@ color: white;
 <div class="container mx-auto px-4 py-3 flex justify-between items-center">
 <div class="flex items-center space-x-6 space-x-reverse">
     <h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
-    <nav id="mainNav" class="flex items-center">
+    <nav id="mainNav" class="flex items-center desktop-menu">
         <ul class="flex space-x-6 space-x-reverse">
             <li><a href="#" class="text-white hover:text-blue-200" data-page="home">الرئيسية</a></li>
             <li><a href="#" class="text-white hover:text-blue-200" data-page="games">الألعاب</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200" data-page="programs">البرامج</a></li>
             <li><a href="#" class="text-white hover:text-blue-200" data-page="topup">شحن الرصيد</a></li>
             <li><a href="#" class="text-white hover:text-blue-200" data-page="orders">طلباتي</a></li>
             <li><a href="#" class="text-white hover:text-blue-200" data-page="help">المساعدة</a></li>
@@ -195,18 +223,23 @@ color: white;
 <div class="flex items-center space-x-4 space-x-reverse" id="userControls">
     <!-- سيتم ملؤها ديناميكيًا بعد تسجيل الدخول -->
 </div>
+<button id="mobileMenuBtn" class="text-white w-8 h-8 flex items-center justify-center mobile-menu md:hidden">
+    <i class="ri-menu-line text-xl"></i>
+</button>
 </div>
-<div class="container mx-auto px-4 py-3">
-<ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="games">الألعاب</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="admin">إعدادات المشرف</a></li>
-</ul>
+
+<!-- قائمة الجوال -->
+<div id="mobileMenu" class="hidden bg-primary/90 w-full absolute top-full left-0 right-0 py-2 px-4 shadow-lg mobile-menu md:hidden">
+    <ul class="flex flex-col space-y-3">
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="games">الألعاب</a></li>
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="programs">البرامج</a></li>
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
+        <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="admin">إعدادات المشرف</a></li>
+    </ul>
 </div>
-</nav>
 </header>
 
 <main class="container mx-auto px-4 pt-24 pb-10 min-h-screen">
@@ -218,6 +251,25 @@ color: white;
 <div class="flex flex-wrap gap-4">
 <button class="bg-white text-primary px-6 py-3 rounded-button font-bold hover:bg-blue-100 transition whitespace-nowrap" data-page="games">تصفح الألعاب</button>
 <button class="bg-primary/20 border-2 border-white text-white px-6 py-3 rounded-button font-bold hover:bg-primary/30 transition whitespace-nowrap" data-page="help">طلب المساعدة</button>
+</div>
+</div>
+
+<!-- أيقونات التطبيقات -->
+<div class="bg-white rounded-xl shadow-lg p-6 mb-10">
+<h3 class="text-2xl font-bold text-gray-800 mb-6">التطبيقات المتاحة</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+<div class="text-center" onclick="showPage('gamesPage')">
+<div class="app-icon bg-gradient-to-br from-blue-500 to-blue-700 mb-2">
+<i class="ri-gamepad-line"></i>
+</div>
+<h4 class="font-bold text-gray-800">الألعاب</h4>
+</div>
+<div class="text-center" onclick="showPage('programsPage')">
+<div class="app-icon bg-gradient-to-br from-purple-500 to-purple-700 mb-2">
+<i class="ri-apps-2-line"></i>
+</div>
+<h4 class="font-bold text-gray-800">البرامج</h4>
+</div>
 </div>
 </div>
 
@@ -280,6 +332,37 @@ color: white;
 <h3 class="text-2xl font-bold text-gray-800 mb-3">فري فاير</h3>
 <p class="text-gray-600 mb-4">اشحن جواهر فري فاير بأفضل الأسعار وبطريقة آمنة وسريعة</p>
 <button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-game="freeFire">شحن جواهر فري فاير</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Programs Page -->
+<section id="programsPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">البرامج المتاحة</h2>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=Bigolive%20app%20logo%20on%20phone%20screen%2C%20professional%20presentation%2C%20blue%20background%2C%20high%20quality&width=600&height=300&seq=1&orientation=landscape')"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-3">بيجو لايف</h3>
+<p class="text-gray-600 mb-4">شحن عملات بيجو لايف بأسعار تنافسية</p>
+<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-program="bigolive">شحن عملات بيجو</button>
+</div>
+</div>
+<div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="h-48 bg-cover bg-center" style="background-image: url('https://readdy.ai/api/search-image?query=TikTok%20app%20logo%20on%20phone%20screen%2C%20professional%20presentation%2C%20black%20background%2C%20high%20quality&width=600&height=300&seq=2&orientation=landscape')"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-3">تيك توك</h3>
+<p class="text-gray-600 mb-4">شحن عملات تيك توك بأسعار تنافسية</p>
+<button class="bg-primary text-white px-5 py-2 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap" data-program="tiktok">شحن عملات تيك توك</button>
 </div>
 </div>
 </div>
@@ -458,6 +541,186 @@ color: white;
 </div>
 <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
 <i class="ri-diamond-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Bigo Live Page -->
+<section id="bigolivePage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">شحن عملات بيجو لايف</h2>
+</div>
+<div class="mb-6">
+<label for="bigoliveId" class="block text-gray-700 font-bold mb-2">أدخل معرف اللاعب:</label>
+<input type="text" id="bigoliveId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف اللاعب">
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="bigo100" data-price="1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">100 عملة</h3>
+<p class="text-primary font-bold">1 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="bigo300" data-price="3">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">300 عملة</h3>
+<p class="text-primary font-bold">3 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="bigo500" data-price="5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">500 عملة</h3>
+<p class="text-primary font-bold">5 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="bigo1000" data-price="10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">1000 عملة</h3>
+<p class="text-primary font-bold">10 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="bigo2000" data-price="20">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">2000 عملة</h3>
+<p class="text-primary font-bold">20 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="bigo5000" data-price="50">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">5000 عملة</h3>
+<p class="text-primary font-bold">50 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TikTok Page -->
+<section id="tiktokPage" class="page-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+<div class="flex items-center mb-6">
+<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
+<i class="ri-arrow-right-line text-xl"></i>
+</button>
+<h2 class="text-2xl font-bold text-gray-800">شحن عملات تيك توك</h2>
+</div>
+<div class="mb-6">
+<label for="tiktokId" class="block text-gray-700 font-bold mb-2">أدخل معرف اللاعب:</label>
+<input type="text" id="tiktokId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف اللاعب">
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="tiktok100" data-price="1">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">100 عملة</h3>
+<p class="text-primary font-bold">1 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="tiktok300" data-price="3">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">300 عملة</h3>
+<p class="text-primary font-bold">3 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="tiktok500" data-price="5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">500 عملة</h3>
+<p class="text-primary font-bold">5 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="tiktok1000" data-price="10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">1000 عملة</h3>
+<p class="text-primary font-bold">10 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="tiktok2000" data-price="20">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">2000 عملة</h3>
+<p class="text-primary font-bold">20 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
+</div>
+<div class="package-card border border-gray-200 rounded-xl p-4 hover:border-primary cursor-pointer" data-package="tiktok5000" data-price="50">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-gray-800">5000 عملة</h3>
+<p class="text-primary font-bold">50 $</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full">
+<i class="ri-coin-line text-xl text-primary"></i>
 </div>
 </div>
 <button class="bg-primary text-white px-4 py-2 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap buy-package">شراء الآن</button>
@@ -796,43 +1059,16 @@ color: white;
                 </div>
                 
                 <div class="border border-gray-200 rounded-xl p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات المستويات</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-gray-700">المستوى العادي</span>
-                            <span class="text-gray-600">0 - 49 $</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-gray-700">المستوى الفضي</span>
-                            <span class="text-gray-600">50 - 99 $</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-gray-700">المستوى الذهبي</span>
-                            <span class="text-gray-600">100 - 499 $</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-gray-700">المستوى البلاتيني</span>
-                            <span class="text-gray-600">500+ $</span>
-                        </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات العمولة</h3>
+                    <div class="mb-4">
+                        <label for="commissionRate" class="block text-gray-700 font-bold mb-2">نسبة العمولة (%):</label>
+                        <input type="number" id="commissionRate" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل نسبة العمولة" value="5">
                     </div>
-                    
-                    <div class="mt-6">
-                        <h4 class="font-bold text-gray-800 mb-3">خصومات المستويات</h4>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                                <span class="font-bold text-gray-700">المستوى الفضي</span>
-                                <span class="text-primary font-bold">5% خصم</span>
-                            </div>
-                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                                <span class="font-bold text-gray-700">المستوى الذهبي</span>
-                                <span class="text-primary font-bold">10% خصم</span>
-                            </div>
-                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                                <span class="font-bold text-gray-700">المستوى البلاتيني</span>
-                                <span class="text-primary font-bold">15% خصم</span>
-                            </div>
-                        </div>
+                    <div class="mb-4">
+                        <label for="exchangeRate" class="block text-gray-700 font-bold mb-2">سعر الصرف (ليرة/دولار):</label>
+                        <input type="number" id="exchangeRate" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل سعر الصرف" value="15000">
                     </div>
+                    <button id="saveCommission" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
                 </div>
             </div>
         </div>
@@ -866,6 +1102,7 @@ color: white;
 <ul class="space-y-2">
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="home">الرئيسية</a></li>
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="games">الألعاب</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition" data-page="programs">البرامج</a></li>
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="topup">شحن الرصيد</a></li>
 <li><a href="#" class="text-gray-400 hover:text-white transition" data-page="help">المساعدة والدعم</a></li>
 </ul>
@@ -984,6 +1221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         currentPackage: null,
         currentGame: null,
+        commissionRate: 5, // نسبة العمولة 5%
         exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
         ADMIN_PASSWORD: "admin123",
         USER_LEVELS: {
@@ -999,6 +1237,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function initUI() {
         // تحميل بيانات المستخدمين من localStorage إذا وجدت
         loadUsersFromStorage();
+        
+        // تحميل إعدادات العمولة من localStorage
+        loadCommissionSettings();
         
         // عرض نافذة تسجيل الدخول إذا لم يكن هناك مستخدم مسجل
         if (!app.currentUser) {
@@ -1025,6 +1266,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // إعداد تبويبات المشرف وأزرار الطلبات
         setupAdminTabs();
         setupOrderActions();
+        
+        // إعداد قائمة الجوال
+        setupMobileMenu();
     }
 
     // تحميل المستخدمين من localStorage
@@ -1050,9 +1294,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // تحميل إعدادات العمولة من localStorage
+    function loadCommissionSettings() {
+        const savedSettings = localStorage.getItem('mkdadShopSettings');
+        if (savedSettings) {
+            const settings = JSON.parse(savedSettings);
+            app.commissionRate = settings.commissionRate || 5;
+            app.exchangeRate = settings.exchangeRate || 15000;
+            
+            // تحديث حقول الإدخال
+            document.getElementById('commissionRate').value = app.commissionRate;
+            document.getElementById('exchangeRate').value = app.exchangeRate;
+        }
+    }
+
     // حفظ المستخدمين في localStorage
     function saveUsersToStorage() {
         localStorage.setItem('mkdadShopUsers', JSON.stringify(app.users));
+    }
+
+    // حفظ إعدادات العمولة في localStorage
+    function saveCommissionSettings() {
+        const settings = {
+            commissionRate: app.commissionRate,
+            exchangeRate: app.exchangeRate
+        };
+        localStorage.setItem('mkdadShopSettings', JSON.stringify(settings));
     }
 
     // تحديث عناصر تحكم المستخدم في الشريط العلوي
@@ -1104,16 +1371,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // إعداد التنقل بين الصفحات
     function setupNavigation() {
-        const navMenuBtn = document.getElementById('navMenuBtn');
-        const mainNav = document.getElementById('mainNav');
-        
-        // إعداد زر القائمة
-        if (navMenuBtn) {
-            navMenuBtn.addEventListener('click', function() {
-                mainNav.classList.toggle('hidden');
-            });
-        }
-
         // التنقل بين الصفحات
         document.querySelectorAll('[data-page]').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -1136,6 +1393,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        // التنقل بين البرامج
+        document.querySelectorAll('[data-program]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage(this.getAttribute('data-program') + 'Page');
+            });
+        });
+
         // أزرار العودة
         document.querySelectorAll('.back-btn').forEach(button => {
             button.addEventListener('click', function() {
@@ -1150,6 +1415,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('purchaseOrdersTab')?.addEventListener('click', function() {
             toggleOrdersTab('purchase');
+        });
+    }
+
+    // إعداد قائمة الجوال
+    function setupMobileMenu() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn?.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
         });
     }
 
@@ -1392,6 +1667,23 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showNotification('تم حفظ الإعدادات بنجاح', 'success');
         });
+        
+        // حفظ إعدادات العمولة
+        document.getElementById('saveCommission')?.addEventListener('click', function() {
+            const commissionRate = parseFloat(document.getElementById('commissionRate').value);
+            const exchangeRate = parseInt(document.getElementById('exchangeRate').value);
+            
+            if (isNaN(commissionRate) || isNaN(exchangeRate)) {
+                showNotification('يرجى إدخال قيم صحيحة', 'error');
+                return;
+            }
+            
+            app.commissionRate = commissionRate;
+            app.exchangeRate = exchangeRate;
+            saveCommissionSettings();
+            
+            showNotification('تم حفظ إعدادات العمولة بنجاح', 'success');
+        });
     }
 
     // إعداد أزرار الشراء
@@ -1408,16 +1700,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
-                // تحديد اللعبة بناءً على الصفحة الحالية
-                let gameId, gameName;
-                if (document.getElementById('pubgPage').classList.contains('hidden')) {
-                    gameId = document.getElementById('freeFireId').value;
-                    gameName = 'فري فاير';
-                    app.currentGame = 'freeFire';
-                } else {
+                // تحديد اللعبة أو البرنامج بناءً على الصفحة الحالية
+                let gameId, gameName, currentPage;
+                if (!document.getElementById('pubgPage').classList.contains('hidden')) {
                     gameId = document.getElementById('pubgId').value;
                     gameName = 'ببجي موبايل';
-                    app.currentGame = 'pubg';
+                    currentPage = 'pubg';
+                } else if (!document.getElementById('freeFirePage').classList.contains('hidden')) {
+                    gameId = document.getElementById('freeFireId').value;
+                    gameName = 'فري فاير';
+                    currentPage = 'freeFire';
+                } else if (!document.getElementById('bigolivePage').classList.contains('hidden')) {
+                    gameId = document.getElementById('bigoliveId').value;
+                    gameName = 'بيجو لايف';
+                    currentPage = 'bigolive';
+                } else if (!document.getElementById('tiktokPage').classList.contains('hidden')) {
+                    gameId = document.getElementById('tiktokId').value;
+                    gameName = 'تيك توك';
+                    currentPage = 'tiktok';
                 }
                 
                 if (!gameId) {
@@ -1428,7 +1728,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 app.currentPackage = {
                     name: packageName,
                     price: packagePrice,
-                    game: gameName
+                    game: gameName,
+                    page: currentPage
                 };
                 
                 // تحديث معلومات نافذة الشراء
@@ -1479,11 +1780,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     id: Date.now(),
                     userId: app.currentUser.id,
                     username: app.currentUser.username,
-                    game: app.currentGame,
+                    game: app.currentPackage.page,
                     package: app.currentPackage.name,
                     packageName: getPackageDisplayName(app.currentPackage.name),
                     price: app.currentPackage.price,
-                    playerId: app.currentGame === 'pubg' ? document.getElementById('pubgId').value : document.getElementById('freeFireId').value,
+                    playerId: app.currentPackage.page === 'pubg' ? document.getElementById('pubgId').value : 
+                              app.currentPackage.page === 'freeFire' ? document.getElementById('freeFireId').value :
+                              app.currentPackage.page === 'bigolive' ? document.getElementById('bigoliveId').value :
+                              document.getElementById('tiktokId').value,
                     status: 'completed',
                     date: new Date().toISOString()
                 };
@@ -1499,7 +1803,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // إرسال إشعار إلى التليجرام
                 sendTelegramNotification(`طلب شحن جديد:
 - المستخدم: ${order.username}
-- اللعبة: ${order.game === 'pubg' ? 'ببجي موبايل' : 'فري فاير'}
+- اللعبة: ${order.game === 'pubg' ? 'ببجي موبايل' : order.game === 'freeFire' ? 'فري فاير' : order.game === 'bigolive' ? 'بيجو لايف' : 'تيك توك'}
 - الباقة: ${order.packageName}
 - السعر: ${order.price} $
 - معرف اللاعب: ${order.playerId}`);
@@ -1563,7 +1867,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            const usdAmount = amount / app.exchangeRate;
+            // حساب المبلغ بعد خصم العمولة
+            const usdAmount = (amount / app.exchangeRate) * (1 - (app.commissionRate / 100));
             
             if (usdAmount < 1) {
                 showNotification('الحد الأدنى للشحن هو ما يعادل 1 دولار', 'error');
@@ -1589,7 +1894,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // إرسال إشعار إلى التليجرام
             sendTelegramNotification(`طلب إيداع جديد:
 - المستخدم: ${order.username}
-- المبلغ: ${order.localAmount} ليرة (${order.amount.toFixed(2)} $)
+- المبلغ: ${order.localAmount} ليرة (${order.amount.toFixed(2)} $ بعد العمولة)
 - العملة: سيرياتيل كاش
 - رمز العملية: ${order.code}
 - الحالة: قيد المراجعة`);
@@ -1645,6 +1950,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         document.getElementById(pageId).classList.remove('hidden');
+        
+        // إخفاء قائمة الجوال عند التنقل
+        document.getElementById('mobileMenu').classList.add('hidden');
         
         // إذا كانت صفحة الطلبات، قم بتحميل الطلبات
         if (pageId === 'ordersPage') {
@@ -1723,7 +2031,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="grid grid-cols-2 gap-2 mb-2">
                     <div>
                         <p class="text-gray-600 text-sm">اللعبة</p>
-                        <p class="font-bold">${order.game === 'pubg' ? 'ببجي موبايل' : 'فري فاير'}</p>
+                        <p class="font-bold">${order.game === 'pubg' ? 'ببجي موبايل' : order.game === 'freeFire' ? 'فري فاير' : order.game === 'bigolive' ? 'بيجو لايف' : 'تيك توك'}</p>
                     </div>
                     <div>
                         <p class="text-gray-600 text-sm">الباقة</p>
@@ -1849,7 +2157,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div>
                         <p class="text-gray-600 text-sm">اللعبة</p>
-                        <p class="font-bold">${order.game === 'pubg' ? 'ببجي موبايل' : 'فري فاير'}</p>
+                        <p class="font-bold">${order.game === 'pubg' ? 'ببجي موبايل' : order.game === 'freeFire' ? 'فري فاير' : order.game === 'bigolive' ? 'بيجو لايف' : 'تيك توك'}</p>
                     </div>
                     <div>
                         <p class="text-gray-600 text-sm">الباقة</p>
@@ -1908,7 +2216,19 @@ document.addEventListener('DOMContentLoaded', function() {
             'ff520': '520 جوهرة فري فاير',
             'ff1060': '1060 جوهرة فري فاير',
             'ff2180': '2180 جوهرة فري فاير',
-            'ff5600': '5600 جوهرة فري فاير'
+            'ff5600': '5600 جوهرة فري فاير',
+            'bigo100': '100 عملة بيجو',
+            'bigo300': '300 عملة بيجو',
+            'bigo500': '500 عملة بيجو',
+            'bigo1000': '1000 عملة بيجو',
+            'bigo2000': '2000 عملة بيجو',
+            'bigo5000': '5000 عملة بيجو',
+            'tiktok100': '100 عملة تيك توك',
+            'tiktok300': '300 عملة تيك توك',
+            'tiktok500': '500 عملة تيك توك',
+            'tiktok1000': '1000 عملة تيك توك',
+            'tiktok2000': '2000 عملة تيك توك',
+            'tiktok5000': '5000 عملة تيك توك'
         };
         
         return packages[packageId] || packageId;
@@ -2043,4 +2363,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
