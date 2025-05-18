@@ -187,17 +187,17 @@ color: white;
     <!-- سيتم ملؤها ديناميكيًا بعد تسجيل الدخول -->
 </div>
 </div>
-<nav id="mainNav" class="hidden bg-secondary">
-<div class="container mx-auto px-4 py-3">
-<ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="games">الألعاب</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
-<li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="admin">إعدادات المشرف</a></li>
-</ul>
-</div>
+<nav id="mainNav" class="hidden bg-secondary md:block">
+    <div class="container mx-auto px-4 py-3">
+        <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
+            <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="games">الألعاب</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="topup">شحن الرصيد</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="orders">طلباتي</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="help">المساعدة والدعم</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200 block py-1 hidden" data-page="admin" id="adminNavItem">إعدادات المشرف</a></li>
+        </ul>
+    </div>
 </nav>
 </header>
 
@@ -212,7 +212,12 @@ color: white;
 <button class="bg-primary/20 border-2 border-white text-white px-6 py-3 rounded-button font-bold hover:bg-primary/30 transition whitespace-nowrap" data-page="help">طلب المساعدة</button>
 </div>
 </div>
-
+<div class="flex items-center">
+    <button id="navMenuBtn" class="text-white mr-4 md:hidden">
+        <i class="ri-menu-line text-2xl"></i>
+    </button>
+    <h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
+</div>
 <div class="bg-white rounded-xl shadow-lg p-6 mb-10">
 <h3 class="text-2xl font-bold text-gray-800 mb-4">مميزات متجرنا</h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -963,7 +968,17 @@ color: white;
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // متغيرات التطبيق
+    initUI();
+    setupAuthForms();
+    setupAdminLogin();
+    setupAdminLogout();
+    
+    // إخفاء زر المشرف إذا لم يكن المستخدم مسؤولاً
+    if (!app.currentUser || app.currentUser.email !== 'sawsans086@gmail.com') {
+        document.querySelector('[data-page="admin"]').classList.add('hidden');
+        document.getElementById('adminNavItem').classList.add('hidden');
+    }
+});  
     const app = {
         currentUser: null,
         users: [],
@@ -1180,6 +1195,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 app.userBalance = user.balance;
                 document.getElementById('loginModal').classList.add('hidden');
                 updateUserControls();
+                if (user.email === 'sawsans086@gmail.com') {
+                    document.querySelector('[data-page="admin"]').classList.remove('hidden');
+                } else {
+                    document.querySelector('[data-page="admin"]').classList.add('hidden');
+                }
+    
+                showNotification(`مرحباً بعودتك، ${user.username}!`, 'success');
+            }
                 showNotification(`مرحباً بعودتك، ${user.username}!`, 'success');
             } else {
                 showNotification('اسم المستخدم أو كلمة السر غير صحيحة', 'error');
