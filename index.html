@@ -550,7 +550,7 @@ transform: translateX(26px);
                 <button class="px-6 py-2 text-gray-500 font-bold admin-tab" data-tab="stats">الإحصائيات</button>
             </div>
         </div>
-           
+        
         <!-- قسم إدارة الطلبات -->
         <div id="adminOrdersTab" class="hidden">
             <div class="mb-6">
@@ -570,91 +570,87 @@ transform: translateX(26px);
                 <!-- سيتم ملؤها ديناميكيًا -->
             </div>
         </div>
-<button class="w-10 h-10 flex items-center justify-center text-primary mr-2 back-btn">
-<i class="ri-arrow-right-line text-xl"></i>
-</button>
-<h2 class="text-2xl font-bold text-gray-800">إعدادات المشرف</h2>
-</div>
-<div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-<div class="flex items-start">
-<div class="w-8 h-8 flex items-center justify-center text-yellow-500 mr-3">
-<i class="ri-information-line text-xl"></i>
-</div>
-<p class="text-yellow-700">هذه الصفحة مخصصة للمشرفين فقط. يرجى عدم تغيير الإعدادات إلا إذا كنت تملك الصلاحيات اللازمة.</p>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="border border-gray-200 rounded-xl p-6">
-<h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات بوت التليجرام</h3>
-<div class="mb-4">
-<label for="telegramToken" class="block text-gray-700 font-bold mb-2">توكن البوت:</label>
-<input type="text" id="telegramToken" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل توكن البوت">
-</div>
-<div class="mb-4">
-<label for="telegramChatId" class="block text-gray-700 font-bold mb-2">معرف المحادثة:</label>
-<input type="text" id="telegramChatId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف المحادثة">
-</div>
-<div class="mb-4">
-<label class="block text-gray-700 font-bold mb-2">تفعيل الإشعارات:</label>
-<div class="flex items-center">
-<label class="custom-switch mr-3">
-<input type="checkbox" id="notificationsToggle" checked>
-<span class="slider"></span>
-</label>
-<span id="notificationsStatus" class="text-green-600">مفعل</span>
-</div>
-</div>
-<button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
-</div>
-<div class="border border-gray-200 rounded-xl p-6">
-<h3 class="text-xl font-bold text-gray-800 mb-4">إحصائيات الموقع</h3>
-<div class="grid grid-cols-2 gap-4 mb-6">
-<div class="bg-blue-50 rounded-lg p-4">
-<h4 class="text-gray-700 mb-1">عمليات الشحن</h4>
-<p class="text-2xl font-bold text-primary">247</p>
-</div>
-<div class="bg-blue-50 rounded-lg p-4">
-<h4 class="text-gray-700 mb-1">المستخدمين</h4>
-<p class="text-2xl font-bold text-primary">128</p>
-</div>
-<div class="bg-blue-50 rounded-lg p-4">
-<h4 class="text-gray-700 mb-1">الإيرادات ($)</h4>
-<p class="text-2xl font-bold text-primary">1,850</p>
-</div>
-<div class="bg-blue-50 rounded-lg p-4">
-<h4 class="text-gray-700 mb-1">طلبات الدعم</h4>
-<p class="text-2xl font-bold text-primary">12</p>
-</div>
-</div>
-<div>
-<h4 class="text-gray-800 font-bold mb-3">آخر العمليات</h4>
-<div class="space-y-3">
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-<div>
-<p class="font-bold text-gray-800">محمد أحمد</p>
-<p class="text-gray-600 text-sm">شحن 600 شدة ببجي</p>
-</div>
-<span class="text-green-600 font-bold">10 $</span>
-</div>
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-<div>
-<p class="font-bold text-gray-800">عمر خالد</p>
-<p class="text-gray-600 text-sm">شحن 1060 جوهرة فري فاير</p>
-</div>
-<span class="text-green-600 font-bold">10 $</span>
-</div>
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-<div>
-<p class="font-bold text-gray-800">سارة محمود</p>
-<p class="text-gray-600 text-sm">شحن رصيد (USDT)</p>
-</div>
-<span class="text-green-600 font-bold">20 $</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+        
+        <!-- قسم الإحصائيات -->
+        <div id="adminStatsTab" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">إحصائيات الموقع</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h4 class="text-gray-700 mb-1">عمليات الشحن</h4>
+                            <p class="text-2xl font-bold text-primary">247</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h4 class="text-gray-700 mb-1">المستخدمين</h4>
+                            <p class="text-2xl font-bold text-primary">128</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h4 class="text-gray-700 mb-1">الإيرادات ($)</h4>
+                            <p class="text-2xl font-bold text-primary">1,850</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h4 class="text-gray-700 mb-1">طلبات الدعم</h4>
+                            <p class="text-2xl font-bold text-primary">12</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">آخر العمليات</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-bold text-gray-800">محمد أحمد</p>
+                                <p class="text-gray-600 text-sm">شحن 600 شدة ببجي</p>
+                            </div>
+                            <span class="text-green-600 font-bold">10 $</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-bold text-gray-800">عمر خالد</p>
+                                <p class="text-gray-600 text-sm">شحن 1060 جوهرة فري فاير</p>
+                            </div>
+                            <span class="text-green-600 font-bold">10 $</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-bold text-gray-800">سارة محمود</p>
+                                <p class="text-gray-600 text-sm">شحن رصيد (USDT)</p>
+                            </div>
+                            <span class="text-green-600 font-bold">20 $</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- قسم الإعدادات -->
+        <div id="adminSettingsTab">
+            <div class="border border-gray-200 rounded-xl p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">إعدادات الموقع</h3>
+                <div class="mb-4">
+                    <label for="telegramToken" class="block text-gray-700 font-bold mb-2">توكن البوت:</label>
+                    <input type="text" id="telegramToken" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل توكن البوت">
+                </div>
+                <div class="mb-4">
+                    <label for="telegramChatId" class="block text-gray-700 font-bold mb-2">معرف المحادثة:</label>
+                    <input type="text" id="telegramChatId" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل معرف المحادثة">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">تفعيل الإشعارات:</label>
+                    <div class="flex items-center">
+                        <label class="custom-switch mr-3">
+                            <input type="checkbox" id="notificationsToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span id="notificationsStatus" class="text-green-600">مفعل</span>
+                    </div>
+                </div>
+                <button id="saveSettings" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full mt-2 whitespace-nowrap">حفظ الإعدادات</button>
+            </div>
+        </div>
+    </div>
 </section>
 </main>
 <footer class="bg-gray-900 text-white py-10">
@@ -784,73 +780,37 @@ transform: translateX(26px);
 </div>
 <p id="notificationText"></p>
 </div>
-    // ========== إعدادات لوحة المشرف ==========
-    const ADMIN_PASSWORD = "admin123";
-
-    function setupAdminLogin() {
-        const adminLoginModal = document.getElementById('adminLogin');
-        const adminPasswordInput = document.getElementById('adminPassword');
-        const submitAdminLogin = document.getElementById('submitAdminLogin');
-        const closeAdminLogin = document.getElementById('closeAdminLogin');
-        const adminPanel = document.getElementById('adminPanel');
-
-    // فتح نافذة تسجيل الدخول
-        document.querySelector('[data-page="admin"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            adminLoginModal.classList.remove('hidden');
-        });
-
-    // إغلاق النافذة
-        closeAdminLogin.addEventListener('click', function() {
-            adminLoginModal.classList.add('hidden');
-        });
-
-    // معالجة تسجيل الدخول
-        submitAdminLogin.addEventListener('click', function() {
-            const enteredPassword = adminPasswordInput.value;
-        
-            if (!enteredPassword) {
-                showNotification('يرجى إدخال كلمة السر', 'error');
-                return;
-            }
-        
-            if (enteredPassword === ADMIN_PASSWORD) {
-                adminLoginModal.classList.add('hidden');
-                adminPanel.classList.remove('hidden');
-                showPage('adminPanel');
-                showNotification('تم تسجيل الدخول بنجاح', 'success');
-            } else {
-                showNotification('كلمة السر غير صحيحة', 'error');
-            }
-        
-            adminPasswordInput.value = '';
-        });
-    }
-
-    function setupAdminLogout() {
-        document.getElementById('adminLogout').addEventListener('click', function() {
-            document.getElementById('adminPanel').classList.add('hidden');
-            showPage('homePage');
-            showNotification('تم تسجيل الخروج بنجاح', 'success');
-        });
-    }
-    
-    // استدعاء الدوال عند التحميل
-    setupAdminLogout();
+<!-- نافذة تسجيل دخول المشرف -->
+<div id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
+            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <div class="mb-4">
+            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
+            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
+        </div>
+        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
+    </div>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // متغيرات التطبيق
     const app = {
         userBalance: 0,
-        TELEGRAM_BOT_TOKEN: '7561917108:AAFfsF2lHtD8dEtHDD8fXYe4pqVgMdV3BLY',
-        TELEGRAM_CHAT_ID: '7420327643',
+        TELEGRAM_BOT_TOKEN: '',
+        TELEGRAM_CHAT_ID: '',
         orders: {
             deposits: [],
             purchases: []
         },
         currentPackage: null,
         currentGame: null,
-        exchangeRate: 15000 // سعر الصرف: 1 دولار = 15000 ليرة سورية
+        exchangeRate: 15000, // سعر الصرف: 1 دولار = 15000 ليرة سورية
+        ADMIN_PASSWORD: "admin123" // كلمة سر المشرف
     };
 
     function initUI() {
@@ -859,29 +819,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إعداد قائمة التنقل
         setupNavigation();
-        setupAdminLogin();
-        setupAdminLogout();
-        setupAdminTabs();
-        setupOrderActions();
+        
         // إعداد نموذج الاتصال
         setupContactForm();
         
-        // إعداد إعدادات المشرف
-        setupAdminSettings();
-        
         // إعداد أزرار الشراء
         setupPurchaseButtons();
-        setupAdminSettings();
         
         // إعداد شحن الرصيد
         setupTopUpFunctions();
-        setupAdminLogin();
-        // إعداد تبويبات المشرف وأزرار الطلبات
-        setupAdminTabs();
-        setupOrderActions();
+        
+        // إعداد لوحة المشرف
+        setupAdminPanel();
         
         // تحميل الطلبات إذا كان المستخدم مشرفاً
-        if (adminPanel.classList.contains('hidden') === false) {
+        if (document.getElementById('adminPanel').classList.contains('hidden') === false) {
             loadAdminOrders();
         }
     }
@@ -907,12 +859,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const page = this.getAttribute('data-page');
         
                 if (page === 'admin') {
-                    adminLoginModal.classList.remove('hidden');
+                    document.getElementById('adminLogin').classList.remove('hidden');
                 } else {
                     showPage(page + 'Page');
                 }
             });
         });
+        
         // التنقل بين الألعاب
         document.querySelectorAll('[data-game]').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -988,14 +941,16 @@ document.addEventListener('DOMContentLoaded', function() {
             this.reset();
         });
     }
-    function setupAdminTabs() {
-        const adminTabs = document.querySelectorAll('.admin-tab');
-        adminTabs.forEach(tab => {
+
+    // إعداد لوحة المشرف
+    function setupAdminPanel() {
+        // إعداد تبويبات المشرف
+        document.querySelectorAll('.admin-tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 const tabId = this.getAttribute('data-tab');
                 
                 // تحديث التبويب النشط
-                adminTabs.forEach(t => {
+                document.querySelectorAll('.admin-tab').forEach(t => {
                     t.classList.remove('text-primary', 'border-b-2', 'border-primary');
                     t.classList.add('text-gray-500');
                 });
@@ -1004,23 +959,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.remove('text-gray-500');
                 
                 // إظهار المحتوى المناسب
-                if (tabId === 'orders') {
+                document.getElementById('adminSettingsTab').classList.add('hidden');
+                document.getElementById('adminOrdersTab').classList.add('hidden');
+                document.getElementById('adminStatsTab').classList.add('hidden');
+                
+                if (tabId === 'settings') {
+                    document.getElementById('adminSettingsTab').classList.remove('hidden');
+                } else if (tabId === 'orders') {
                     document.getElementById('adminOrdersTab').classList.remove('hidden');
                     loadAdminOrders();
-                } else {
-                    document.getElementById('adminOrdersTab').classList.add('hidden');
+                } else if (tabId === 'stats') {
+                    document.getElementById('adminStatsTab').classList.remove('hidden');
                 }
             });
         });
         
-        // تبويبات الطلبات
-        const orderTabs = document.querySelectorAll('.admin-order-tab');
-        orderTabs.forEach(tab => {
+        // إعداد تبويبات الطلبات
+        document.querySelectorAll('.admin-order-tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 const orderType = this.getAttribute('data-order-type');
                 
                 // تحديث التبويب النشط
-                orderTabs.forEach(t => {
+                document.querySelectorAll('.admin-order-tab').forEach(t => {
                     t.classList.remove('text-primary', 'border-b-2', 'border-primary');
                     t.classList.add('text-gray-500');
                 });
@@ -1037,6 +997,69 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('adminPurchaseOrders').classList.remove('hidden');
                 }
             });
+        });
+        
+        // إعداد تسجيل الدخول للمشرف
+        document.getElementById('submitAdminLogin').addEventListener('click', function() {
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!password) {
+                showNotification('يرجى إدخال كلمة السر', 'error');
+                return;
+            }
+            
+            if (password === app.ADMIN_PASSWORD) {
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                showPage('adminPanel');
+                showNotification('تم تسجيل الدخول بنجاح', 'success');
+            } else {
+                showNotification('كلمة السر غير صحيحة', 'error');
+            }
+            
+            document.getElementById('adminPassword').value = '';
+        });
+        
+        // إغلاق نافذة تسجيل الدخول
+        document.getElementById('closeAdminLogin').addEventListener('click', function() {
+            document.getElementById('adminLogin').classList.add('hidden');
+        });
+        
+        // تسجيل خروج المشرف
+        document.getElementById('adminLogout').addEventListener('click', function() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            showPage('homePage');
+            showNotification('تم تسجيل الخروج بنجاح', 'success');
+        });
+        
+        // حفظ إعدادات المشرف
+        document.getElementById('saveSettings').addEventListener('click', function() {
+            const token = document.getElementById('telegramToken').value;
+            const chatId = document.getElementById('telegramChatId').value;
+            
+            if (!token || !chatId) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
+                return;
+            }
+            
+            // حفظ الإعدادات
+            app.TELEGRAM_BOT_TOKEN = token;
+            app.TELEGRAM_CHAT_ID = chatId;
+            
+            showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+        });
+        
+        // تفعيل/تعطيل الإشعارات
+        document.getElementById('notificationsToggle').addEventListener('change', function() {
+            const status = document.getElementById('notificationsStatus');
+            
+            if (this.checked) {
+                status.textContent = 'مفعل';
+                status.className = 'text-green-600';
+            } else {
+                status.textContent = 'معطل';
+                status.className = 'text-red-600';
+            }
         });
     }
 
@@ -1114,16 +1137,14 @@ document.addEventListener('DOMContentLoaded', function() {
             ` : ''}
         `;
         
-        return orderElement;
-    }
-
-    // معالجة قبول/رفض الطلبات
-    function setupOrderActions() {
-        document.addEventListener('click', async function(e) {
-            // قبول الطلب
-            if (e.target.classList.contains('approve-order')) {
-                const orderId = e.target.getAttribute('data-order-id');
-                const orderType = e.target.getAttribute('data-order-type');
+        // إضافة معالجات الأحداث لأزرار القبول والرفض
+        if (order.status === 'pending') {
+            const approveBtn = orderElement.querySelector('.approve-order');
+            const rejectBtn = orderElement.querySelector('.reject-order');
+            
+            approveBtn.addEventListener('click', function() {
+                const orderId = this.getAttribute('data-order-id');
+                const orderType = this.getAttribute('data-order-type');
                 
                 // تحديث حالة الطلب
                 const ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
@@ -1133,24 +1154,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     ordersArray[orderIndex].status = 'accepted';
                     
                     // إذا كان إيداعاً، نضيف الرصيد
-                    if (orderType === 'deposit' && ordersArray[orderIndex].method !== 'سيرياتيل كاش') {
+                    if (orderType === 'deposit') {
                         app.userBalance += ordersArray[orderIndex].amount;
                         updateBalanceDisplay();
                     }
-                    
-                    // إرسال إشعار
-                    await sendOrderStatusUpdate(orderId, orderType, 'accepted');
                     
                     // إعادة تحميل الطلبات
                     loadAdminOrders();
                     showNotification('تم قبول الطلب بنجاح', 'success');
                 }
-            }
+            });
             
-            // رفض الطلب
-            if (e.target.classList.contains('reject-order')) {
-                const orderId = e.target.getAttribute('data-order-id');
-                const orderType = e.target.getAttribute('data-order-type');
+            rejectBtn.addEventListener('click', function() {
+                const orderId = this.getAttribute('data-order-id');
+                const orderType = this.getAttribute('data-order-type');
                 
                 // تحديث حالة الطلب
                 const ordersArray = orderType === 'deposit' ? app.orders.deposits : app.orders.purchases;
@@ -1159,64 +1176,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (orderIndex !== -1) {
                     ordersArray[orderIndex].status = 'rejected';
                     
-                    // إرسال إشعار
-                    await sendOrderStatusUpdate(orderId, orderType, 'rejected');
-                    
                     // إعادة تحميل الطلبات
                     loadAdminOrders();
                     showNotification('تم رفض الطلب بنجاح', 'success');
                 }
-            }
-        });
-    }
-
-    // إرسال تحديث حالة الطلب
-    async function sendOrderStatusUpdate(orderId, orderType, status) {
-        const statusText = {
-            accepted: 'مقبول',
-            rejected: 'مرفوض'
-        };
+            });
+        }
         
-        const order = (orderType === 'deposit' ? app.orders.deposits : app.orders.purchases)
-            .find(o => o.id == orderId);
-        
-        if (!order) return;
-        
-        const message = `📢 تحديث حالة الطلب #${orderId}\n\n` +
-            `النوع: ${orderType === 'deposit' ? 'إيداع' : 'شحن'}\n` +
-            `الحالة: ${statusText[status]}\n` +
-            `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-            
-        await sendToTelegram(message);
-    }
-    // إعداد إعدادات المشرف
-    function setupAdminSettings() {
-        const notificationsToggle = document.getElementById('notificationsToggle');
-        const notificationsStatus = document.getElementById('notificationsStatus');
-        
-        notificationsToggle.addEventListener('change', function() {
-            if (this.checked) {
-                notificationsStatus.textContent = 'مفعل';
-                notificationsStatus.className = 'text-green-600';
-            } else {
-                notificationsStatus.textContent = 'معطل';
-                notificationsStatus.className = 'text-red-600';
-            }
-        });
-        
-        document.getElementById('saveSettings').addEventListener('click', function() {
-            const token = document.getElementById('telegramToken').value;
-            const chatId = document.getElementById('telegramChatId').value;
-            
-            if (!token || !chatId) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة.', 'error');
-                return;
-            }
-            
-            // حفظ الإعدادات (يمكن استبدالها بحفظ حقيقي)
-            console.log('تم حفظ الإعدادات:', { token, chatId });
-            showNotification('تم حفظ الإعدادات بنجاح!', 'success');
-        });
+        return orderElement;
     }
 
     // إعداد أزرار الشراء
@@ -1287,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('cancelPurchase').addEventListener('click', () => purchaseModal.classList.add('hidden'));
         
         // تأكيد الشراء
-        document.getElementById('confirmPurchase').addEventListener('click', async function() {
+        document.getElementById('confirmPurchase').addEventListener('click', function() {
             if (app.userBalance >= app.currentPackage.price) {
                 // معالجة عملية الشراء
                 app.userBalance -= app.currentPackage.price;
@@ -1297,23 +1264,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const order = {
                     id: orderId,
                     product: `${app.currentPackage.name} - ${app.currentPackage.game}`,
-                    price: app.currentPackage.price,
+                    amount: app.currentPackage.price,
                     playerId: app.currentPackage.playerId,
                     date: new Date().toISOString(),
-                    status: 'pending'
+                    status: 'completed'
                 };
                 
                 app.orders.purchases.push(order);
-                
-                // إرسال إشعار للتليجرام
-                const message = `🎮 طلب شحن جديد #${orderId}\n\n` +
-                    `المنتج: ${app.currentPackage.name}\n` +
-                    `اللعبة: ${app.currentPackage.game}\n` +
-                    `معرف اللاعب: ${app.currentPackage.playerId}\n` +
-                    `السعر: ${app.currentPackage.price}$\n` +
-                    `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-                    
-                await sendToTelegram(message, orderId);
                 
                 purchaseModal.classList.add('hidden');
                 showNotification('تم الشراء بنجاح! سيتم شحن حسابك خلال دقائق.', 'success');
@@ -1327,8 +1284,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // إعداد وظائف شحن الرصيد
     function setupTopUpFunctions() {
         // شحن عبر USDT
-        document.getElementById('submitUsdt').addEventListener('click', async function() {
-            const amount = document.getElementById('usdtAmount').value;
+        document.getElementById('submitUsdt').addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('usdtAmount').value);
             const txid = document.getElementById('usdtTxid').value;
             
             if (!amount || !txid) {
@@ -1339,7 +1296,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const orderId = Date.now();
             const order = {
                 id: orderId,
-                amount: parseFloat(amount),
+                amount: amount,
                 method: 'USDT',
                 txid: txid,
                 date: new Date().toISOString(),
@@ -1348,15 +1305,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             app.orders.deposits.push(order);
             
-            // إرسال إشعار للتليجرام
-            const message = `💰 طلب إيداع جديد #${orderId}\n\n` +
-                `الطريقة: USDT\n` +
-                `المبلغ: ${amount}$\n` +
-                `رقم العملية: ${txid}\n` +
-                `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-                
-            await sendToTelegram(message, orderId);
-            
             showNotification('تم إرسال طلب الشحن بنجاح! سيتم مراجعته قريباً.', 'success');
             document.getElementById('usdtAmount').value = '';
             document.getElementById('usdtTxid').value = '';
@@ -1364,8 +1312,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // شحن عبر سيرياتيل كاش
-        document.getElementById('submitSyriatel').addEventListener('click', async function() {
-            const amount = document.getElementById('syriatelAmount').value;
+        document.getElementById('submitSyriatel').addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('syriatelAmount').value);
             const code = document.getElementById('syriatelCode').value;
             
             if (!amount || !code) {
@@ -1373,17 +1321,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // التحقق من العملية
-            const isValid = await verifySyriatelTransaction(amount, code);
-            
-            if (!isValid) {
-                showNotification('لم يتم العثور على العملية أو المبلغ غير صحيح.', 'error');
-                return;
-            }
-            
             // إذا كانت العملية صحيحة
             const orderId = Date.now();
-            const usdAmount = (parseInt(amount) / app.exchangeRate).toFixed(2);
+            const usdAmount = (amount / app.exchangeRate).toFixed(2);
             
             const order = {
                 id: orderId,
@@ -1398,75 +1338,11 @@ document.addEventListener('DOMContentLoaded', function() {
             app.userBalance += order.amount;
             updateBalanceDisplay();
             
-            // إرسال إشعار للتليجرام
-            const message = `💰 تم التحقق من إيداع جديد #${orderId}\n\n` +
-                `الطريقة: سيرياتيل كاش\n` +
-                `المبلغ: ${amount} ل.س (${usdAmount}$)\n` +
-                `رمز العملية: ${code}\n` +
-                `التاريخ: ${new Date().toLocaleString('ar-SA')}`;
-                
-            await sendToTelegram(message, orderId);
-            
             showNotification('تم التحقق من العملية وإضافة الرصيد بنجاح!', 'success');
             document.getElementById('syriatelAmount').value = '';
             document.getElementById('syriatelCode').value = '';
             updateOrdersDisplay();
         });
-    }
-
-    // التحقق من معاملة سيرياتيل كاش
-    async function verifySyriatelTransaction(amount, code) {
-      try {
-        const cleanAmount = amount.toString().replace(/\D/g, '');
-        const cleanCode = code.toString().replace(/\s+/g, '');
-
-        const response = await fetch('https://script.google.com/macros/s/AKfycbyjbiTSv29VnnIDdzveU9mutkGD1zaqFlWbxXYvzagdEAapnI3sBj4lzMTL8gmihxmx/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount: cleanAmount,
-            txid: cleanCode
-          })
-        });
-
-        const result = await response.json();
-        return result.success;
-      } catch (error) {
-        console.error('Error:', error);
-        return false;
-      }
-    }
-
-    // إرسال رسالة إلى التليجرام
-    async function sendToTelegram(message, orderId) {
-        try {
-            const keyboard = {
-                inline_keyboard: [
-                    [
-                        { text: "قبول ✅", callback_data: `accept_${orderId}` },
-                        { text: "رفض ❌", callback_data: `reject_${orderId}` }
-                    ]
-                ]
-            };
-            
-            const response = await fetch(`https://api.telegram.org/bot${app.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: app.TELEGRAM_CHAT_ID,
-                    text: message,
-                    reply_markup: keyboard
-                })
-            });
-            
-            const data = await response.json();
-            return data.ok;
-        } catch (error) {
-            console.error('Error sending to Telegram:', error);
-            return false;
-        }
     }
 
     // تحديث عرض الطلبات
@@ -1509,12 +1385,14 @@ document.addEventListener('DOMContentLoaded', function() {
             rejected: 'مرفوض'
         };
         
+        const isDeposit = type === 'إيداع';
+        
         orderElement.innerHTML = `
             <div class="flex justify-between items-start">
                 <div>
                     <p class="font-bold text-gray-800">طلب ${type} #${order.id}</p>
                     ${order.product ? `<p class="text-gray-600">المنتج: ${order.product}</p>` : ''}
-                    <p class="text-gray-600">المبلغ: ${order.amount} ${type === 'إيداع' ? '$' : '$'}</p>
+                    <p class="text-gray-600">المبلغ: ${order.amount} ${isDeposit ? '$' : '$'}</p>
                     <p class="text-gray-600">التاريخ: ${new Date(order.date).toLocaleString('ar-SA')}</p>
                     ${order.playerId ? `<p class="text-gray-600">معرف اللاعب: ${order.playerId}</p>` : ''}
                     ${order.method ? `<p class="text-gray-600">الطريقة: ${order.method}</p>` : ''}
@@ -1589,21 +1467,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initUI();
 });
 </script>
-<!-- نافذة تسجيل دخول المشرف -->
-<section id="adminLogin" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-        <div class="flex justify-between items-start mb-4">
-            <h3 class="text-xl font-bold text-gray-800">تسجيل دخول المشرف</h3>
-            <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
-                <i class="ri-close-line text-2xl"></i>
-            </button>
-        </div>
-        <div class="mb-4">
-            <label for="adminPassword" class="block text-gray-700 font-bold mb-2">كلمة السر:</label>
-            <input type="password" id="adminPassword" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="أدخل كلمة السر">
-        </div>
-        <button id="submitAdminLogin" class="bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-secondary transition w-full whitespace-nowrap">دخول</button>
-    </div>
-</section>
 </body>
 </html>
