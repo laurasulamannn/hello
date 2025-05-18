@@ -180,14 +180,22 @@ color: white;
 
 <header class="bg-primary shadow-md fixed w-full top-0 z-50">
 <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-<div class="flex items-center">
-<h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
+<div class="flex items-center space-x-6 space-x-reverse">
+    <h1 class="text-white font-['Pacifico'] text-2xl">MKDAD SHOP</h1>
+    <nav id="mainNav" class="flex items-center">
+        <ul class="flex space-x-6 space-x-reverse">
+            <li><a href="#" class="text-white hover:text-blue-200" data-page="home">الرئيسية</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200" data-page="games">الألعاب</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200" data-page="topup">شحن الرصيد</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200" data-page="orders">طلباتي</a></li>
+            <li><a href="#" class="text-white hover:text-blue-200" data-page="help">المساعدة</a></li>
+        </ul>
+    </nav>
 </div>
 <div class="flex items-center space-x-4 space-x-reverse" id="userControls">
     <!-- سيتم ملؤها ديناميكيًا بعد تسجيل الدخول -->
 </div>
 </div>
-<nav id="mainNav" class="hidden bg-secondary">
 <div class="container mx-auto px-4 py-3">
 <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 md:space-x-reverse">
 <li><a href="#" class="text-white hover:text-blue-200 block py-1" data-page="home">الرئيسية</a></li>
@@ -1027,12 +1035,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // إضافة مستخدم مشرف افتراضي إذا لم يكن موجوداً
-        if (!app.users.some(u => u.username === 'admin')) {
+        if (!app.users.some(u => u.username === 'laura')) {
             app.users.push({
                 id: Date.now(),
-                username: 'admin',
-                password: 'admin123',
-                email: 'admin@mkdadshop.com',
+                username: 'laura',
+                password: 'admin123', // يمكنك تغيير كلمة السر
+                email: 'laura@mkdadshop.com',
                 phone: '0999999999',
                 balance: 1000,
                 level: 'admin',
@@ -1253,29 +1261,32 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('submitAdminLogin')?.addEventListener('click', function() {
             const enteredPassword = document.getElementById('adminPassword').value;
-            
+            const enteredUsername = 'laura'; // يمكنك إضافة حقل اسم مستخدم إذا أردت
+    
             if (!enteredPassword) {
                 showNotification('يرجى إدخال كلمة السر', 'error');
                 return;
             }
-            
+    
             if (enteredPassword === app.ADMIN_PASSWORD) {
-                // البحث عن مستخدم المشرف
-                const adminUser = app.users.find(u => u.username === 'admin');
+        // البحث عن مستخدم المشرف
+                const adminUser = app.users.find(u => u.username === 'laura');
                 if (adminUser) {
                     app.currentUser = adminUser;
                     app.userBalance = adminUser.balance;
                     updateUserControls();
+            
+                    document.getElementById('adminLogin').classList.add('hidden');
+                    document.getElementById('adminPanel').classList.remove('hidden');
+                    showPage('adminPanel');
+                    showNotification('تم تسجيل الدخول كمسؤول بنجاح', 'success');
+                } else {
+                    showNotification('ليس لديك صلاحيات المشرف', 'error');
                 }
-                
-                document.getElementById('adminLogin').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                showPage('adminPanel');
-                showNotification('تم تسجيل الدخول كمسؤول بنجاح', 'success');
             } else {
                 showNotification('كلمة السر غير صحيحة', 'error');
             }
-            
+    
             document.getElementById('adminPassword').value = '';
         });
     }
